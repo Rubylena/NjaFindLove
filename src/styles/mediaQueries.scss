@@ -1,0 +1,20 @@
+@mixin screen-size($size){
+    @if $size == phone-only {
+        @media (max-width: 480px){@content;}
+    }
+    @else if $size == tablet-only {
+        @media (max-width: 768px){@content;}
+    }
+    @else if $size == desktop-only {
+        @media (max-width: 991px){@content;}
+    }
+    @else if $size == desktop-plus {
+        @media (min-width: 991px) and (max-width: 1200px) {@content;}
+    }
+    @else if $size == larger-midpoint {
+        @media (min-width: 1200px) and (max-width: 1400px) {@content;}
+    }
+    @else if $size == larger-screen {
+        @media (min-width: 1400px) {@content;}
+    }
+}

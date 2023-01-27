@@ -1,0 +1,28 @@
+@import '../../styles/Colors.scss';
+@import '../../styles/mediaQueries.scss';
+
+.footer {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+    gap: 1em;
+    padding-bottom: 1em;
+
+    &-down {
+        ul {
+            display: flex;
+            flex-flow: row wrap;
+            justify-content: center;
+            gap: 1em;
+            color: $footer;
+            li {
+                list-style-type: none;
+            }
+
+        }
+    }
+    @include screen-size(tablet-only) {
+        margin-bottom: 0.2em;
+    }
+}
