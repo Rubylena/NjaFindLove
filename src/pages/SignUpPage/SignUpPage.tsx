@@ -2,18 +2,18 @@ import './SignupPage.scss'
 import Navbar from '../../components/Nav/Navbar'
 import Footer from '../../components/Footer/Footer'
 import SignUp from '../../components/SignUp/SignUp'
-import { Fragment, useRef, useState } from 'react'
+import { Fragment, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import LogIn from '../../components/LogIn/LogIn'
 
 const SignUpPage = () => {
   const [login, setLogin] = useState(false)
 
-  const cancelButtonRef = useRef(null)
+  // const cancelButtonRef = useRef(null)
 
   return (
-    <div className='landing-page' ref={cancelButtonRef}>
-      <Navbar text='LOG IN' action={()=>setLogin(!login)} />
+    <div className='landing-page'>
+      <Navbar text='LOG IN' action={()=>setLogin(!login)}  />
       <main className='landing-main bg-tint-pink h-full'>
         <SignUp />
       </main>

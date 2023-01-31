@@ -17,6 +17,8 @@ module.exports = {
       'tint-pink': '#FFF5F5',
       'red': 'red',
       'good-green': '#08f26e',
+      'input-bg': 'rgba(63, 31, 31, 0.05)',
+      'red': '#CB1717',
     },
   },
   plugins: [

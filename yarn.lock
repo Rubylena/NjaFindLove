@@ -432,14 +432,14 @@ __metadata:
   linkType: hard
 
 "@headlessui/react@npm:^1.7.7":
-  version: 1.7.7
-  resolution: "@headlessui/react@npm:1.7.7"
+  version: 1.7.8
+  resolution: "@headlessui/react@npm:1.7.8"
   dependencies:
     client-only: ^0.0.1
   peerDependencies:
     react: ^16 || ^17 || ^18
     react-dom: ^16 || ^17 || ^18
-  checksum: 049d7ee46056fe96067f7b2f4f962672dfc824e68044ae38561a457278c8e38c0fd17592ab648ba5648e7e82bef9890eddbf329c9a00d11acf85700c7072a0bf
+  checksum: 2baf0686b846a9adf38828c95dab370353149234b81a24a2f4f399c8a635027fe3cd04624e52597a7d9b4a1ceebef0508450d625f62ae05433647d403cecd608
   languageName: node
   linkType: hard
 
@@ -551,6 +551,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@popperjs/core@npm:^2.9.2":
+  version: 2.11.6
+  resolution: "@popperjs/core@npm:2.11.6"
+  checksum: 47fb328cec1924559d759b48235c78574f2d71a8a6c4c03edb6de5d7074078371633b91e39bbf3f901b32aa8af9b9d8f82834856d2f5737a23475036b16817f0
+  languageName: node
+  linkType: hard
+
 "@remix-run/router@npm:1.2.1":
   version: 1.2.1
   resolution: "@remix-run/router@npm:1.2.1"
@@ -580,6 +587,18 @@ __metadata:
   version: 15.7.5
   resolution: "@types/prop-types@npm:15.7.5"
   checksum: 5b43b8b15415e1f298243165f1d44390403bb2bd42e662bca3b5b5633fdd39c938e91b7fce3a9483699db0f7a715d08cef220c121f723a634972fdf596aec980
+  languageName: node
+  linkType: hard
+
+"@types/react-datepicker@npm:^4.8.0":
+  version: 4.8.0
+  resolution: "@types/react-datepicker@npm:4.8.0"
+  dependencies:
+    "@popperjs/core": ^2.9.2
+    "@types/react": "*"
+    date-fns: ^2.0.1
+    react-popper: ^2.2.5
+  checksum: 4404d6bd277ee5cef0f698439ed057340a29595fb289c7f2278386c0149e7defc1e8a2634a7371495722595cd8d9149d1c132d2b0711cd7fb2554515b798de65
   languageName: node
   linkType: hard
 
@@ -765,13 +784,13 @@ __metadata:
   linkType: hard
 
 "axios@npm:^1.2.4":
-  version: 1.2.4
-  resolution: "axios@npm:1.2.4"
+  version: 1.2.6
+  resolution: "axios@npm:1.2.6"
   dependencies:
     follow-redirects: ^1.15.0
     form-data: ^4.0.0
     proxy-from-env: ^1.1.0
-  checksum: 3454248d72028d69e90e348542140136c1226b448529e78beae5b88e65d6c67f85a3d0eb49f089b338cb54f173671b585c95ef3339f3cb28286eb2878fe47880
+  checksum: cbd19be3e07d2fbb6a0b126e49880cecdd44c1f68496ae0e7d21e7dc1c31fd59703a8eec51c9fd69034344f519cc1cdc22c22153131063657c4cef50195f0c00
   languageName: node
   linkType: hard
 
@@ -864,17 +883,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"caniuse-lite@npm:^1.0.30001400":
+"caniuse-lite@npm:^1.0.30001400, caniuse-lite@npm:^1.0.30001426":
   version: 1.0.30001445
   resolution: "caniuse-lite@npm:1.0.30001445"
   checksum: f98ca67829c3c52af5af0a62b8510432b2ad9594437d24ad460a6eb1a23d93e7a31631b1f550fbbe482ad05c467aa00da710a41699eb13d1f246d7db4147ab79
-  languageName: node
-  linkType: hard
-
-"caniuse-lite@npm:^1.0.30001426":
-  version: 1.0.30001448
-  resolution: "caniuse-lite@npm:1.0.30001448"
-  checksum: 8d8bb7d097a9c80c01a4f8e3e1819cc7fc218114c8cc8773fe35aef898d12ff4e668b132a661a221ab56c022981c1df708fbe8efa09a3ce21dff97eee483cf90
   languageName: node
   linkType: hard
 
@@ -912,6 +924,13 @@ __metadata:
   version: 2.0.0
   resolution: "chownr@npm:2.0.0"
   checksum: c57cf9dd0791e2f18a5ee9c1a299ae6e801ff58fee96dc8bfd0dcb4738a6ce58dd252a3605b1c93c6418fe4f9d5093b28ffbf4d66648cb2a9c67eaef9679be2f
+  languageName: node
+  linkType: hard
+
+"classnames@npm:^2.2.6":
+  version: 2.3.2
+  resolution: "classnames@npm:2.3.2"
+  checksum: 2c62199789618d95545c872787137262e741f9db13328e216b093eea91c85ef2bfb152c1f9e63027204e2559a006a92eb74147d46c800a9f96297ae1d9f96f4e
   languageName: node
   linkType: hard
 
@@ -1007,6 +1026,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"date-fns@npm:^2.0.1, date-fns@npm:^2.24.0":
+  version: 2.29.3
+  resolution: "date-fns@npm:2.29.3"
+  checksum: e01cf5b62af04e05dfff921bb9c9933310ed0e1ae9a81eb8653452e64dc841acf7f6e01e1a5ae5644d0337e9a7f936175fd2cb6819dc122fdd9c5e86c56be484
+  languageName: node
+  linkType: hard
+
 "dating@workspace:.":
   version: 0.0.0-use.local
   resolution: "dating@workspace:."
@@ -1015,12 +1041,14 @@ __metadata:
     "@heroicons/react": ^2.0.14
     "@tailwindcss/forms": ^0.5.3
     "@types/react": ^18.0.26
+    "@types/react-datepicker": ^4.8.0
     "@types/react-dom": ^18.0.9
     "@vitejs/plugin-react": ^3.0.0
     autoprefixer: ^10.4.13
     axios: ^1.2.4
     postcss: ^8.4.21
     react: ^18.2.0
+    react-datepicker: ^4.10.0
     react-dom: ^18.2.0
     react-router-dom: ^6.6.2
     sass: ^1.57.1
@@ -1432,9 +1460,9 @@ __metadata:
   linkType: hard
 
 "http-cache-semantics@npm:^4.1.0":
-  version: 4.1.0
-  resolution: "http-cache-semantics@npm:4.1.0"
-  checksum: 974de94a81c5474be07f269f9fd8383e92ebb5a448208223bfb39e172a9dbc26feff250192ecc23b9593b3f92098e010406b0f24bd4d588d631f80214648ed42
+  version: 4.1.1
+  resolution: "http-cache-semantics@npm:4.1.1"
+  checksum: 83ac0bc60b17a3a36f9953e7be55e5c8f41acc61b22583060e8dedc9dd5e3607c823a88d0926f9150e571f90946835c7fe150732801010845c72cd8bbff1a236
   languageName: node
   linkType: hard
 
@@ -1623,7 +1651,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"loose-envify@npm:^1.1.0":
+"loose-envify@npm:^1.0.0, loose-envify@npm:^1.1.0, loose-envify@npm:^1.4.0":
   version: 1.4.0
   resolution: "loose-envify@npm:1.4.0"
   dependencies:
@@ -1820,11 +1848,9 @@ __metadata:
   linkType: hard
 
 "minipass@npm:^4.0.0":
-  version: 4.0.0
-  resolution: "minipass@npm:4.0.0"
-  dependencies:
-    yallist: ^4.0.0
-  checksum: 7a609afbf394abfcf9c48e6c90226f471676c8f2a67f07f6838871afb03215ede431d1433feffe1b855455bcb13ef0eb89162841b9796109d6fed8d89790f381
+  version: 4.0.1
+  resolution: "minipass@npm:4.0.1"
+  checksum: 48eb3141cc247b44f738944cbd789aedeed9288ebdb64c7de9b3bf23e9e71d611381bfecf643d877d25f7ca9f3d5ab7b6757ef6f46282086812ac5372b7cd291
   languageName: node
   linkType: hard
 
@@ -1938,6 +1964,13 @@ __metadata:
     gauge: ^4.0.3
     set-blocking: ^2.0.0
   checksum: ae238cd264a1c3f22091cdd9e2b106f684297d3c184f1146984ecbe18aaa86343953f26b9520dedd1b1372bc0316905b736c1932d778dbeb1fcf5a1001390e2a
+  languageName: node
+  linkType: hard
+
+"object-assign@npm:^4.1.1":
+  version: 4.1.1
+  resolution: "object-assign@npm:4.1.1"
+  checksum: fcc6e4ea8c7fe48abfbb552578b1c53e0d194086e2e6bbbf59e0a536381a292f39943c6e9628af05b5528aa5e3318bb30d6b2e53cadaf5b8fe9e12c4b69af23f
   languageName: node
   linkType: hard
 
@@ -2099,6 +2132,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"prop-types@npm:^15.7.2":
+  version: 15.8.1
+  resolution: "prop-types@npm:15.8.1"
+  dependencies:
+    loose-envify: ^1.4.0
+    object-assign: ^4.1.1
+    react-is: ^16.13.1
+  checksum: c056d3f1c057cb7ff8344c645450e14f088a915d078dcda795041765047fa080d38e5d626560ccaac94a4e16e3aa15f3557c1a9a8d1174530955e992c675e459
+  languageName: node
+  linkType: hard
+
 "proxy-from-env@npm:^1.1.0":
   version: 1.1.0
   resolution: "proxy-from-env@npm:1.1.0"
@@ -2120,6 +2164,23 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-datepicker@npm:^4.10.0":
+  version: 4.10.0
+  resolution: "react-datepicker@npm:4.10.0"
+  dependencies:
+    "@popperjs/core": ^2.9.2
+    classnames: ^2.2.6
+    date-fns: ^2.24.0
+    prop-types: ^15.7.2
+    react-onclickoutside: ^6.12.2
+    react-popper: ^2.3.0
+  peerDependencies:
+    react: ^16.9.0 || ^17 || ^18
+    react-dom: ^16.9.0 || ^17 || ^18
+  checksum: d3e433e35a80308fe0c12d97a6d27148c5d31cc5a640d26da77c50ceff71541b1809b86372ad9d0e53aa4795fe50bb544c0f26f17ef2223cca0682089fe29450
+  languageName: node
+  linkType: hard
+
 "react-dom@npm:^18.2.0":
   version: 18.2.0
   resolution: "react-dom@npm:18.2.0"
@@ -2129,6 +2190,44 @@ __metadata:
   peerDependencies:
     react: ^18.2.0
   checksum: 7d323310bea3a91be2965f9468d552f201b1c27891e45ddc2d6b8f717680c95a75ae0bc1e3f5cf41472446a2589a75aed4483aee8169287909fcd59ad149e8cc
+  languageName: node
+  linkType: hard
+
+"react-fast-compare@npm:^3.0.1":
+  version: 3.2.0
+  resolution: "react-fast-compare@npm:3.2.0"
+  checksum: 8ef272c825ae329f61633ce4ce7f15aa5b84e5214d88bc0823880236e03e985a13195befa2c7a4eda7db3b017dc7985729152d88445823f652403cf36c2b86aa
+  languageName: node
+  linkType: hard
+
+"react-is@npm:^16.13.1":
+  version: 16.13.1
+  resolution: "react-is@npm:16.13.1"
+  checksum: f7a19ac3496de32ca9ae12aa030f00f14a3d45374f1ceca0af707c831b2a6098ef0d6bdae51bd437b0a306d7f01d4677fcc8de7c0d331eb47ad0f46130e53c5f
+  languageName: node
+  linkType: hard
+
+"react-onclickoutside@npm:^6.12.2":
+  version: 6.12.2
+  resolution: "react-onclickoutside@npm:6.12.2"
+  peerDependencies:
+    react: ^15.5.x || ^16.x || ^17.x || ^18.x
+    react-dom: ^15.5.x || ^16.x || ^17.x || ^18.x
+  checksum: a0c7f4fbcf84e00d50b3fc18208e5fdc4e97b17daf910f176659e079038a560d2e299955804d20e6ca2bf375404d03fdb865dc7f5f85cab3e60b493be4375e77
+  languageName: node
+  linkType: hard
+
+"react-popper@npm:^2.2.5, react-popper@npm:^2.3.0":
+  version: 2.3.0
+  resolution: "react-popper@npm:2.3.0"
+  dependencies:
+    react-fast-compare: ^3.0.1
+    warning: ^4.0.2
+  peerDependencies:
+    "@popperjs/core": ^2.0.0
+    react: ^16.8.0 || ^17 || ^18
+    react-dom: ^16.8.0 || ^17 || ^18
+  checksum: 837111c98738011c69b3069a464ea5bdcbf487105b6148e8faf90cb7337e134edb1b98b8824322941c378756cca30a15c18c25f558e53b85ed5762fa0dc8e6b2
   languageName: node
   linkType: hard
 
@@ -2594,6 +2693,15 @@ __metadata:
   bin:
     vite: bin/vite.js
   checksum: eb86c8cdfe8dcb6644005486b31cb60bc596f2aa683cb194abb5c0afca7c2a5dfdb02bbc7f83f419ad170227ac9c3b898f4406a6d1433105fb61d79d78e47d52
+  languageName: node
+  linkType: hard
+
+"warning@npm:^4.0.2":
+  version: 4.0.3
+  resolution: "warning@npm:4.0.3"
+  dependencies:
+    loose-envify: ^1.0.0
+  checksum: 4f2cb6a9575e4faf71ddad9ad1ae7a00d0a75d24521c193fa464f30e6b04027bd97aa5d9546b0e13d3a150ab402eda216d59c1d0f2d6ca60124d96cd40dfa35c
   languageName: node
   linkType: hard
 

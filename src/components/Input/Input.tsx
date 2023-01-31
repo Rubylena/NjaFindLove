@@ -2,12 +2,12 @@ import React from 'react'
 import './input.scss'
 
 interface Proptypes {
-    label: string;
+    label?: string;
     type:string;
     bgColor?: string;
     placeholder: string;
     warning?: string;
-    value: string;
+    value: string | number;
     name: string;
     img?: string;
     alt?: string;
@@ -25,12 +25,12 @@ const Input = ({label, type, bgColor, placeholder, warning, value, name, img, al
               type={type}
               name={name}
               value={value}
-              className={`${bgColor} bgC text-black mt-1 w-full rounded-3xl focus:ring-0 border-none placeholder:text-xs placeholder:text-place`}
+              className={`${bgColor} text-black mt-1 w-full rounded-3xl focus:ring-0 border-none placeholder:text-xs placeholder:text-place`}
               placeholder={placeholder}
               onChange={action}
               required
           />
-          <img src={img} alt={alt} className='absolute top-5 right-5' onClick={clickAction} />
+          <img src={img} alt={alt} className='absolute top-5 right-5 cursor-pointer' onClick={clickAction} />
         </div>
         <p className='text-[10px] leading-[15px] ml-4'>{warning}</p>
     </div>

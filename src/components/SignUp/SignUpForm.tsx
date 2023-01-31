@@ -4,6 +4,7 @@ import Input from '../Input/Input'
 import Button from '../Button/Button'
 import { FormData } from '../../api/auth';
 import { useNavigate } from 'react-router-dom';
+import eye from '../../asset/icon/eye.svg'
 
 const SignUpForm: React.FC = () => {
     const [formData, setFormData] = useState<FormData>({
@@ -14,6 +15,7 @@ const SignUpForm: React.FC = () => {
     })
 
     const [geoError, setGeoError] =useState('');
+    const [showPassword, setShowPassword] = useState(false);
     const [isProfileComplete, setIsProfileComplete] = useState<boolean>();
     const [responseMsg, setResponseMsg] = useState('')
     const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -93,12 +95,14 @@ const SignUpForm: React.FC = () => {
         />
         <Input
         label='Password'
-        type='password'
+        type={showPassword?"text":"password"}
         placeholder='Create a strong password'
         value={formData.pass}
         name='pass'
+        img={eye}
         action={handleChange}
         warning='Password must contain characters and Numbers'
+        clickAction={()=>setShowPassword(!showPassword)}
         />
         <div>
             <p className={` ${responseMsg} === "Registration Completed Successfully. Kindly Login" && 'text-good-green' text-red text-xs`}>{responseMsg}</p>

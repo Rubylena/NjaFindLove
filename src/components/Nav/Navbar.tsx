@@ -4,8 +4,10 @@ import logo from '../../asset/icon/logo.png'
 
 interface Proptype {
   text: string;
-  action: (event: React.MouseEvent<HTMLParagraphElement>)=>void;
+  action: (event: React.MouseEvent<HTMLElement>)=>void;
 }
+
+const path = window.location.pathname.split('/')[1];
 
 const Navbar = ({text, action}: Proptype) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -22,7 +24,7 @@ const Navbar = ({text, action}: Proptype) => {
           </ul>
         </div>
         <div onClick={action} className='login-btn'>
-          <p >{text}</p>
+          <p>{path == 'sign-up' || path == '' ? text : 'Log out'}</p>
         </div>
       </nav>
       <nav className='navbar-mobile shadow-lg'>
@@ -41,6 +43,7 @@ const Navbar = ({text, action}: Proptype) => {
                 <li>Pricing</li>
                 <li>Terms and Conditions</li>
                 <li>Support</li>
+                <li onClick={action}>{path == 'sign-up' || path == '' ? 'LOG IN' : 'Log out'}</li>
               </ul>
             </div>
         </div>

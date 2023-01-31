@@ -1,5 +1,4 @@
 import React, { useState, useEffect, SetStateAction } from 'react'
-// import { useHistory } from 'react-router-dom'
 import { useNavigate } from "react-router-dom";
 import { axiosBase } from '../../api/api';
 import Input from '../Input/Input'
@@ -16,7 +15,6 @@ const LoginForm: React.FC = () => {
         lat: '',
         long: '',
     })
-
     const [geoError, setGeoError] =useState('');
     const [showPassword, setShowPassword] = useState(false);
     const [isProfileComplete, setIsProfileComplete] = useState<boolean>();
@@ -38,7 +36,7 @@ const LoginForm: React.FC = () => {
         }
 
         function showPosition(position:any) {
-            setFormData({...formData, lat: `${position.coords.latitude}`, long: `${position.coords.longitude}`});
+            setFormData({...formData, lat: position.coords.latitude, long: position.coords.longitude});
         }
 
         function showError(error:any) {
@@ -66,8 +64,7 @@ const LoginForm: React.FC = () => {
         try {
             const response = await axiosBase.post<FormData>('/Authentication/SignIn', formData);
             setIsProfileComplete(response.data.profileComplete!)
-            console.log(response.data)
-            // setIsProfileComplete(true)
+            localStorage.setItem('userDetails', JSON.stringify({userId: response.data.userId!, session: response.data.session, email:formData.email}));
             setResponseMsg(response.data.responseMessage!)
             setIsLoading(isLoading)
         } catch (err) {
@@ -97,6 +94,7 @@ const LoginForm: React.FC = () => {
         value={formData.email}
         name='email'
         action={handleChange}
+        bgColor='bg-input-bg'
         />
         <Input
         label='Password'
@@ -107,6 +105,7 @@ const LoginForm: React.FC = () => {
         action={handleChange}
         img={eye}
         alt='show password'
+        bgColor='bg-input-bg'
         clickAction={()=>setShowPassword(!showPassword)}
         />
         <div className='flex flex-col gap-2 md:gap-0 md:flex-row justify-between'>
