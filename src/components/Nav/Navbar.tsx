@@ -13,8 +13,8 @@ const Navbar = ({text, action}: Proptype) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <header>
-      <nav className='navbar'>
+    <header >
+      <nav className='navbar shadow-lg'>
         <div><img src={logo} alt='logo' /></div>
         <div>
           <ul>

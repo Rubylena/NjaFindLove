@@ -9,7 +9,7 @@ module.exports = {
     colors: {
       transparent: 'transparent',
       'white': '#fff',
-      'black': '#000',
+      'black': '#1E0C0C',
       'purple': '#703098',
       'place': '#ABA4A4',
       'green': '#024E27',
@@ -19,6 +19,7 @@ module.exports = {
       'good-green': '#08f26e',
       'input-bg': 'rgba(63, 31, 31, 0.05)',
       'red': '#CB1717',
+      'p-text': '#857B7B',
     },
   },
   plugins: [

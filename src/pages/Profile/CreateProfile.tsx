@@ -9,7 +9,7 @@ const CreateProfile = () => {
   return (
     <div className='landing-page' >
       <Navbar text='LOG IN' action={()=>setLogin(!login)} />
-      <main className='landing-main bg-tint-pink h-full'>
+      <main className='landing-main bg-tint-pink md:h-full'>
         <Profile />
       </main>
       <Footer />
