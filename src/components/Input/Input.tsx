@@ -28,6 +28,7 @@ const Input = ({label, type, bgColor, placeholder, warning, value, name, img, al
               placeholder={placeholder}
               onChange={action}
               required
+              // autoComplete='off'
           />
           <img src={img} alt={alt} className='absolute top-5 right-5 cursor-pointer' onClick={clickAction} />
         </div>

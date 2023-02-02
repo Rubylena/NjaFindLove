@@ -18,9 +18,10 @@ const Profile = () => {
     const [returnSelectInterest, setReturnSelectInterest] = useState<number[]>([]);
 
     const [day, setDay] = useState<null | Date>(null);
-    const [month, setMonth] = useState<Date>();
+    const [month, setMonth] = useState<Date | null>(null);
     const [year, setYear] = useState<null | Date>(null);
-    const [dateOfBirth, setDateOfBirth] = useState<string>('');
+    
+    // const [dateOfBirth, setDateOfBirth] = useState<string>('');
 
     const [isLoading, setIsLoading] = useState<boolean>(false)
 
@@ -33,15 +34,16 @@ const Profile = () => {
         dob: '',
         gender: 0,
         interestedIn: 0,
-        fromAge: 0,
-        toAge: 0,
+        fromAge: 18,
+        toAge: 40,
         info: '',
-        interest: [0],
+        interest: [],
     });
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
         const { name, value } = event.target;
-        setFormData({ ...formData, [name]: value });
+        setFormData({ ...formData, [name]: value, userId: userDetails!.userId, session: userDetails!.session,
+            email: userDetails!.email! });
     }
 
     const handleTextareaChange = (e: React.ChangeEvent<HTMLTextAreaElement>)=>{
@@ -62,12 +64,18 @@ const Profile = () => {
         setFormData({ ...formData, interestedIn: parseInt(event.target.value)})
     }
 
-    const concatenateDate = () =>{
-        if(day! && month! && year!){
+    const concatenateDate = (date: Date) =>{
+        if(day! && month!){
             const days = day.toString()
             const months = month.getMonth()
-            const years = year.toString()
-            setDateOfBirth(`${days.split(' ')[2]}/${months + 1}/${years.split(' ')[3]}`)
+            const years = date.toString()
+            if(months < 10){
+                const full = `${days.split(' ')[2]}/0${months + 1}/${years.split(' ')[3]}`
+                setFormData({...formData, dob: full})
+            } else {
+                const full = `${days.split(' ')[2]}/${months + 1}/${years.split(' ')[3]}`
+                setFormData({...formData, dob: full})
+            }
         }
     }
 
@@ -98,19 +106,13 @@ const Profile = () => {
         }
     }
 
+    // console.log(formData)
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>)=>{
         setIsLoading(!isLoading)
         event.preventDefault();
-        // concatenateDate();
         try {
-            setFormData({ ...formData, 
-                userId: userDetails!.userId, session: userDetails!.session,
-                email: userDetails!.email!, interest: returnSelectInterest,
-                dob: dateOfBirth, 
-                // gender: selectedGenders, interestedIn: selectedInterestedIn
-            });
-            console.log('formData', formData)
             const response = await axiosBase.post<FormData>('/Profile/CreateProfile', formData);
+            console.log(formData)
             console.log('response', response.data)
             setIsLoading(isLoading)
         } catch (err) {
@@ -119,12 +121,15 @@ const Profile = () => {
     }
 
     const handleSelectedInterest = (interestId: number) => {
-        if (returnSelectInterest.includes(interestId)) {
+        if (returnSelectInterest.includes(interestId) && formData.interest.includes(interestId)) {
             const remainingId = returnSelectInterest.filter((item2) => item2 !== interestId);
+            const remainingId2 = formData.interest.filter((item3) => item3 !== interestId);
             setReturnSelectInterest(remainingId);
+            setFormData({ ...formData, interest: remainingId2});
         }
         if (returnSelectInterest.length < 5 && !returnSelectInterest.includes(interestId)){
             setReturnSelectInterest([...returnSelectInterest, interestId])
+            formData.interest.push(interestId)
         }
     };
 
@@ -136,17 +141,17 @@ const Profile = () => {
         invokeGender();
         invokeInterestIn();
         invokeInterest();
-        concatenateDate();
     }, []);
 
  return (
     <div className='text-black pt-0.5 md:pt-10 pb-10 md:h-full'>
-        <form onSubmit={handleSubmit} className='md:flex md:flex-col md:justify-center md:items-center md:h-full'>
+        <form onSubmit={handleSubmit} autoComplete='off' className='md:flex md:flex-col md:justify-center md:items-center md:h-full'>
+        <input autoComplete="off" name="hidden" type="text" className="hidden"/>
             <div className='md:flex md:gap-10 justify-center'>
                 <div className='bg-white flex flex-col p-7 rounded-lg shadow-md gap-5 mb-10 md:mb-0'>
                     <div className='text-center'>
                         <h2 className='font-semibold text-2xl mb-4'>CREATE  A PROFILE</h2>
-                        <p className='text-p-text w-80'>Details will enable you to match with the right people.</p>
+                        <p className='text-p-text md:w-80'>Details will enable you to match with the right people.</p>
                     </div>
                     <Input
                     type='text'
@@ -176,7 +181,7 @@ const Profile = () => {
                                 renderCustomHeader={({
                                 }) => ('')}
                                 selected={day}
-                                onChange={(date) => setDay(date!)}
+                                onChange={(date) => {setDay(date!); concatenateDate(day!)}}
                                 dateFormat="dd"
                                 placeholderText='Day'
                                 scrollableMonthYearDropdown
@@ -189,7 +194,7 @@ const Profile = () => {
                                 renderCustomHeader={({
                                 }) => (<p className='font-bold'>Months</p>)}
                                 selected={month}
-                                onChange={(date) => setMonth(date!)}
+                                onChange={(date) => {setMonth(date!); concatenateDate(month!)}}
                                 dateFormat="MM"
                                 placeholderText='Month'
                                 showMonthYearPicker
@@ -202,7 +207,7 @@ const Profile = () => {
                                 <DatePicker
                                 className='w-16 border-none rounded-3xl pr-3 bg-transparent focus:ring-0 placeholder:text-[10px] placeholder:leading-3 md:placeholder:text-xs'
                                 selected={year}
-                                onChange={(date) => setYear(date!)}
+                                onChange={(date) => {setYear(date!); concatenateDate(date!)}}
                                 dateFormat="yyyy"
                                 placeholderText='Year'
                                 showYearPicker
@@ -261,7 +266,7 @@ const Profile = () => {
                                 type='number'
                                 bgColor='bg-input-bg'
                                 placeholder='18'
-                                value={formData.fromAge!}
+                                value={formData.fromAge}
                                 name='fromAge'
                                 action={ageChange}/>
                                 <div className='absolute top-5 right-0 mr-2'>
@@ -274,7 +279,7 @@ const Profile = () => {
                                 type='number'
                                 bgColor='bg-input-bg'
                                 placeholder='40'
-                                value={formData.toAge!}
+                                value={formData.toAge}
                                 name='toAge'
                                 action={ageChange}/>
                                 <div className='absolute top-5 right-0 mr-2'>
@@ -288,7 +293,7 @@ const Profile = () => {
                 <div className='flex flex-col gap-4 px-7 md:pt-7  pb-7'>
                     <div className='text-center'>
                         <h2 className='text-2xl font-semibold mb-4'>Choose your interest</h2>
-                        <p className='text-p-text w-96'>Write about yourself and choose your interest to get familiar with other users</p>
+                        <p className='text-p-text md:w-96'>Write about yourself and choose your interest to get familiar with other users</p>
                     </div>
 
                     <div className='flex flex-col gap-1.5'>
