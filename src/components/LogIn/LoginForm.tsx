@@ -36,7 +36,7 @@ const LoginForm: React.FC = () => {
         }
 
         function showPosition(position:any) {
-            setFormData({...formData, lat: position.coords.latitude, long: position.coords.longitude});
+            setFormData({...formData, lat: `${position.coords.latitude}`, long: `${ position.coords.longitude}`});
         }
 
         function showError(error:any) {
