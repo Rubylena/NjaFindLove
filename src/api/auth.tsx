@@ -1,6 +1,7 @@
 export interface FormData {
     responseMessage?: string;
     profileComplete?: boolean;
+    success?: boolean;
     userId?: number;
     session?: string;
     email: string;
@@ -33,5 +34,11 @@ export interface IdValue {
 export interface Local {
     userId: number;
     session: string;
-    email?: string;
+    email: string;
+}
+
+export interface Picture {
+    session: string;
+    email: string;
+    imageBase64: string;
 }

@@ -1,16 +1,20 @@
 import React, { useEffect, useState } from 'react'
 import { axiosBase } from '../../api/api';
-import { CreateProfileData, IdValue, Local } from '../../api/auth'
+import { CreateProfileData, FormData, IdValue, Local } from '../../api/auth'
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import dropDown from '../../asset/icon/drop-down-arrow.png'
 import Input from '../Input/Input'
 import Button from '../Button/Button';
+import { useNavigate } from 'react-router-dom';
 
 const Profile = () => {
     const [userDetails, setUserDetails] = useState<Local>();
 
-    const [genders, setGenders] = useState<IdValue[]>([])
+    const [genders, setGenders] = useState<IdValue[]>([]);
+
+    const [moveToNext, setMoveToNext] = useState<boolean>();
+    const navigate = useNavigate();
 
     const [interestedInWho, setInterestedInWho] = useState<IdValue[]>([])
 
@@ -113,12 +117,13 @@ const Profile = () => {
         try {
             const response = await axiosBase.post<FormData>('/Profile/CreateProfile', formData);
             console.log(formData)
-            console.log('response', response.data)
+            setMoveToNext(response.data.success)
             setIsLoading(isLoading)
         } catch (err) {
             console.error(err);
         }
     }
+    console.log(moveToNext)
 
     const handleSelectedInterest = (interestId: number) => {
         if (returnSelectInterest.includes(interestId) && formData.interest.includes(interestId)) {
@@ -141,11 +146,19 @@ const Profile = () => {
         invokeGender();
         invokeInterestIn();
         invokeInterest();
-    }, []);
+
+        const profileCheck = () =>{
+            if (moveToNext){
+                navigate('/profile-picture')
+            }
+        }
+        profileCheck();
+    }, [moveToNext, navigate]);
+
 
  return (
     <div className='text-black pt-0.5 md:pt-10 pb-10 md:h-full'>
-        <form onSubmit={handleSubmit} autoComplete='off' className='md:flex md:flex-col md:justify-center md:items-center md:h-full'>
+        <form onSubmit={handleSubmit} autoComplete='off' className='md:flex md:gap-5 md:flex-col md:justify-center md:items-center md:h-full'>
         <input autoComplete="off" name="hidden" type="text" className="hidden"/>
             <div className='md:flex md:gap-10 justify-center'>
                 <div className='bg-white flex flex-col p-7 rounded-lg shadow-md gap-5 mb-10 md:mb-0'>
@@ -328,7 +341,7 @@ const Profile = () => {
             </div>
             <div className='w-3/4 md:w-1/4 m-auto'>
                 <Button
-                text='Get Started'
+                text='Next'
                 bg='bg-purple'
                 spin={isLoading? 'block animate-spin w-4 h-4' : 'hidden'}
                 textColor='text-white'

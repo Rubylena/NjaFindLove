@@ -30,7 +30,7 @@ const Navbar = ({text, action}: Proptype) => {
       <nav className='navbar-mobile shadow-lg'>
         <div><img src={logo} alt='logo' /></div>
         <div onClick={action} className='navbar-mobile-login-btn'>
-          <p>{text}</p>
+          <p>{path == 'sign-up' || path == '' ? text : 'Log out'}</p>
         </div>
         <button className='navbar-mobile-bars' onClick={() => setIsOpen(!isOpen)}>☰</button>
 

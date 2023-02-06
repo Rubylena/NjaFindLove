@@ -1,4 +1,4 @@
-import React, { useState, useEffect, SetStateAction } from 'react'
+import React, { useState, useEffect} from 'react'
 import { useNavigate } from "react-router-dom";
 import { axiosBase } from '../../api/api';
 import Input from '../Input/Input'
