@@ -35,11 +35,12 @@ const ProfilePic: React.FC = () => {
     reader.onload = () => {
       const img = reader.result as string
       setImages(img);
+      setFormData({...formData, session: userDetails!.session, email: userDetails!.email, imageBase64: img});
       setCompleteFile([...completeFile, img]);
     };
     reader.readAsDataURL(event.target.files?.[0]!);
 
-    setFormData({...formData, session: userDetails!.session, email: userDetails!.email, imageBase64: completeFile[0]});
+    // setFormData({...formData, session: userDetails!.session, email: userDetails!.email, imageBase64: completeFile[0]});
   };
   
   const handleChange2 = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -62,17 +63,13 @@ const ProfilePic: React.FC = () => {
     reader.readAsDataURL(event.target.files?.[0]!);
   };
 
-// console.log('new', completeFile)
-
 const handleSubmit = async (event: React.FormEvent<HTMLFormElement>)=>{
   setIsLoading(!isLoading)
   event.preventDefault();
-  // setFormData({...formData, imageBase64: completeFile[0]})
   try {
       const response = await axiosBase.post<FormData>('/Profile/AddPicture', formData);
       console.log(formData)
       console.log(response.data)
-      // setMoveToNext(response.data.success)
       setIsLoading(isLoading)
   } catch (err) {
       console.error(err);

@@ -110,20 +110,17 @@ const Profile = () => {
         }
     }
 
-    // console.log(formData)
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>)=>{
         setIsLoading(!isLoading)
         event.preventDefault();
         try {
             const response = await axiosBase.post<FormData>('/Profile/CreateProfile', formData);
-            console.log(formData)
             setMoveToNext(response.data.success)
             setIsLoading(isLoading)
         } catch (err) {
             console.error(err);
         }
     }
-    console.log(moveToNext)
 
     const handleSelectedInterest = (interestId: number) => {
         if (returnSelectInterest.includes(interestId) && formData.interest.includes(interestId)) {
