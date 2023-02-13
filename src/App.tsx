@@ -14,9 +14,9 @@ import Message from './pages/Message/Message';
 
 function App() {
 
-  if (!localStorage.getItem("isLoggedIn")) {
-    window.location.replace("/sign-up");
-  }
+  // if (!localStorage.getItem("isLoggedIn")) {
+  //   window.location.replace("/sign-up");
+  // }
 
   window.addEventListener("popstate", function(event) {
     event.preventDefault();
