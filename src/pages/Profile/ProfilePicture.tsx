@@ -8,7 +8,7 @@ const ProfilePicture = () => {
   return (
     <div className='landing-page' >
       <Navbar text='LOG IN' action={()=>setLogout(!logout)} />
-      <main className='landing-main bg-tint-pink md:h-full'>
+      <main className='landing-main bg-tint-pink h-full'>
         <ProfilePic />
       </main>
       <Footer />

@@ -17,6 +17,7 @@ const SignUpForm: React.FC = () => {
     const [geoError, setGeoError] =useState('');
     const [showPassword, setShowPassword] = useState(false);
     const [isProfileComplete, setIsProfileComplete] = useState<boolean>();
+    const [pixUpload, setPixUpload] = useState<boolean>();
     const [responseMsg, setResponseMsg] = useState('')
     const [isLoading, setIsLoading] = useState<boolean>(false)
 
@@ -63,7 +64,7 @@ const SignUpForm: React.FC = () => {
         try {
             const response = await axiosBase.post<FormData>('/Authentication/SignUp', formData);
             setIsProfileComplete(response.data.profileComplete!)
-            // setIsProfileComplete(true)
+            setPixUpload(response.data.pixUpload!)
             setResponseMsg(response.data.responseMessage!)
             setIsLoading(isLoading)
         } catch (err) {
@@ -76,8 +77,12 @@ const SignUpForm: React.FC = () => {
             if (!isProfileComplete && responseMsg === 'Registration Completed Successfully. Kindly Login'){
                 navigate('/create-profile')
             }
+            if (isProfileComplete && !pixUpload && responseMsg === 'Registration Completed Successfully. Kindly Login'){
+                navigate('/profile-picture')
+            }
             if(isProfileComplete && responseMsg === 'Registration Completed Successfully. Kindly Login'){
-                navigate('/dashboard')
+                navigate('/dashboard/meet')
+                localStorage.setItem('isLoggedIn', JSON.stringify(true))
             }
         }
         profileCheck();

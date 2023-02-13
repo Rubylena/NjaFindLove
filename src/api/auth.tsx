@@ -1,6 +1,7 @@
 export interface FormData {
     responseMessage?: string;
     profileComplete?: boolean;
+    pixUpload?: boolean;
     success?: boolean;
     userId?: number;
     session?: string;

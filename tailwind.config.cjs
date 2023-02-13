@@ -15,11 +15,12 @@ module.exports = {
       'green': '#024E27',
       'blue': '#1954AC',
       'tint-pink': '#FFF5F5',
-      'red': 'red',
+      'red': '#CB1717',
       'good-green': '#08f26e',
       'input-bg': 'rgba(63, 31, 31, 0.05)',
       'red': '#CB1717',
       'p-text': '#857B7B',
+      'profile-bg': '#021C0E',
     },
   },
   plugins: [

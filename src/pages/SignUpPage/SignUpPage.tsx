@@ -9,8 +9,6 @@ import LogIn from '../../components/LogIn/LogIn'
 const SignUpPage = () => {
   const [login, setLogin] = useState(false)
 
-  // const cancelButtonRef = useRef(null)
-
   return (
     <div className='landing-page'>
       <Navbar text='LOG IN' action={()=>setLogin(!login)}  />

@@ -91,20 +91,20 @@ useEffect(() => {
           <p>Upload 2 profile pictures to increase your chance of finding a match</p>
         </div>
         <form onSubmit={handleSubmit} >
-          <div className='md:flex gap-10 justify-center m-10'>
+          <div className='md:flex justify-center m-auto max-w-fit h-56 md:w-full my-10'>
             <div>
               <label htmlFor="picture" className='rounded-full bg-input-bg flex justify-center'>
                 {file ?
                   <img src={images} alt="profile" 
-                  className='rounded-full w-52 h-52 object-cover' />
+                  className='rounded-full object-cover p-20' />
                   :
-                  <img src={add} alt="add" className='p-24' />
+                  <img src={add} alt="add" className='p-20 md:p-24' />
                 }
               </label>
               <input type="file" onChange={handleChange} id='picture' className='sr-only' />
-              {file && <p>{file.name}</p>}
+              {/* {file && <p>{file.name}</p>} */}
             </div>
-            <div>
+            {/* <div>
               <label htmlFor="picture2" className='rounded-full bg-input-bg flex justify-center'>
                 {file2 ? 
                     // images2.map((imagery) => (
@@ -119,9 +119,9 @@ useEffect(() => {
               </label>
               <input type="file" onChange={handleChange2} id='picture2' className='sr-only' />
               {file2 && <p>{file2.name}</p>}
-            </div>
+            </div> */}
           </div>
-          <div className='w-3/4 md:w-1/4 m-auto'>
+          <div className='w-2/4 md:w-1/4 m-auto'>
                 <Button
                 text='Next'
                 bg='bg-purple'

@@ -18,6 +18,7 @@ const LoginForm: React.FC = () => {
     const [geoError, setGeoError] =useState('');
     const [showPassword, setShowPassword] = useState(false);
     const [isProfileComplete, setIsProfileComplete] = useState<boolean>();
+    const [pixUpload, setPixUpload] = useState<boolean>();
     const [responseMsg, setResponseMsg] = useState('')
     const [isLoading, setIsLoading] = useState<boolean>(false)
 
@@ -64,9 +65,11 @@ const LoginForm: React.FC = () => {
         try {
             const response = await axiosBase.post<FormData>('/Authentication/SignIn', formData);
             setIsProfileComplete(response.data.profileComplete!)
+            setPixUpload(response.data.pixUpload!)
             localStorage.setItem('userDetails', JSON.stringify({userId: response.data.userId!, session: response.data.session, email:formData.email}));
             setResponseMsg(response.data.responseMessage!)
             setIsLoading(isLoading)
+            console.log(localStorage.getItem('userDetails'))
         } catch (err) {
             console.error(err);
         }
@@ -77,9 +80,17 @@ const LoginForm: React.FC = () => {
             if (!isProfileComplete && responseMsg === 'LoginSuccessful'){
                 navigate('/create-profile')
             }
-            if(isProfileComplete && responseMsg === 'LoginSuccessful'){
-                navigate('/dashboard')
+            if (isProfileComplete && !pixUpload && responseMsg === 'LoginSuccessful'){
+                navigate('/profile-picture')
             }
+            if (isProfileComplete && pixUpload && responseMsg === 'LoginSuccessful'){
+                navigate('/dashboard/meet')
+                localStorage.setItem('isLoggedIn', JSON.stringify(true))
+            }
+            // if (isProfileComplete && responseMsg === 'LoginSuccessful'){
+            //     navigate('/dashboard/meet')
+            //     // localStorage.setItem('isLoggedIn', JSON.stringify(true))
+            // }
         }
         profileCheck();
     }, [isProfileComplete, navigate])
