@@ -32,6 +32,10 @@
   }
 }
 
+img {
+  transition: opacity 0.5s ease-in-out;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

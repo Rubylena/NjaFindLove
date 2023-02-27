@@ -6,11 +6,13 @@ import Error404 from './components/Error/Error404';
 import CreateProfile from './pages/Profile/CreateProfile';
 import ProfilePicture from './pages/Profile/ProfilePicture';
 import Meet from './pages/Meet/Meet';
-import People from './pages/People/People';
+// import People from './pages/People/People';
 import Subscribe from './pages/Subscribe/Subscribe';
-import Settings from './pages/Settings/Settings';
+// import Settings from './pages/Settings/Settings';
 import EditProfile from './pages/EditProfile/EditProfile';
 import Message from './pages/Message/Message';
+import Pricing from './pages/Pricing/Pricing';
+import TermsAndConditions from './pages/TermsAndConditions/TermsAndConditions';
 
 function App() {
 
@@ -31,12 +33,15 @@ function App() {
         <Route path='/create-profile' element={<CreateProfile />} />
         <Route path='/profile-picture' element={<ProfilePicture />} />
         <Route path='/dashboard/meet' element={<Meet />} />
-        <Route path='/dashboard/people' element={<People />} />
+        {/* <Route path='/dashboard/people' element={<People />} /> */}
         <Route path='/dashboard/subscribe' element={<Subscribe />} />
-        <Route path='/dashboard/settings' element={<Settings />} />
+        {/* <Route path='/dashboard/settings' element={<Settings />} /> */}
         <Route path='/dashboard/profile' element={<EditProfile />} />
         <Route path='/dashboard/message' element={<Message />} />
         <Route path='*' element={<Error404 />} />
+
+        <Route path='/pricing' element={<Pricing />} />
+        <Route path='/terms' element={<TermsAndConditions />} />
       </Routes>
     </Router>
   );

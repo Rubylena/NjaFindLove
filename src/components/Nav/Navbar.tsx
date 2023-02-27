@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
 import './nav.scss'
 import logo from '../../asset/icon/logo.png'
+import { Link } from 'react-router-dom';
 
 interface Proptype {
   text: string;
-  action: (event: React.MouseEvent<HTMLElement>)=>void;
+  action?: (event: React.MouseEvent<HTMLElement>)=>void;
 }
 
 const path = window.location.pathname.split('/')[1];
@@ -15,16 +16,16 @@ const Navbar = ({text, action}: Proptype) => {
   return (
     <header >
       <nav className='navbar shadow-lg'>
-        <div><img src={logo} alt='logo' /></div>
+        <Link to='/'><div><img src={logo} alt='logo' /></div></Link>
         <div>
           <ul>
-            <li>Pricing</li>
-            <li>Terms and Conditions</li>
-            <li>Support</li>
+            <li><Link to='/pricing'>Pricing</Link></li>
+            <li><Link to='/terms'>Terms and Conditions</Link></li>
+            <li><Link to='/'>Support</Link></li>
           </ul>
         </div>
-        <div onClick={action} className='login-btn'>
-          <p>{path == 'sign-up' || path == '' ? text : 'Log out'}</p>
+        <div onClick={action} className='login-btn cursor-pointer'>
+          <p>{path == 'sign-up' || path == '' || path == 'pricing' ? text : 'Log out'}</p>
         </div>
       </nav>
       <nav className='navbar-mobile shadow-lg'>
@@ -40,9 +41,9 @@ const Navbar = ({text, action}: Proptype) => {
             </div>
             <div>
               <ul>
-                <li>Pricing</li>
-                <li>Terms and Conditions</li>
-                <li>Support</li>
+                <li><Link to='/pricing'>Pricing</Link></li>
+                <li><Link to='/terms'>Terms and Conditions</Link></li>
+                <li><Link to='/'>Support</Link></li>
                 <li onClick={action}>{path == 'sign-up' || path == '' ? 'LOG IN' : 'Log out'}</li>
               </ul>
             </div>

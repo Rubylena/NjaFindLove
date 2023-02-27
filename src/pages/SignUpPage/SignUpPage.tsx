@@ -2,9 +2,10 @@ import './SignupPage.scss'
 import Navbar from '../../components/Nav/Navbar'
 import Footer from '../../components/Footer/Footer'
 import SignUp from '../../components/SignUp/SignUp'
-import { Fragment, useState } from 'react'
-import { Dialog, Transition } from '@headlessui/react'
-import LogIn from '../../components/LogIn/LogIn'
+import { useState } from 'react'
+import Login from '../Login/Login'
+// import { Dialog, Transition } from '@headlessui/react'
+// import LogIn from '../../components/LogIn/LogIn'
 
 const SignUpPage = () => {
   const [login, setLogin] = useState(false)
@@ -12,45 +13,12 @@ const SignUpPage = () => {
   return (
     <div className='landing-page'>
       <Navbar text='LOG IN' action={()=>setLogin(!login)}  />
-      <main className='landing-main bg-tint-pink h-full'>
+      <main className=' bg-tint-pink h-full'>
         <SignUp />
       </main>
       <Footer />
       {login && (  
-        <Transition.Root show={login} as={Fragment}>
-        <Dialog as="div" className="relative z-10"  onClose={setLogin}>
-          <Transition.Child
-            as={Fragment}
-            enter="ease-out duration-300"
-            enterFrom="opacity-0"
-            enterTo="opacity-100"
-            leave="ease-in duration-200"
-            leaveFrom="opacity-100"
-            leaveTo="opacity-0"
-          >
-            <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
-          </Transition.Child>
-
-          
-          <div className="fixed inset-0 z-10 overflow-y-auto bg-black bg-opacity-20">
-            <div className="flex justify-center sm:justify-end sm:items-center sm:p-0">
-              <Transition.Child
-                as={Fragment}
-                enter="ease-out duration-300"
-                enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                enterTo="opacity-100 translate-y-0 sm:scale-100"
-                leave="ease-in duration-200"
-                leaveFrom="opacity-100 translate-y-0 sm:scale-100"
-                leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-              >
-                <Dialog.Panel className="relative transform rounded-lg transition-all">
-                  <LogIn />
-                </Dialog.Panel>
-              </Transition.Child>
-            </div>
-          </div>
-        </Dialog>
-        </Transition.Root>
+        <Login login={login} setLogin={setLogin} />
       )}
     </div>
   )

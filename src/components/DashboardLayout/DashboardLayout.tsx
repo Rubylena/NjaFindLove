@@ -7,11 +7,11 @@ interface Proptypes {
 }
 const DashboardLayout = ({children}: Proptypes) => {
   return (
-    <section className='flex flex-col md:flex-row h-screen'>
+    <section className='flex flex-col md:flex-row '>
       <div>
         <Sidebar />
       </div>
-      <div className='flex flex-col h-full justify-between md:w-full'>
+      <div className=' xl:h-screen flex flex-col justify-between md:w-full'>
         <main className='h-full'>{children}</main>
         <div>
           <Footer />

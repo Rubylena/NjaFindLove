@@ -61,3 +61,8 @@ nav{
 @include screen-size(larger-screen){
     // padding: 1em 13em;
 }
+
+
+.price {
+    background: url('../../asset/images/prices.svg') no-repeat;
+}
