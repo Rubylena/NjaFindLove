@@ -12,7 +12,7 @@ const DashboardLayout = ({children}: Proptypes) => {
         <Sidebar />
       </div>
       <div className=' xl:h-screen flex flex-col justify-between md:w-full'>
-        <main className='h-full'>{children}</main>
+        <main className='h-full xl:h-[92.9%]'>{children}</main>
         <div>
           <Footer />
         </div>

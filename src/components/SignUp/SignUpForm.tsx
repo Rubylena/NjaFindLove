@@ -56,7 +56,6 @@ const SignUpForm: React.FC = () => {
             }
         }
     }
-    getLocation();
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>)=>{
         setIsLoading(!isLoading)
@@ -73,6 +72,7 @@ const SignUpForm: React.FC = () => {
     }
 
     useEffect(() => {
+        getLocation();
         const profileCheck = () =>{
             if (!isProfileComplete && responseMsg === 'Registration Completed Successfully. Kindly Login'){
                 navigate('/create-profile')
@@ -105,6 +105,7 @@ const SignUpForm: React.FC = () => {
         value={formData.pass}
         name='pass'
         img={eye}
+        alt='show password'
         action={handleChange}
         warning='Password must contain characters and Numbers'
         clickAction={()=>setShowPassword(!showPassword)}

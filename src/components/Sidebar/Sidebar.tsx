@@ -62,7 +62,7 @@ const Sidebar = () => {
   ]
 
   return (
-    <aside className='md:w-[22.3125rem] md:border-r pb-5 h-full'>
+    <aside className='md:w-[22.3125rem] md:shadow-xl md:border-r md:border-grey md:border-opacity-60 pb-5 h-full'>
       <nav className='pb-2 md:hidden shadow-lg'>
         <Link to='/dashboard/profile'><section className='flex flex-col justify-center items-center bg-profile-bg text-white py-8 gap-4'>
           <img src={profileImg} alt='profile' />
@@ -141,7 +141,7 @@ const Sidebar = () => {
       </div>
 
       <div className='p-3'>
-        {openMenu ?
+        {openMenu &&
           data.map((item, idx) => (
             <SidebarOptions
               key={idx}
@@ -153,9 +153,7 @@ const Sidebar = () => {
               style={item.extra === undefined ? 'hidden' : ''}
               arrow={item.extra}
             />
-          ))
-          :
-          ''}
+          ))}
       </div>
     </aside>
   )

@@ -10,16 +10,16 @@ import profilePix from '../../asset/images/demoPix.svg'
 const EditProfile = () => {
   return (
     <DashboardLayout>
-      <section className='pl-5 pt-5 pr-20'>
+      <section className='px-6 pt-10 md:pr-20'>
 
-        <div className='flex flex-wrap justify-center md:justify-between items-center mb-5'>
-          <div className='flex items-center gap-5'>
-            <div className='w-32'>
+        <div className='flex flex-wrap justify-center md:justify-between items-center mb-5 gap-5'>
+          <div className='flex flex-wrap justify-center items-center gap-6'>
+            <div className='md:w-32'>
               <img src={profileImg} alt='profile picture' className='w-full' />
             </div>
             <div>
               <div className='flex items-center gap-3'>
-                <p className='font-bold text-[42px]'>FullName</p>
+                <p className='font-bold text-4xl md:text-[42px]'>FullName</p>
                 <img src={verified} alt='verified' />
               </div>
               <div className='flex items-center gap-1 mt-3'>
@@ -28,7 +28,7 @@ const EditProfile = () => {
               </div>
             </div>
           </div>
-          <div className='flex items-center gap-2'>
+          <div className='flex items-center gap-2 cursor-pointer'>
             <img src={logout} alt='logout' />
             <p className='text-red font-medium'>Log out</p>
           </div>
@@ -36,53 +36,53 @@ const EditProfile = () => {
 
         <section>
 
-          <div className='flex flex-wrap gap-2 items-center'>
-            <h2 className='font-bold text-[33px]'>Personal information</h2>
-            <div className='flex items-center gap-1 w-5'>
+          <div className='flex flex-wrap gap-3 items-center'>
+            <h2 className='font-bold text-[33px] leading-8'>Personal information</h2>
+            <div className='flex items-center gap-1 w-5 cursor-pointer'>
               <img src={edit} alt='edit' className='w-full' />
               <p className='text-blue text-2xl text-medium'>Edit</p>
             </div>
           </div>
 
-          <div className='flex mt-3 mb-8'>
+          <div className='flex flex-col gap-10 md:gap-0 md:flex-row mt-3 mb-8'>
             <div className='md:w-3/4 flex flex-col gap-3'>
               <div className='flex flex-wrap gap-2 items-center'>
-                <p className='md:w-2/6 font-semibold text-xl'>About:</p>
+                <p className='lg:w-2/6 font-semibold text-xl'>About:</p>
                 <p>Living life</p>
               </div>
               <div className='flex flex-wrap gap-2 items-center'>
-                <p className='md:w-2/6 font-semibold text-xl'>Appearance:</p>
+                <p className='lg:w-2/6 font-semibold text-xl'>Appearance:</p>
                 <p>103 cm, black hair and brown eyes</p>
               </div>
               <div className='flex flex-wrap gap-2 items-center'>
-                <p className='md:w-2/6 font-semibold text-xl'>Relationship:</p>
+                <p className='lg:w-2/6 font-semibold text-xl'>Relationship:</p>
                 <p>I'm single</p>
               </div>
               <div className='flex flex-wrap gap-2 items-center'>
-                <p className='md:w-2/6 font-semibold text-xl'>Sexuality:</p>
+                <p className='lg:w-2/6 font-semibold text-xl'>Sexuality:</p>
                 <p> I'm straight</p>
               </div>
               <div className='flex flex-wrap gap-2 items-center'>
-                <p className='md:w-2/6 font-semibold text-xl'>Languages:</p>
+                <p className='lg:w-2/6 font-semibold text-xl'>Languages:</p>
                 <p className='text-blue font-medium'>Add info</p>
               </div>
               <div className='flex flex-wrap gap-2 items-center'>
-                <p className='md:w-2/6 font-semibold text-xl'>Children:</p>
+                <p className='lg:w-2/6 font-semibold text-xl'>Children:</p>
                 <p className='text-blue font-medium'>Add info</p>
               </div>
               <div className='flex flex-wrap gap-2 items-center'>
-                <p className='md:w-2/6 font-semibold text-xl'>Smoking:</p>
+                <p className='lg:w-2/6 font-semibold text-xl'>Smoking:</p>
                 <p className='text-blue font-medium'>Add info</p>
               </div>
               <div className='flex flex-wrap gap-2 items-center'>
-                <p className='md:w-2/6 font-semibold text-xl'>Location</p>
+                <p className='lg:w-2/6 font-semibold text-xl'>Location</p>
                 <p>Lagos</p>
               </div>
               <div className='flex flex-wrap gap-2 items-center'>
-                <p className='md:w-2/6 font-semibold text-xl'>Interest:</p>
+                <p className='lg:w-2/6 font-semibold text-xl'>Interest:</p>
                 <div className='flex gap-2 items-center'>
                   <p>Travels, Football, Reading</p>
-                  <div className='flex w-4 items-center gap-1'>
+                  <div className='flex w-4 items-center gap-1 cursor-pointer'>
                     <img src={edit} alt='edit' className='w-full' />
                     <p className='text-blue font-medium'>Edit</p>
                   </div>
@@ -90,9 +90,9 @@ const EditProfile = () => {
               </div>
             </div>
 
-            <div className='md:w-1/4'>
+            <div className='md:w-1/4 flex flex-col items-center'>
               <img src={profilePix} alt='profile picture' />
-              <p className='bg-tint-pink p-1 rounded-2xl text-center text-blue font-medium mt-1 '>Add more pictures</p>
+              <p className='bg-tint-pink py-2 px-6 rounded-2xl text-center text-blue font-medium mt-1'>Add more pictures</p>
             </div>
           </div>
         </section>

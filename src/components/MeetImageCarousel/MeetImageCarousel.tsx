@@ -51,7 +51,7 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ images }) => {
                     <img src={right} alt="right arrow" />
                 </button>
                 <img
-                    className="w-full h-[400px] rounded-t-3xl object-cover object-center transition ease-in-out duration-500"
+                    className="w-full h-[550px] rounded-t-3xl object-cover object-center transition ease-in-out duration-500"
                     src={images[currentImageIndex]}
                     alt={`Image ${currentImageIndex + 1}`}
                 />
@@ -77,7 +77,7 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ images }) => {
             <div className="md:w-4/6 flex flex-col gap-10">
                 <div>
                     <h4 className="font-semibold text-2xl">Joyce, 24</h4>
-                    <div className="flex gap-10 text-p-text">
+                    <div className="flex flex-wrap gap-10 text-p-text">
                         <div className="flex gap-1 items-center">
                             <img src={locate} alt='locate' />
                             <p>Lagos</p>
@@ -95,7 +95,7 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ images }) => {
                 </div>
             </div>
 
-            <div className={`shadow-ads absolute rounded-lg bottom-6 md:top-20 right-10 p-2 w-72 h-[420px] bg-white text-center ${isClose ? 'hidden' : ''}`}>
+            <div className={`shadow-ads absolute rounded-lg bottom-6 md:top-20 right-10 p-2 w-72 h-[480px] bg-white text-center ${isClose ? 'hidden' : ''}`}>
                 <div className="flex justify-end cursor-pointer" onClick={()=>setIsClose(!isClose)}>
                     <img src={blackClose} alt='close' />
                 </div>
