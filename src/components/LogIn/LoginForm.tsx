@@ -3,20 +3,20 @@ import { useNavigate } from "react-router-dom";
 import { axiosBase } from '../../api/api';
 import Input from '../Input/Input'
 import Button from '../Button/Button'
-import eye from '../../asset/icon/eye.svg'
 import './loginForm.scss'
 import { FormData } from '../../api/auth';
-
+import eye from '../../asset/icon/eye.svg'
+import openEye from '../../asset/icon/openEye.png'
 
 const LoginForm: React.FC = () => {
-    const [formData, setFormData] = useState<FormData>({
+    const [formLogInData, setFormLogInData] = useState<FormData>({
         email: '',
         pass: '',
         lat: '',
         long: '',
     })
     const [geoError, setGeoError] =useState('');
-    const [showPassword, setShowPassword] = useState(false);
+    const [showPassword, setShowPassword] = useState<boolean>()
     const [isProfileComplete, setIsProfileComplete] = useState<boolean>();
     const [pixUpload, setPixUpload] = useState<boolean>();
     const [responseMsg, setResponseMsg] = useState('')
@@ -24,9 +24,9 @@ const LoginForm: React.FC = () => {
 
     const navigate = useNavigate();
 
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleLogInChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
-        setFormData({ ...formData, [name]: value });
+        setFormLogInData({ ...formLogInData, [name]: value });
     }
 
     const getLocation =()=>{
@@ -37,7 +37,7 @@ const LoginForm: React.FC = () => {
         }
 
         function showPosition(position:any) {
-            setFormData({...formData, lat: `${position.coords.latitude}`, long: `${ position.coords.longitude}`});
+            setFormLogInData({...formLogInData, lat: `${position.coords.latitude}`, long: `${ position.coords.longitude}`});
         }
 
         function showError(error:any) {
@@ -57,25 +57,25 @@ const LoginForm: React.FC = () => {
             }
         }
     }
-    getLocation();
+    
     
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>)=>{
         setIsLoading(!isLoading)
         event.preventDefault();
         try {
-            const response = await axiosBase.post<FormData>('/Authentication/SignIn', formData);
+            const response = await axiosBase.post<FormData>('/Authentication/SignIn', formLogInData);
             setIsProfileComplete(response.data.profileComplete!)
             setPixUpload(response.data.pixUpload!)
-            localStorage.setItem('userDetails', JSON.stringify({userId: response.data.userId!, session: response.data.session, email:formData.email}));
+            localStorage.setItem('userDetails', JSON.stringify({userId: response.data.userId!, session: response.data.session, email:formLogInData.email}));
             setResponseMsg(response.data.responseMessage!)
             setIsLoading(isLoading)
-            console.log(localStorage.getItem('userDetails'))
         } catch (err) {
             console.error(err);
         }
     }
 
     useEffect(() => {
+        getLocation();
         const profileCheck = () =>{
             if (!isProfileComplete && responseMsg === 'LoginSuccessful'){
                 navigate('/create-profile')
@@ -87,10 +87,6 @@ const LoginForm: React.FC = () => {
                 navigate('/dashboard/meet')
                 localStorage.setItem('isLoggedIn', JSON.stringify(true))
             }
-            // if (isProfileComplete && responseMsg === 'LoginSuccessful'){
-            //     navigate('/dashboard/meet')
-            //     // localStorage.setItem('isLoggedIn', JSON.stringify(true))
-            // }
         }
         profileCheck();
     }, [isProfileComplete, navigate])
@@ -102,22 +98,23 @@ const LoginForm: React.FC = () => {
         label='Email'
         type='email'
         placeholder='Example@gmail.com'
-        value={formData.email}
+        value={formLogInData.email}
         name='email'
-        action={handleChange}
+        action={handleLogInChange}
         bgColor='bg-input-bg'
         />
         <Input
         label='Password'
-        type={showPassword?"text":"password"}
+        type={showPassword? 'text': 'password'}
         placeholder='Create a strong password'
-        value={formData.pass}
+        value={formLogInData.pass}
         name='pass'
-        action={handleChange}
-        img={eye}
+        img={showPassword? eye : openEye}
+        imgClass={` ${!showPassword ? 'top-3': 'top-5'}`}
         alt='show password'
+        clickAction={()=> setShowPassword(!showPassword)}
+        action={handleLogInChange}
         bgColor='bg-input-bg'
-        clickAction={()=>setShowPassword(!showPassword)}
         />
         <div className='flex flex-col gap-2 md:gap-0 md:flex-row justify-between'>
             <div>

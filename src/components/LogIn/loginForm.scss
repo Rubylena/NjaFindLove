@@ -3,3 +3,8 @@
 input[type="checkbox"]:checked + label {
     color: $green;
 }
+
+input[type="password"]::-ms-reveal,
+input[type="password"]::-ms-clear {
+  display: none;
+}

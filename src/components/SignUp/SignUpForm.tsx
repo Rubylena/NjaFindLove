@@ -5,6 +5,7 @@ import Button from '../Button/Button'
 import { FormData } from '../../api/auth';
 import { useNavigate } from 'react-router-dom';
 import eye from '../../asset/icon/eye.svg'
+import openEye from '../../asset/icon/openEye.png'
 
 const SignUpForm: React.FC = () => {
     const [formData, setFormData] = useState<FormData>({
@@ -15,7 +16,7 @@ const SignUpForm: React.FC = () => {
     })
 
     const [geoError, setGeoError] =useState('');
-    const [showPassword, setShowPassword] = useState(false);
+    const [showPassword, setShowPassword] = useState<boolean>()
     const [isProfileComplete, setIsProfileComplete] = useState<boolean>();
     const [pixUpload, setPixUpload] = useState<boolean>();
     const [responseMsg, setResponseMsg] = useState('')
@@ -23,7 +24,7 @@ const SignUpForm: React.FC = () => {
 
     const navigate = useNavigate();
 
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleSignUpChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
         setFormData({ ...formData, [name]: value });
     }
@@ -96,19 +97,20 @@ const SignUpForm: React.FC = () => {
         placeholder='Example@gmail.com'
         value={formData.email}
         name='email'
-        action={handleChange}
+        action={handleSignUpChange}
         />
         <Input
         label='Password'
-        type={showPassword?"text":"password"}
+        type={showPassword? 'text': 'password'}
         placeholder='Create a strong password'
         value={formData.pass}
-        name='pass'
-        img={eye}
+        img={showPassword? eye : openEye}
+        imgClass={` ${!showPassword ? 'top-3': 'top-5'}`}
         alt='show password'
-        action={handleChange}
+        clickAction={()=> setShowPassword(!showPassword)}
+        name='pass'
+        action={handleSignUpChange}
         warning='Password must contain characters and Numbers'
-        clickAction={()=>setShowPassword(!showPassword)}
         />
         <div>
             <p className={` ${responseMsg} === "Registration Completed Successfully. Kindly Login" && 'text-good-green' text-red text-xs`}>{responseMsg}</p>

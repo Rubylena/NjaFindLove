@@ -2,10 +2,8 @@ import React, { useState } from 'react'
 import SidebarOptions from './SidebarOptions'
 import meet from '../../asset/icon/meet.png'
 import search from '../../asset/icon/search.png'
-import people from '../../asset/icon/people.png'
 import subscribe from '../../asset/icon/subscribe.png'
 import visitors from '../../asset/icon/visitors.png'
-import settings from '../../asset/icon/settings.png'
 import arrDown from '../../asset/icon/arr-down.png'
 import arrRight from '../../asset/icon/arr-right.png'
 import profileImg from '../../asset/icon/profileImg.png'
@@ -39,11 +37,6 @@ const Sidebar = () => {
       child: 'Search',
       extra: arrDown
     },
-    // {
-    //   img: people,
-    //   child: 'People near you',
-    //   link: 'people'
-    // },
     {
       img: subscribe,
       child: 'Subscription',
@@ -54,15 +47,10 @@ const Sidebar = () => {
       child: 'Visitors',
       value: 0
     },
-    // {
-    //   img: settings,
-    //   child: 'Settings',
-    //   link: 'settings'
-    // }
   ]
 
   return (
-    <aside className='md:w-[22.3125rem] md:shadow-xl md:border-r md:border-grey md:border-opacity-60 pb-5 h-full'>
+    <aside className='md:w-[22.3125rem] md:shadow-xl md:border-r md:border-grey md:border-opacity-60 h-full overflow-y-scroll hide-scroll md:pb-10'>
       <nav className='pb-2 md:hidden shadow-lg'>
         <Link to='/dashboard/profile'><section className='flex flex-col justify-center items-center bg-profile-bg text-white py-8 gap-4'>
           <img src={profileImg} alt='profile' />
@@ -140,7 +128,7 @@ const Sidebar = () => {
         </section>
       </div>
 
-      <div className='p-3'>
+      <div className='px-3'>
         {openMenu &&
           data.map((item, idx) => (
             <SidebarOptions

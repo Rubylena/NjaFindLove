@@ -52,17 +52,15 @@ nav{
         display: block;
     }
 }
-@include screen-size(desktop-plus){
-    // padding: 1.5em 1em 0;
-}
-@include screen-size(larger-midpoint){
-    // padding: 1em 3.5em;
-}
+
 @include screen-size(larger-screen){
-    // padding: 1em 13em;
+    .side{
+        height: 100vh;
+    }
 }
 
 
 .price {
     background: url('../../asset/images/prices.svg') no-repeat;
 }
+
