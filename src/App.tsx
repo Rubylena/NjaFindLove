@@ -1,47 +1,46 @@
 import './App.css';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import SignUp from './pages/SignUpPage/SignUpPage';
 import Error404 from './components/Error/Error404';
 import CreateProfile from './pages/Profile/CreateProfile';
 import ProfilePicture from './pages/Profile/ProfilePicture';
 import Meet from './pages/Meet/Meet';
-// import People from './pages/People/People';
 import Subscribe from './pages/Subscribe/Subscribe';
-// import Settings from './pages/Settings/Settings';
 import EditProfile from './pages/EditProfile/EditProfile';
 import Message from './pages/Message/Message';
 import Pricing from './pages/Pricing/Pricing';
 import TermsAndConditions from './pages/TermsAndConditions/TermsAndConditions';
+import { ProtectedRoute } from './api/urlAuth';
 
 function App() {
-
-  // if (!localStorage.getItem("isLoggedIn")) {
-  //   window.location.replace("/sign-up");
-  // }
-
-  window.addEventListener("popstate", function(event) {
-    event.preventDefault();
-    window.history.pushState(null, document.title, window.location.pathname);
-  });
-
   return (
     <Router>
       <Routes>
         <Route path='/' element={<SignUp />} />
-        <Route path='/sign-up' element={<SignUp />} />
-        <Route path='/create-profile' element={<CreateProfile />} />
-        <Route path='/profile-picture' element={<ProfilePicture />} />
-        <Route path='/dashboard/meet' element={<Meet />} />
-        {/* <Route path='/dashboard/people' element={<People />} /> */}
-        <Route path='/dashboard/subscribe' element={<Subscribe />} />
-        {/* <Route path='/dashboard/settings' element={<Settings />} /> */}
-        <Route path='/dashboard/profile' element={<EditProfile />} />
-        <Route path='/dashboard/message' element={<Message />} />
         <Route path='*' element={<Error404 />} />
 
         <Route path='/pricing' element={<Pricing />} />
         <Route path='/terms' element={<TermsAndConditions />} />
+
+        <Route path='/dashboard/meet' element={<ProtectedRoute />}>
+          <Route path='/dashboard/meet' element={<Meet />} />
+        </Route>
+        <Route path='/dashboard/subscribe' element={<ProtectedRoute />}>
+          <Route path='/dashboard/subscribe' element={<Subscribe />} />
+        </Route>
+        <Route path='/dashboard/profile' element={<ProtectedRoute />}>
+          <Route path='/dashboard/profile' element={<EditProfile />} />
+        </Route>
+        <Route path='/dashboard/message' element={<ProtectedRoute />}>
+          <Route path='/dashboard/message' element={<Message />} />
+        </Route>
+        <Route path='/profile-picture' element={<ProtectedRoute />}>
+          <Route path='/profile-picture' element={<ProfilePicture />} />
+        </Route>
+        <Route path='/create-profile' element={<ProtectedRoute />}>
+          <Route path='/create-profile' element={<CreateProfile />} />
+        </Route>
       </Routes>
     </Router>
   );
