@@ -3,9 +3,9 @@ import iphone from '../../asset/icon/iphone.png'
 import googlePlay from '../../asset/icon/google-play-icon.png'
 import './footer.scss'
 
-const Footer = () => {
+const Footer = (props:any) => {
   return (
-    <footer className='footer bg-tint-pink'>
+    <footer className={`footer shadow-lg ${props.bg}`}>
         <div className='footer-down'>
             <ul>
                 <li>About</li>

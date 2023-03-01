@@ -7,8 +7,8 @@ const TermsAndConditions = () => {
   const [login, setLogin] = useState(false)
 
   return (
-    <div className='landing-page'>
-      <Navbar text='LOG IN' action={() => setLogin(!login)} />
+    <div className='flex flex-col justify-between 2xl:h-screen'>
+      <Navbar action={() => setLogin(!login)} />
       <div className='p-10 text-justify flex flex-col gap-5'>
         <h1 className='font-medium text-2xl'>TERMS AND CONDITIONS</h1>
         <div>
@@ -42,7 +42,7 @@ const TermsAndConditions = () => {
           <p className='text-sm'>The Company reserves the right, at its sole discretion, to change, modify, add or remove any portion of this app.</p>
         </div>
       </div>
-      <Footer />
+      <Footer bg='bg-tint-pink' />
       {login && (
         <Login login={login} setLogin={setLogin} />
       )}

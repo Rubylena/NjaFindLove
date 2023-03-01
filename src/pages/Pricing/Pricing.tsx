@@ -13,11 +13,11 @@ const Pricing = () => {
 
   return (
     <div className='landing-page'>
-        <Navbar text='LOG IN' action={()=>setLogin(!login)} />
-        <div className='h-full pt-20 m-auto'>
+        <Navbar action={()=>setLogin(!login)} />
+        <div className='h-full pt-20 flex flex-col justify-center items-center bg-tint-pink'>
           <PriceCarousel images={images} />
         </div>
-        <Footer />
+        <Footer bg='bg-tint-pink' />
         {login && (  
         <Login login={login} setLogin={setLogin} />
       )}

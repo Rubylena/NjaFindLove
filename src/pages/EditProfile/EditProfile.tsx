@@ -1,13 +1,16 @@
-import React from 'react'
+import React, { useState } from 'react'
 import DashboardLayout from '../../components/DashboardLayout/DashboardLayout'
 import profileImg from '../../asset/images/profileImg.svg'
 import verified from '../../asset/icon/verified.png'
 import caution from '../../asset/icon/caution.png'
-import logout from '../../asset/icon/logout.svg'
+import logoutImg from '../../asset/icon/logout.svg'
 import edit from '../../asset/icon/edit.svg'
 import profilePix from '../../asset/images/demoPix.svg'
+import Logout from '../../components/Logout/Logout';
 
 const EditProfile = () => {
+  const [logout, setLogout] = useState(false)
+
   return (
     <DashboardLayout>
       <section className='px-6 pt-10 md:pr-20'>
@@ -28,9 +31,10 @@ const EditProfile = () => {
               </div>
             </div>
           </div>
-          <div className='flex items-center gap-2 cursor-pointer'>
-            <img src={logout} alt='logout' />
+          <div className='flex items-center gap-2 cursor-pointer' onClick={()=>setLogout(!logout)}>
+            <img src={logoutImg} alt='logout' />
             <p className='text-red font-medium'>Log out</p>
+            {logout && (<Logout  logout={logout} setLogout={setLogout} />)}
           </div>
         </div>
 

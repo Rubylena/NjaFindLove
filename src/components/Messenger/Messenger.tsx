@@ -107,7 +107,7 @@ const Messenger = () => {
     }, [contacts]);
 
     return (
-        <section className="flex flex-col lg:flex-row bg-tint-pink h-full gap-10 xl:gap-0">
+        <section className="flex flex-col lg:flex-row bg-tint-pink h-full gap-10 lg:gap-0">
             <div className="lg:w-2/6 border-r border-r-red px-5 pt-10">
                 <h2 className='font-medium text-2xl'>Messages</h2>
                 {contacts.map((contact) => (
@@ -149,7 +149,7 @@ const Messenger = () => {
                                 ))}
                                 <div ref={chatMessagesRef} />
                             </div>
-                            <div className='lg:w-[43%] xl:w-[48%] lg:absolute lg:bottom-10 flex justify-center gap-5 bg-tint-pink'>
+                            <div className='lg:w-[43%] xl:w-[48%] lg:absolute lg:bottom-16 flex justify-center gap-5 bg-tint-pink msg-input'>
                                 <form onSubmit={handleSendMessage} className='w-5/6 relative'>
                                     <textarea
                                         value={newMessage}

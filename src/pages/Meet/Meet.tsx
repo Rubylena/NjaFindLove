@@ -9,7 +9,7 @@ const Meet = () => {
 
   return (
     <DashboardLayout>
-        <section className='p-8'>
+        <section className='p-8 bg-tint-pink h-full'>
           <p className='text-2xl font-medium mb-5'>Meet</p>
           <div>
             <MeetImageCarousel images={images} />

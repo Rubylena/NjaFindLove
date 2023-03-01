@@ -2,16 +2,21 @@ import React, { useState } from 'react'
 import Footer from '../../components/Footer/Footer'
 import Navbar from '../../components/Nav/Navbar'
 import Profile from '../../components/Profile/Profile'
+import Logout from '../../components/Logout/Logout'
 
 const CreateProfile = () => {
-    const [login, setLogin] = useState(false)
+    const [logout, setLogout] = useState(false)
 
   return (
-    <div className='landing-page' >
-      <Navbar text='LOG IN' action={()=>setLogin(!login)} />
-      <main className='landing-main bg-tint-pink'>
-        <Profile />
-      </main>
+    <div className='landing-page border-4 border-red' >
+      <Navbar action={()=>setLogout(!logout)} />
+      <div>
+
+        <main className='landing-main bg-tint-pink'>
+        {logout && (<Logout logout={logout} setLogout={setLogout} />)}
+          <Profile />
+        </main>
+      </div>
       <Footer />
     </div>
   )

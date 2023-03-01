@@ -1,0 +1,7 @@
+@import '../../styles/mediaQueries.scss';
+
+@include screen-size(larger-screen){
+    .dash-screen{
+        height: 100vh;
+    }
+}

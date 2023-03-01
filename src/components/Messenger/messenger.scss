@@ -1,3 +1,5 @@
+@import '../../styles/mediaQueries.scss';
+
 .no-contact-selected {
   flex: 1;
   display: flex;
@@ -58,4 +60,14 @@
 .chat-window {
   // height: calc(100% - 200px); /* adjust this value to match the height of your message input */
   overflow-y: scroll;
+}
+
+.msg-input {
+  @include screen-size(desktop-plus){
+    bottom: 260px;
+    width: 40%;
+  }
+  @include screen-size(larger-screen){
+    bottom: 75px
+  }
 }

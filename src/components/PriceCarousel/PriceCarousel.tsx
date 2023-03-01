@@ -34,7 +34,7 @@ const PriceCarousel: React.FC<PriceCarouselProps> = ({ images }) => {
 
     return (
         <div className="flex flex-col md:flex-row items-center gap-20">
-            <div className="flex flex-col bg-tint-pink p-5 rounded-2xl">
+            <div className="flex flex-col bg-white p-5 rounded-2xl">
                 <div className="relative">
                     <button
                         className="absolute top-1/2 left-0 transform -translate-y-1/2 rounded-r-3xl px-5 py-4 bg-blur backdrop-blur-[20px] hover:backdrop-blur-3xl transition ease-in-out duration-300"

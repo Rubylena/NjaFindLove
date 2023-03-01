@@ -10,7 +10,7 @@ const Subscribe = () => {
 
   return (
     <DashboardLayout>
-        <section className='p-5 flex flex-col gap-3 mt-10'>
+        <section className='h-full p-5 flex flex-col gap-3 pt-10 bg-tint-pink'>
           <p className='font-medium text-2xl'>Subscription</p>
           <p className='text-p-text'>Get more by subscribing to our monthly plan. </p>
           <PriceCarousel images={images} />
