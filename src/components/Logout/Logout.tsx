@@ -50,10 +50,9 @@ const Logout = (props: LogOutComponent) => {
                             <Dialog.Panel className="relative transform rounded-lg transition-all">
                                 <div className='bg-white p-5 rounded-xl'>
                                     <p className='font-medium mb-5'>Are you sure you want to Quit?</p>
-                                    <div className='flex justify-center items-center gap-5'>
+                                    <div className='flex justify-center items-center gap-5 cursor-pointer'>
                                         <p onClick={handleLogout} className='border shadow border-red rounded-md py-1 px-3 text-red'>Yes</p>
                                         <a href={active} className='border shadow border-purple rounded-md py-1 px-3 outline-none'>No</a>
-                                        {/* <Link to={active} className='border shadow border-purple rounded-md py-1 px-3 outline-none'>No</Link> */}
                                     </div>
                                 </div>
                             </Dialog.Panel>

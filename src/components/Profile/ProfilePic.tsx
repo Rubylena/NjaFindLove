@@ -74,14 +74,14 @@ const ProfilePic: React.FC = () => {
       }
   }
   profileCheck();
-  }, []);
+  }, [moveToNext, navigate,]);
 
   return (
     <div className='h-full'>
       <div className='h-full mt-10'>
         <div className='text-center'>
           <h1 className='font-semibold text-2xl'>UPLOAD PICTURE</h1>
-          <p className='text-p-text'>Upload 2 profile pictures to increase your chance of finding a match</p>
+          <p className='text-p-text'>Upload a profile picture to increase your chance of finding a match</p>
         </div>
         <form onSubmit={handleSubmit} >
           <div className='md:flex justify-center m-auto max-w-fit h-56 md:w-full my-10'>
