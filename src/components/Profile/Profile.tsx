@@ -21,17 +21,14 @@ const Profile = () => {
     const [interest, setInterest] = useState<IdValue[]>([])
     const [returnSelectInterest, setReturnSelectInterest] = useState<number[]>([]);
 
-    const [day, setDay] = useState<null | Date>(null);
-    const [month, setMonth] = useState<Date | null>(null);
-    const [year, setYear] = useState<null | Date>(null);
-    
-    // const [dateOfBirth, setDateOfBirth] = useState<string>('');
+    const [dateOfBirth, setDateOfBirth] = useState<null | Date>(null);
+    const [eighteenFromToday, setEighteenFromToday] = useState<Date>(new Date());
 
     const [isLoading, setIsLoading] = useState<boolean>(false)
 
     const [formData, setFormData] = useState<CreateProfileData>({
         firstName: '',
-        lastName: '',
+        surname: '',
         userId: 0,
         session: '',
         email: '',
@@ -46,11 +43,13 @@ const Profile = () => {
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
         const { name, value } = event.target;
-        setFormData({ ...formData, [name]: value, userId: userDetails!.userId, session: userDetails!.session,
-            email: userDetails!.email! });
+        setFormData({
+            ...formData, [name]: value, userId: userDetails!.userId, session: userDetails!.session,
+            email: userDetails!.email!
+        });
     }
 
-    const handleTextareaChange = (e: React.ChangeEvent<HTMLTextAreaElement>)=>{
+    const handleTextareaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         const { value } = e.target;
         setFormData({ ...formData, info: value });
     }
@@ -60,30 +59,34 @@ const Profile = () => {
         setFormData({ ...formData, [name]: parseInt(event.target.value) });
     }
 
-    const handleGenderChange = (event: React.ChangeEvent<HTMLInputElement>)=> {
-        setFormData({...formData, gender: parseInt(event.target.value) })
+    const handleGenderChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setFormData({ ...formData, gender: parseInt(event.target.value) })
     }
 
-    const handleInterestedChange = (event: React.ChangeEvent<HTMLInputElement>)=> {
-        setFormData({ ...formData, interestedIn: parseInt(event.target.value)})
+    const handleInterestedChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setFormData({ ...formData, interestedIn: parseInt(event.target.value) })
     }
 
-    const concatenateDate = (date: Date) =>{
-        if(day! && month!){
-            const days = day.toString()
-            const months = month.getMonth()
-            const years = date.toString()
-            if(months < 10){
-                const full = `${days.split(' ')[2]}/0${months + 1}/${years.split(' ')[3]}`
-                setFormData({...formData, dob: full})
+    const concatenateDate = (date: Date) => {
+        if (dateOfBirth) {
+            const days = dateOfBirth.toString()
+            const months = dateOfBirth.getMonth()
+            if (months < 10) {
+                const full = `${days.split(' ')[2]}/0${months + 1}/${days.split(' ')[3]}`
+                setFormData({ ...formData, dob: full })
             } else {
-                const full = `${days.split(' ')[2]}/${months + 1}/${years.split(' ')[3]}`
-                setFormData({...formData, dob: full})
+                const full = `${days.split(' ')[2]}/${months + 1}/${days.split(' ')[3]}`
+                setFormData({ ...formData, dob: full })
             }
         }
     }
 
-    const invokeGender = async ()=>{
+    function subtractYears(date: Date, years: number) {
+        date.setFullYear(date.getFullYear() - years);
+        return date;
+    }
+
+    const invokeGender = async () => {
         try {
             const response = await axiosBase.get('/Profile/GetGenderList');
             setGenders(response.data)
@@ -92,7 +95,7 @@ const Profile = () => {
         }
     }
 
-    const invokeInterestIn = async ()=>{
+    const invokeInterestIn = async () => {
         try {
             const response = await axiosBase.get('/Profile/GetInterestedIn');
             setInterestedInWho(response.data)
@@ -101,7 +104,7 @@ const Profile = () => {
         }
     }
 
-    const invokeInterest = async ()=>{
+    const invokeInterest = async () => {
         try {
             const response = await axiosBase.get('/Profile/GetInterestList');
             setInterest(response.data)
@@ -110,7 +113,7 @@ const Profile = () => {
         }
     }
 
-    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>)=>{
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         setIsLoading(!isLoading)
         event.preventDefault();
         try {
@@ -127,9 +130,9 @@ const Profile = () => {
             const remainingId = returnSelectInterest.filter((item2) => item2 !== interestId);
             const remainingId2 = formData.interest.filter((item3) => item3 !== interestId);
             setReturnSelectInterest(remainingId);
-            setFormData({ ...formData, interest: remainingId2});
+            setFormData({ ...formData, interest: remainingId2 });
         }
-        if (returnSelectInterest.length < 5 && !returnSelectInterest.includes(interestId)){
+        if (returnSelectInterest.length < 5 && !returnSelectInterest.includes(interestId)) {
             setReturnSelectInterest([...returnSelectInterest, interestId])
             formData.interest.push(interestId)
         }
@@ -137,216 +140,192 @@ const Profile = () => {
 
     useEffect(() => {
         const items = JSON.parse(localStorage.getItem('userDetails')!);
-        if(items) {
+        if (items) {
             setUserDetails(items);
         }
         invokeGender();
         invokeInterestIn();
         invokeInterest();
 
-        const profileCheck = () =>{
-            if (moveToNext){
+        const profileCheck = () => {
+            if (moveToNext) {
                 navigate('/profile-picture')
             }
         }
         profileCheck();
-    }, [moveToNext, navigate]);
+        concatenateDate(dateOfBirth!)
 
+        setEighteenFromToday(subtractYears(new Date(), 18));
 
- return (
-    <div className='text-black pt-0.5 md:pt-10 pb-10 md:h-full'>
-        <form onSubmit={handleSubmit} autoComplete='off' className='md:flex md:gap-5 md:flex-col md:justify-center md:items-center md:h-full'>
-        <input autoComplete="off" name="hidden" type="text" className="hidden"/>
-            <div className='md:flex md:gap-10 justify-center'>
-                <div className='bg-white flex flex-col p-7 rounded-lg shadow-md gap-5 mb-10 md:mb-0'>
-                    <div className='text-center'>
-                        <h2 className='font-semibold text-2xl mb-4'>CREATE  A PROFILE</h2>
-                        <p className='text-p-text md:w-80'>Details will enable you to match with the right people.</p>
-                    </div>
-                    <Input
-                    type='text'
-                    placeholder='First Name'
-                    label='First Name'
-                    name='firstName'
-                    action={handleChange}
-                    value={formData.firstName!}
-                    bgColor='bg-input-bg'
-                    />
-                    <Input
-                    type='text'
-                    placeholder='Last Name'
-                    label='Last Name'
-                    name='lastName'
-                    action={handleChange}
-                    value={formData.lastName!}
-                    bgColor='bg-input-bg'
-                    />
-                    
-                    <div className='flex flex-col'>
-                        <p>Birthday</p>
-                        <div className='flex flex-wrap gap-2 mt-1'>
-                            <div className='flex items-center rounded-3xl bg-input-bg'>
-                                <DatePicker
-                                className='appearance-none w-14 border-none rounded-3xl bg-transparent focus:ring-0 placeholder:text-[10px] placeholder:leading-3 md:placeholder:text-xs'
-                                renderCustomHeader={({
-                                }) => ('')}
-                                selected={day}
-                                onChange={(date) => {setDay(date!); concatenateDate(day!)}}
-                                dateFormat="dd"
-                                placeholderText='Day'
-                                scrollableMonthYearDropdown
-                                />
-                                <img src={dropDown} alt='dropdown button' className='pr-3 w-5' />
-                            </div>
-                            <div className='flex items-center rounded-3xl bg-input-bg'>
-                                <DatePicker
-                                className='w-20 border-none rounded-3xl bg-transparent focus:ring-0 placeholder:text-[10px] placeholder:leading-3 md:placeholder:text-xs'
-                                renderCustomHeader={({
-                                }) => (<p className='font-bold'>Months</p>)}
-                                selected={month}
-                                onChange={(date) => {setMonth(date!); concatenateDate(month!)}}
-                                dateFormat="MM"
-                                placeholderText='Month'
-                                showMonthYearPicker
-                                showMonthDropdown
-                                dropdownMode='select'
-                                />
-                                <img src={dropDown} alt='dropdown button' className='pr-3 w-5' />
-                            </div>
-                            <div className='flex items-center rounded-3xl bg-input-bg '>
-                                <DatePicker
-                                className='w-16 border-none rounded-3xl pr-3 bg-transparent focus:ring-0 placeholder:text-[10px] placeholder:leading-3 md:placeholder:text-xs'
-                                selected={year}
-                                onChange={(date) => {setYear(date!); concatenateDate(date!)}}
-                                dateFormat="yyyy"
-                                placeholderText='Year'
-                                showYearPicker
-                                yearItemNumber={6}
-                                />
-                                <img src={dropDown} alt='dropdown button' className=' pr-3 w-5' />
-                            </div> 
+    }, [moveToNext, navigate, dateOfBirth]);
+
+    return (
+        <div className='text-black pt-0.5 md:pt-10 pb-10 md:h-full'>
+            <form onSubmit={handleSubmit} autoComplete='off' className='md:flex md:gap-5 md:flex-col md:justify-center md:items-center md:h-full'>
+                <input autoComplete="off" name="hidden" type="text" className="hidden" />
+                <div className='md:flex md:gap-10 justify-center'>
+                    <div className='bg-white flex flex-col p-7 rounded-lg shadow-md gap-5 mb-10 md:mb-0'>
+                        <div className='text-center'>
+                            <h2 className='font-semibold text-2xl mb-4'>CREATE  A PROFILE</h2>
+                            <p className='text-p-text md:w-80'>Details will enable you to match with the right people.</p>
                         </div>
-                    </div>
+                        <Input
+                            type='text'
+                            placeholder='First Name'
+                            label='First Name'
+                            name='firstName'
+                            action={handleChange}
+                            value={formData.firstName!}
+                            bgColor='bg-input-bg'
+                        />
+                        <Input
+                            type='text'
+                            placeholder='Surname'
+                            label='Surname'
+                            name='surname'
+                            action={handleChange}
+                            value={formData.surname!}
+                            bgColor='bg-input-bg'
+                        />
 
-                    <div>
-                        <p>Gender</p>
-                        <div className='flex flex-wrap gap-4 md:gap-2 mt-2'>
-                            {genders!.map((item, index)=>(
-                                <div key={index}>
-                                    <input
-                                    type='radio'
-                                    name='gender'
-                                    value={item.id}
-                                    id={item.value}
-                                    className='hidden peer '
-                                    onChange={handleGenderChange}
+                        <div className='flex flex-col'>
+                            <p>Birthday</p>
+                            <div className='flex flex-wrap gap-2 mt-1'>
+                                <div className='flex items-center rounded-3xl bg-input-bg'>
+                                    <DatePicker
+                                        className='appearance-none text-center border-none rounded-3xl bg-transparent focus:ring-0 placeholder:text-[10px] placeholder:leading-3 md:placeholder:text-xs'
+                                        selected={dateOfBirth}
+                                        onChange={(date) => setDateOfBirth(date)}
+                                        placeholderText='dd/mm/yyyy'
+                                        maxDate={eighteenFromToday}
+                                        showMonthDropdown
+                                        showYearDropdown
+                                        dropdownMode="select"
+                                        // showPopperArrow={false}
                                     />
-                                    <label htmlFor={item.value} className='py-1.5 px-4 bg-input-bg rounded-3xl peer-checked:bg-purple peer-checked:text-white'>{item.value}</label>
-
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-
-                    <div>
-                        <p>Interested In</p>
-                        <div className='flex gap-4 md:gap-2 mt-2 flex-wrap'>
-                            {interestedInWho!.map((item2, index)=>(
-                                <div key={index}>
-                                    <input
-                                    type='radio'
-                                    name='interestedIn'
-                                    value={item2.id}
-                                    id={`${item2.id}`}
-                                    className='hidden peer'
-                                    onChange={handleInterestedChange}
-                                    />
-                                    <label htmlFor={`${item2.id}`} className='py-1.5 px-4 bg-input-bg rounded-3xl peer-checked:bg-purple peer-checked:text-white'>{item2.value}</label>
-
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-
-                    <div>
-                        <p>Age range</p>
-                        <div className='flex gap-3 items-center'>
-                            <div className='flex relative w-20'>
-                                <Input
-                                type='number'
-                                bgColor='bg-input-bg'
-                                placeholder='18'
-                                value={formData.fromAge}
-                                name='fromAge'
-                                action={ageChange}/>
-                                <div className='absolute top-5 right-0 mr-2'>
-                                    <img src={dropDown} alt='dropdown button' className='w-2' />
+                                    <img src={dropDown} alt='dropdown button' className='pr-3 w-5' />
                                 </div>
                             </div>
-                            <p>to</p>
-                            <div className='flex relative w-20 items-center'>
-                                <Input
-                                type='number'
-                                bgColor='bg-input-bg'
-                                placeholder='40'
-                                value={formData.toAge}
-                                name='toAge'
-                                action={ageChange}/>
-                                <div className='absolute top-5 right-0 mr-2'>
-                                    <img src={dropDown} alt='dropdown button' className='w-2' />
+                        </div>
+
+                        <div>
+                            <p>Gender</p>
+                            <div className='flex flex-wrap gap-4 md:gap-2 mt-2'>
+                                {genders!.map((item, index) => (
+                                    <div key={index}>
+                                        <input
+                                            type='radio'
+                                            name='gender'
+                                            value={item.id}
+                                            id={item.value}
+                                            className='hidden peer '
+                                            onChange={handleGenderChange}
+                                        />
+                                        <label htmlFor={item.value} className='py-1.5 px-4 bg-input-bg rounded-3xl peer-checked:bg-purple peer-checked:text-white'>{item.value}</label>
+
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+
+                        <div>
+                            <p>Interested In</p>
+                            <div className='flex gap-4 md:gap-2 mt-2 flex-wrap'>
+                                {interestedInWho!.map((item2, index) => (
+                                    <div key={index}>
+                                        <input
+                                            type='radio'
+                                            name='interestedIn'
+                                            value={item2.id}
+                                            id={`${item2.id}`}
+                                            className='hidden peer'
+                                            onChange={handleInterestedChange}
+                                        />
+                                        <label htmlFor={`${item2.id}`} className='py-1.5 px-4 bg-input-bg rounded-3xl peer-checked:bg-purple peer-checked:text-white'>{item2.value}</label>
+
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+
+                        <div>
+                            <p>Age range</p>
+                            <div className='flex gap-3 items-center'>
+                                <div className='flex relative w-20'>
+                                    <Input
+                                        type='number'
+                                        bgColor='bg-input-bg'
+                                        placeholder='18'
+                                        value={formData.fromAge}
+                                        name='fromAge'
+                                        action={ageChange} />
+                                    <div className='absolute top-5 right-0 mr-2'>
+                                        <img src={dropDown} alt='dropdown button' className='w-2' />
+                                    </div>
                                 </div>
+                                <p>to</p>
+                                <div className='flex relative w-20 items-center'>
+                                    <Input
+                                        type='number'
+                                        bgColor='bg-input-bg'
+                                        placeholder='40'
+                                        value={formData.toAge}
+                                        name='toAge'
+                                        action={ageChange} />
+                                    <div className='absolute top-5 right-0 mr-2'>
+                                        <img src={dropDown} alt='dropdown button' className='w-2' />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className='flex flex-col gap-4 px-7 md:pt-7  pb-7'>
+                        <div className='text-center'>
+                            <h2 className='text-2xl font-semibold mb-4'>Choose your interest</h2>
+                            <p className='text-p-text md:w-96'>Write about yourself and choose your interest to get familiar with other users</p>
+                        </div>
+
+                        <div className='flex flex-col gap-1.5'>
+                            <label htmlFor='interest'>About</label>
+                            <textarea
+                                required
+                                placeholder='Write about yourself'
+                                name='interest'
+                                value={formData.info}
+                                onChange={handleTextareaChange}
+                                className='border-red rounded-xl placeholder:text-xs' rows={6} cols={40} />
+                        </div>
+
+                        <div>
+                            <p className='text-xs'>Choose <b>5</b> interest below</p>
+                            <div className="flex flex-wrap gap-2 justify-center md:justify-start md:w-[25rem]">
+                                {interest.map((child, index) => (
+                                    <p
+                                        className={`bg-white rounded-2xl py-1 px-2 mt-1 ${returnSelectInterest.includes(child.id) &&
+                                            "bg-purple text-white"
+                                            }`}
+                                        onClick={() => handleSelectedInterest(child.id)}
+                                        key={index}
+                                    >
+                                        {child.value}
+                                    </p>
+                                ))}
                             </div>
                         </div>
                     </div>
                 </div>
-
-                <div className='flex flex-col gap-4 px-7 md:pt-7  pb-7'>
-                    <div className='text-center'>
-                        <h2 className='text-2xl font-semibold mb-4'>Choose your interest</h2>
-                        <p className='text-p-text md:w-96'>Write about yourself and choose your interest to get familiar with other users</p>
-                    </div>
-
-                    <div className='flex flex-col gap-1.5'>
-                        <label htmlFor='interest'>About</label>
-                        <textarea
-                        required
-                        placeholder='Write about yourself'
-                        name='interest'
-                        value={formData.info}
-                        onChange={handleTextareaChange}
-                        className='border-red rounded-xl placeholder:text-xs' rows={6} cols={40}/>
-                    </div>
-
-                    <div>
-                        <p className='text-xs'>Choose <b>5</b> interest below</p>
-                        <div className="flex flex-wrap gap-2 justify-center md:justify-start md:w-[25rem]">
-                        {interest.map((child, index) => (
-                        <p
-                            className={`bg-white rounded-2xl py-1 px-2 mt-1 ${
-                            returnSelectInterest.includes(child.id) &&
-                            "bg-purple text-white"
-                            }`}
-                            onClick={() => handleSelectedInterest(child.id)}
-                            key={index}
-                        >
-                            {child.value}
-                        </p>
-                        ))}
-                        </div>
-                    </div>
+                <div className='w-3/4 md:w-1/4 m-auto'>
+                    <Button
+                        text='Next'
+                        bg='bg-purple'
+                        spin={isLoading ? 'block animate-spin w-4 h-4' : 'hidden'}
+                        textColor='text-white'
+                    />
                 </div>
-            </div>
-            <div className='w-3/4 md:w-1/4 m-auto'>
-                <Button
-                text='Next'
-                bg='bg-purple'
-                spin={isLoading? 'block animate-spin w-4 h-4' : 'hidden'}
-                textColor='text-white'
-                />
-            </div>
-        </form>
-    </div>
-  )
+            </form>
+        </div>
+    )
 }
 
 export default Profile

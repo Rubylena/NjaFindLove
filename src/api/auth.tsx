@@ -13,7 +13,7 @@ export interface FormData {
 
 export type CreateProfileData = {
     firstName: string;
-    lastName: string;
+    surname: string;
     dob: string;
     gender: number;
     interestedIn: number;

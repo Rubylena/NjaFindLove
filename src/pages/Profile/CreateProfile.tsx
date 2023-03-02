@@ -8,7 +8,7 @@ const CreateProfile = () => {
     const [logout, setLogout] = useState(false)
 
   return (
-    <div className='landing-page border-4 border-red' >
+    <div className='landing-page' >
       <Navbar action={()=>setLogout(!logout)} />
       <div>
 

@@ -11,7 +11,6 @@ interface LogOutComponent {
 const Logout = (props: LogOutComponent) => {
     const location = useLocation();
     const active = location.pathname;
-    console.log(active)
 
     const navigate = useNavigate()
 

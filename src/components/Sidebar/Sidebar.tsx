@@ -69,6 +69,18 @@ const Sidebar = () => {
           <span className='bar'></span>
           <span className='bar'></span>
         </div>
+
+        <section className='flex flex-wrap justify-center text-center gap-8 mt-6 mb-4 px-14'>
+          <div className='border border-red rounded p-2'>
+            <p className='text-p-text'>Matched</p>
+            <p className='text-2xl'>0</p>
+          </div>
+
+          <Link to='/dashboard/message' className={`active:bg-tint-pink ${path === 'message' ? 'bg-tint-pink rounded' : null}`}><div className='border border-red rounded p-2'>
+            <p>Message</p>
+            <p className='text-2xl'>1</p>
+          </div></Link>
+        </section>
       </nav>
 
       <div className='hidden md:block'>
