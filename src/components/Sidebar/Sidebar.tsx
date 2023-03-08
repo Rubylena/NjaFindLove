@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import SidebarOptions from './SidebarOptions'
 import meet from '../../asset/icon/meet.png'
 import search from '../../asset/icon/search.png'
@@ -12,10 +12,14 @@ import caution from '../../asset/icon/caution.png'
 import award from '../../asset/icon/Award.svg'
 import './sidebar.scss'
 import { Link, useLocation } from 'react-router-dom'
+import { axiosBase } from '../../api/api'
+import { Local2 } from '../../api/auth'
 
 const Sidebar = () => {
   const [isActive, setIsActive] = useState(false);
   const [openMenu, setOpenMenu] = useState(false);
+  const [userDetails, setUserDetails] = useState<Local2>();
+
   const location = useLocation();
   const active = location.pathname.split('/')[2]
   const [path] = useState<string>(active)
@@ -48,6 +52,39 @@ const Sidebar = () => {
       value: 0
     },
   ]
+
+  const [formData, setFormData] = useState({
+    session: '',
+    email: '',
+  })
+
+  const handleSubmit = async ()=>{
+    // setIsLoading(!isLoading)
+    // event.preventDefault();
+    try {
+        const response = await axiosBase.get(`/InApp/GetDashboard/${userDetails?.session}/${userDetails?.email}`);
+        console.log(response.data);
+        // setIsProfileComplete(response.data.profileComplete!)
+        // setPixUpload(response.data.pixUpload!)
+        // localStorage.setItem('userDetails', JSON.stringify({userId: response.data.userId!, session: response.data.session, email:formLogInData.email}));
+        // setResponseMsg(response.data.responseMessage!)
+        // setIsLoading(isLoading)
+    } catch (err) {
+        console.error(err);
+    }
+}
+handleSubmit()
+
+useEffect(() => {
+  const items = JSON.parse(localStorage.getItem('userDetails')!);
+  if (items) {
+      setUserDetails(items);
+  }
+  if(userDetails){
+    setFormData({...formData, session: userDetails.session, email: userDetails.email});
+  }
+  // console.log(formData);
+}, []);
 
   return (
     <aside className='md:w-[22.3125rem] md:shadow-xl md:border-r md:border-grey md:border-opacity-60 h-full overflow-y-scroll hide-scroll md:pb-10'>

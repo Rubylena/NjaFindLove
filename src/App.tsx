@@ -23,22 +23,12 @@ function App() {
         <Route path='/pricing' element={<Pricing />} />
         <Route path='/terms' element={<TermsAndConditions />} />
 
-        <Route path='/dashboard/meet' element={<ProtectedRoute />}>
+        <Route element={<ProtectedRoute />}>
           <Route path='/dashboard/meet' element={<Meet />} />
-        </Route>
-        <Route path='/dashboard/subscribe' element={<ProtectedRoute />}>
           <Route path='/dashboard/subscribe' element={<Subscribe />} />
-        </Route>
-        <Route path='/dashboard/profile' element={<ProtectedRoute />}>
           <Route path='/dashboard/profile' element={<EditProfile />} />
-        </Route>
-        <Route path='/dashboard/message' element={<ProtectedRoute />}>
           <Route path='/dashboard/message' element={<Message />} />
-        </Route>
-        <Route path='/profile-picture' element={<ProtectedRoute />}>
           <Route path='/profile-picture' element={<ProfilePicture />} />
-        </Route>
-        <Route path='/create-profile' element={<ProtectedRoute />}>
           <Route path='/create-profile' element={<CreateProfile />} />
         </Route>
       </Routes>

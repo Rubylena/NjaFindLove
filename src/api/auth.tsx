@@ -37,6 +37,10 @@ export interface Local {
     session: string;
     email: string;
 }
+export interface Local2 {
+    session: string;
+    email: string;
+}
 
 export interface Picture {
     session: string;

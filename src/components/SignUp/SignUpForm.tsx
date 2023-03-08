@@ -17,12 +17,12 @@ const SignUpForm: React.FC = () => {
 
     const [geoError, setGeoError] =useState('');
     const [showPassword, setShowPassword] = useState<boolean>()
-    const [isProfileComplete, setIsProfileComplete] = useState<boolean>();
-    const [pixUpload, setPixUpload] = useState<boolean>();
-    const [responseMsg, setResponseMsg] = useState('')
+    // const [isProfileComplete, setIsProfileComplete] = useState<boolean>();
+    // const [pixUpload, setPixUpload] = useState<boolean>();
+    // const [responseMsg, setResponseMsg] = useState('')
     const [isLoading, setIsLoading] = useState<boolean>(false)
 
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
 
     const handleSignUpChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
@@ -63,31 +63,31 @@ const SignUpForm: React.FC = () => {
         event.preventDefault();
         try {
             const response = await axiosBase.post<FormData>('/Authentication/SignUp', formData);
-            setIsProfileComplete(response.data.profileComplete!)
-            setPixUpload(response.data.pixUpload!)
-            setResponseMsg(response.data.responseMessage!)
+            // setIsProfileComplete(response.data.profileComplete!)
+            // setPixUpload(response.data.pixUpload!)
+            // setResponseMsg(response.data.responseMessage!)
             setIsLoading(isLoading)
         } catch (err) {
             console.error(err);
         }
     }
 
-    useEffect(() => {
-        getLocation();
-        const profileCheck = () =>{
-            if (!isProfileComplete && responseMsg === 'Registration Completed Successfully. Kindly Login'){
-                navigate('/create-profile')
-            }
-            if (isProfileComplete && !pixUpload && responseMsg === 'Registration Completed Successfully. Kindly Login'){
-                navigate('/profile-picture')
-            }
-            if(isProfileComplete && responseMsg === 'Registration Completed Successfully. Kindly Login'){
-                navigate('/dashboard/meet')
-                localStorage.setItem('isLoggedIn', JSON.stringify(true))
-            }
-        }
-        profileCheck();
-    }, [isProfileComplete, navigate])
+    // useEffect(() => {
+    //     getLocation();
+    //     const profileCheck = () =>{
+    //         if (!isProfileComplete && responseMsg === 'Registration Completed Successfully. Kindly Login'){
+    //             navigate('/create-profile')
+    //         }
+    //         if (isProfileComplete && !pixUpload && responseMsg === 'Registration Completed Successfully. Kindly Login'){
+    //             navigate('/profile-picture')
+    //         }
+    //         if(isProfileComplete && responseMsg === 'Registration Completed Successfully. Kindly Login'){
+    //             navigate('/dashboard/meet')
+    //             localStorage.setItem('isLoggedIn', JSON.stringify(true))
+    //         }
+    //     }
+    //     profileCheck();
+    // }, [isProfileComplete, navigate])
 
   return (
     <form onSubmit={handleSubmit} className='flex flex-col gap-5'>
@@ -113,7 +113,7 @@ const SignUpForm: React.FC = () => {
         warning='Password must contain characters and Numbers'
         />
         <div>
-            <p className={` ${responseMsg} === "Registration Completed Successfully. Kindly Login" && 'text-good-green' text-red text-xs`}>{responseMsg}</p>
+            {/* <p className={` ${responseMsg} === "Registration Completed Successfully. Kindly Login" && 'text-good-green' text-red text-xs`}>{responseMsg}</p> */}
             <Button 
             text='Create my account'
             spin={isLoading? 'block animate-spin w-4 h-4' : 'hidden'}
