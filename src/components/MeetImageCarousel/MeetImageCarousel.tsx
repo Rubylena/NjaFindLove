@@ -5,16 +5,22 @@ import left from '../../asset/icon/leftArrow.svg'
 import love from '../../asset/icon/love.svg'
 import smile from '../../asset/icon/smiley.svg'
 import close from '../../asset/icon/close.svg'
-import blackClose from '../../asset/icon/blackClose.svg'
 import locate from '../../asset/icon/location.svg'
 
 interface ImageCarouselProps {
     images: string[];
+    details: {
+        name: string;
+        age: number;
+        allowedChat: boolean;
+        distance: number;
+        info: string;
+        like: boolean;
+    };
 }
 
-const ImageCarousel: React.FC<ImageCarouselProps> = ({ images }) => {
+const ImageCarousel: React.FC<ImageCarouselProps> = ({ images, details }) => {
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
-    const [isClose, setIsClose] = useState(false);
 
     useEffect(() => {
         setCurrentImageIndex(0);
@@ -33,14 +39,15 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ images }) => {
     };
 
     return (
-        <div className="flex flex-col md:flex-row gap-4">
-            <div className="relative md:w-2/6">
-                <div className="absolute top-2 left-0 w-full h-4 flex justify-center items-center">
+        <div className="flex flex-col lg:flex-row gap-4 mt-5">
+            <div className="relative lg:w-2/6">
+                <div className="absolute top-3 left-0 w-[95%] ml-1.5 h-4 flex justify-center items-center bg-grey rounded-full ">
                     {images.map((_, index) => (
                         <div
                             key={index}
-                            className={`w-10 h-2 rounded-full mx-1 transition ease-in-out duration-300 ${index === currentImageIndex ? "bg-white" : "bg-blur"
+                            className={`flex flex-wrap min-w-[1rem] h-2 rounded-full mx-1 transition ease-in-out duration-300 cursor-pointer ${index === currentImageIndex ? "bg-purple" : "bg-white"
                                 }`}
+                            onClick={() => setCurrentImageIndex(index)}
                         ></div>
                     ))}
                 </div>
@@ -51,7 +58,7 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ images }) => {
                     <img src={right} alt="right arrow" />
                 </button>
                 <img
-                    className="w-full h-[550px] rounded-t-3xl object-cover object-center transition ease-in-out duration-500"
+                    className="w-full h-[550px] rounded-3xl object-cover object-center transition ease-in-out duration-500 border"
                     src={images[currentImageIndex]}
                     alt={`Image ${currentImageIndex + 1}`}
                 />
@@ -74,33 +81,24 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ images }) => {
                 </div>
             </div>
 
-            <div className="md:w-4/6 flex flex-col gap-10">
+            <div className="lg:w-4/6 flex flex-col gap-10">
                 <div>
-                    <h4 className="font-semibold text-2xl">Joyce, 24</h4>
+                    <h4 className="font-semibold text-2xl">{details.name}, {details.age}</h4>
                     <div className="flex flex-wrap gap-10 text-p-text">
                         <div className="flex gap-1 items-center">
                             <img src={locate} alt='locate' />
                             <p>Lagos</p>
                         </div>
-                        <p>2 kilometers away</p>
+                        <p>{details.distance} kilometers away</p>
                     </div>
                 </div>
                 <div>
                     <h4 className="text-2xl">About</h4>
-                    <p className="text-justify text-p-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem fugiat amet voluptate? Eveniet molestias exercitationem ipsam recusandae provident, eius voluptatem.</p>
+                    <p className="text-justify text-p-text">{details.info}</p>
                 </div>
                 <div>
                     <h4 className="text-2xl">Interest</h4>
                     <p className="text-justify text-p-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Magnam voluptate soluta vitae ut tempore commodi vero nobis excepturi, libero dolore, fugit quam, eius atque saepe ipsa officiis necessitatibus recusandae neque.</p>
-                </div>
-            </div>
-
-            <div className={`shadow-ads absolute rounded-lg bottom-6 md:top-20 right-10 p-2 w-72 h-[480px] bg-white text-center ${isClose ? 'hidden' : ''}`}>
-                <div className="flex justify-end cursor-pointer" onClick={()=>setIsClose(!isClose)}>
-                    <img src={blackClose} alt='close' />
-                </div>
-                <div className="flex justify-center items-center h-full text-[#866060] text-2xl">
-                    Google Ads
                 </div>
             </div>
         </div>

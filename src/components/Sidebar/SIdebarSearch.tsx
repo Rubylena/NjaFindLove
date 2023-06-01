@@ -47,9 +47,9 @@ const SIdebarSearch = () => {
                             value={formData.fromAge}
                             name='fromAge'
                             action={ageChange} />
-                        <div className='absolute top-5 right-0 mr-2'>
+                        {/* <div className='absolute top-5 right-0 mr-2'>
                             <img src={dropDown} alt='dropdown button' className='w-2' />
-                        </div>
+                        </div> */}
                     </div>
                     <p>to</p>
                     <div className='flex relative w-20 items-center'>
@@ -60,9 +60,9 @@ const SIdebarSearch = () => {
                             value={formData.toAge}
                             name='toAge'
                             action={ageChange} />
-                        <div className='absolute top-5 right-0 mr-2'>
+                        {/* <div className='absolute top-5 right-0 mr-2'>
                             <img src={dropDown} alt='dropdown button' className='w-2' />
-                        </div>
+                        </div> */}
                     </div>
                 </div>
             </div>

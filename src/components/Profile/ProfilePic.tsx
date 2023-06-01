@@ -54,8 +54,10 @@ const ProfilePic: React.FC = () => {
         return;
       }
       if (imgTypes.includes(file.type)) {
+        // console.log(formData)
         const response = await axiosBase.post<FormData>('/Profile/AddPicture', formData);
         setMoveToNext(response.data.success)
+        // console.log(response.data)
         setIsLoading(!isLoading)
       }
     } catch (err) {
@@ -70,10 +72,10 @@ const ProfilePic: React.FC = () => {
     }
     const profileCheck = () => {
       if (moveToNext) {
-          navigate('/dashboard/meet')
+        navigate('/dashboard/meet')
       }
-  }
-  profileCheck();
+    }
+    profileCheck();
   }, [moveToNext, navigate,]);
 
   return (
@@ -86,12 +88,18 @@ const ProfilePic: React.FC = () => {
         <form onSubmit={handleSubmit} >
           <div className='md:flex justify-center m-auto max-w-fit h-56 md:w-full my-10'>
             <div>
-              <label htmlFor="picture" className='rounded-full bg-input-bg flex justify-center'>
-                {file ?
+              <label htmlFor="picture" className='rounded-full bg-input-bg flex justify-center items-center border w-60 h-60'>
+                {file && imgTypes.includes(file.type) ?
                   <img src={images} alt="profile"
-                    className='rounded-full object-cover w-60 h-60' />
+                    className='rounded-full w-full h-full object-cover'
+                  />
                   :
-                  <img src={add} alt="add" className='p-20 md:p-24' />
+                  file && !imgTypes.includes(file.type) ?
+                    <img src={images} alt="wrong format: accepts only jpg,jpeg & png"
+                      className=' w-full p-4'
+                    />
+                    :
+                    <img src={add} alt="add" className=' p-20 md:p-24' />
                 }
               </label>
               <input type="file" onChange={handleChange} id='picture' className='sr-only' />

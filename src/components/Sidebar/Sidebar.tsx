@@ -18,7 +18,7 @@ import { Local2 } from '../../api/auth'
 const Sidebar = () => {
   const [isActive, setIsActive] = useState(false);
   const [openMenu, setOpenMenu] = useState(false);
-  const [userDetails, setUserDetails] = useState<Local2>();
+  const [userProfiles, setUserProfiles] = useState<any>()
 
   const location = useLocation();
   const active = location.pathname.split('/')[2]
@@ -49,50 +49,34 @@ const Sidebar = () => {
     {
       img: visitors,
       child: 'Visitors',
-      value: 0
+      value: userProfiles?.visitors
     },
   ]
 
-  const [formData, setFormData] = useState({
-    session: '',
-    email: '',
-  })
-
-  const handleSubmit = async ()=>{
-    // setIsLoading(!isLoading)
-    // event.preventDefault();
+  const handleSubmit = async (session: string, email: string) => {
     try {
-        const response = await axiosBase.get(`/InApp/GetDashboard/${userDetails?.session}/${userDetails?.email}`);
-        console.log(response.data);
-        // setIsProfileComplete(response.data.profileComplete!)
-        // setPixUpload(response.data.pixUpload!)
-        // localStorage.setItem('userDetails', JSON.stringify({userId: response.data.userId!, session: response.data.session, email:formLogInData.email}));
-        // setResponseMsg(response.data.responseMessage!)
-        // setIsLoading(isLoading)
+      const response = await axiosBase.post('/InApp/GetDashboard', { session: session, email: email });
+      setUserProfiles(response.data)
     } catch (err) {
-        console.error(err);
+      console.error(err);
     }
-}
-handleSubmit()
+  }
 
-useEffect(() => {
-  const items = JSON.parse(localStorage.getItem('userDetails')!);
-  if (items) {
-      setUserDetails(items);
-  }
-  if(userDetails){
-    setFormData({...formData, session: userDetails.session, email: userDetails.email});
-  }
-  // console.log(formData);
-}, []);
+  useEffect(() => {
+    const items = JSON.parse(localStorage.getItem('userDetails')!);
+    if (items) {
+      handleSubmit(items.session, items.email)
+    }
+  }, []);
 
   return (
     <aside className='md:w-[22.3125rem] md:shadow-xl md:border-r md:border-grey md:border-opacity-60 h-full overflow-y-scroll hide-scroll md:pb-10'>
       <nav className='pb-2 md:hidden shadow-lg'>
         <Link to='/dashboard/profile'><section className='flex flex-col justify-center items-center bg-profile-bg text-white py-8 gap-4'>
-          <img src={profileImg} alt='profile' />
+          <img src={`data:image/jpg;base64, ${userProfiles?.imagebase64}`} alt='profile' className='w-24 h-24 rounded-full' />
+
           <div className='flex items-center gap-3'>
-            <p className='font-medium text-2xl'>Full Name</p>
+            <p className='font-medium text-2xl'>{userProfiles?.firstname}</p>
             <img src={verified} alt='verified' />
           </div>
           <div className='flex items-center gap-3'>
@@ -110,21 +94,21 @@ useEffect(() => {
         <section className='flex flex-wrap justify-center text-center gap-8 mt-6 mb-4 px-14'>
           <div className='border border-red rounded p-2'>
             <p className='text-p-text'>Matched</p>
-            <p className='text-2xl'>0</p>
+            <p className='text-2xl'>{userProfiles?.matched}</p>
           </div>
 
           <Link to='/dashboard/message' className={`active:bg-tint-pink ${path === 'message' ? 'bg-tint-pink rounded' : null}`}><div className='border border-red rounded p-2'>
             <p>Message</p>
-            <p className='text-2xl'>1</p>
+            <p className='text-2xl'>{userProfiles?.newMessages}</p>
           </div></Link>
         </section>
       </nav>
 
       <div className='hidden md:block'>
         <Link to='/dashboard/profile'><section className='flex flex-col justify-center items-center bg-profile-bg text-white py-6 gap-4'>
-          <img src={profileImg} alt='profile' />
+          <img src={`data:image/jpg;base64, ${userProfiles?.imagebase64}`} alt='profile' className='w-24 h-24 rounded-full' />
           <div className='flex items-center gap-3'>
-            <p className='font-medium text-2xl'>Full Name</p>
+            <p className='font-medium text-2xl'>{userProfiles?.firstname}</p>
             <img src={verified} alt='verified' />
           </div>
           <div className='flex items-center gap-3'>
@@ -136,12 +120,12 @@ useEffect(() => {
         <section className='flex justify-between text-center mt-6 mb-4 px-14'>
           <div className='border border-red rounded p-2'>
             <p className='text-p-text'>Matched</p>
-            <p className='text-2xl'>0</p>
+            <p className='text-2xl'>{userProfiles?.matched}</p>
           </div>
 
           <Link to='/dashboard/message' className={`active:bg-tint-pink ${path === 'message' ? 'bg-tint-pink rounded' : null}`}><div className='border border-red rounded p-2'>
             <p>Message</p>
-            <p className='text-2xl'>1</p>
+            <p className='text-2xl'>{userProfiles?.newMessages}</p>
           </div></Link>
         </section>
 

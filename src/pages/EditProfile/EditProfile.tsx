@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import DashboardLayout from '../../components/DashboardLayout/DashboardLayout'
 import profileImg from '../../asset/images/profileImg.svg'
 import verified from '../../asset/icon/verified.png'
@@ -7,22 +7,40 @@ import logoutImg from '../../asset/icon/logout.svg'
 import edit from '../../asset/icon/edit.svg'
 import profilePix from '../../asset/images/demoPix.svg'
 import Logout from '../../components/Logout/Logout';
+import { axiosBase } from '../../api/api'
 
 const EditProfile = () => {
   const [logout, setLogout] = useState(false)
+  const [userProfiles, setUserProfiles] = useState<any>()
 
+
+  const handleSubmit = async (session: string, email: string) => {
+    try {
+      const response = await axiosBase.post('/InApp/GetDashboard', { session: session, email: email });
+      setUserProfiles(response.data)
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  useEffect(() => {
+    const items = JSON.parse(localStorage.getItem('userDetails')!);
+    if (items) {
+      handleSubmit(items.session, items.email)
+    }
+  }, []);
   return (
     <DashboardLayout>
       <section className='px-6 pt-10 md:pr-20'>
 
         <div className='flex flex-wrap justify-center md:justify-between items-center mb-5 gap-5'>
           <div className='flex flex-wrap justify-center items-center gap-6'>
-            <div className='md:w-32'>
-              <img src={profileImg} alt='profile picture' className='w-full' />
+            <div className='md:w-60 md:h-60 w-32 h-32'>
+              <img src={`data:image/jpg;base64, ${userProfiles?.imagebase64}`} alt='profile picture' className='w-full h-full object-cover rounded-full' />
             </div>
             <div>
               <div className='flex items-center gap-3'>
-                <p className='font-bold text-4xl md:text-[42px]'>FullName</p>
+                <p className='font-bold text-4xl md:text-[42px]'>{userProfiles?.firstname}</p>
                 <img src={verified} alt='verified' />
               </div>
               <div className='flex items-center gap-1 mt-3'>
@@ -31,10 +49,10 @@ const EditProfile = () => {
               </div>
             </div>
           </div>
-          <div className='flex items-center gap-2 cursor-pointer' onClick={()=>setLogout(!logout)}>
+          <div className='flex items-center gap-2 cursor-pointer' onClick={() => setLogout(!logout)}>
             <img src={logoutImg} alt='logout' />
             <p className='text-red font-medium'>Log out</p>
-            {logout && (<Logout  logout={logout} setLogout={setLogout} />)}
+            {logout && (<Logout logout={logout} setLogout={setLogout} />)}
           </div>
         </div>
 

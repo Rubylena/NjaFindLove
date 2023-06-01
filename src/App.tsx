@@ -12,6 +12,7 @@ import Message from './pages/Message/Message';
 import Pricing from './pages/Pricing/Pricing';
 import TermsAndConditions from './pages/TermsAndConditions/TermsAndConditions';
 import { ProtectedRoute } from './api/urlAuth';
+import MeetDetails from './pages/Meet/MeetDetails';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
 
         <Route element={<ProtectedRoute />}>
           <Route path='/dashboard/meet' element={<Meet />} />
+          <Route path='/dashboard/meet/:user' element={<MeetDetails />} />
           <Route path='/dashboard/subscribe' element={<Subscribe />} />
           <Route path='/dashboard/profile' element={<EditProfile />} />
           <Route path='/dashboard/message' element={<Message />} />
