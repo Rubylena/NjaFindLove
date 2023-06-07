@@ -41,7 +41,7 @@ const Meet = () => {
               <div key={index} className='max-w-[8rem] drop-shadow-lg shadow-lg rounded-xl flex flex-col items-center'>
                 <div className='relative w-full max-h-[7.5rem]'>
                   <Link to={`/dashboard/meet/${user.userRef}`}>
-                    <img src={`data:image/jpg;base64,${user.image.imagebase64}`} alt='profile' className='rounded-t-xl w-full h-full' />
+                    <img src={`data:image/jpg;base64,${user.image.imagebase64}`} alt='profile' className='rounded-t-xl w-full h-full object-cover' />
                     <div className='flex justify-between px-2 text-lg absolute bottom-0 text-white font-semibold ' style={{ width: '100%' }}>
                       <p style={{ textShadow: '-1px 0 black, 0 1px black, 1px 0 black, 0 -1px black' }}>{user.name}</p>
                       <p style={{ textShadow: '-1px 0 black, 0 1px black, 1px 0 black, 0 -1px black' }}>{user.age}</p>

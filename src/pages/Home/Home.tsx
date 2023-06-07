@@ -7,7 +7,6 @@ import Login from '../Login/Login'
 
 const Home = () => {
     const [login, setLogin] = useState(false)
-    console.log('Home')
     return (
         <div className='landing-page'>
             <Navbar action={() => setLogin(!login)} />
