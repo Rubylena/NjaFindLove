@@ -201,7 +201,7 @@ const Profile = () => {
                                         showMonthDropdown
                                         showYearDropdown
                                         dropdownMode="select"
-                                        // showPopperArrow={false}
+                                    // showPopperArrow={false}
                                     />
                                     <img src={dropDown} alt='dropdown button' className='pr-3 w-5' />
                                 </div>
@@ -254,27 +254,27 @@ const Profile = () => {
                                 <div className='flex relative w-20'>
                                     <Input
                                         type='number'
-                                        bgColor='bg-input-bg'
+                                        bgColor='bg-input-bg text-center'
                                         placeholder='18'
                                         value={formData.fromAge}
                                         name='fromAge'
                                         action={ageChange} />
-                                    <div className='absolute top-5 right-0 mr-2'>
+                                    {/* <div className='absolute top-5 right-0 mr-2'>
                                         <img src={dropDown} alt='dropdown button' className='w-2' />
-                                    </div>
+                                    </div> */}
                                 </div>
                                 <p>to</p>
                                 <div className='flex relative w-20 items-center'>
                                     <Input
                                         type='number'
-                                        bgColor='bg-input-bg'
+                                        bgColor='bg-input-bg text-center'
                                         placeholder='40'
                                         value={formData.toAge}
                                         name='toAge'
                                         action={ageChange} />
-                                    <div className='absolute top-5 right-0 mr-2'>
+                                    {/* <div className='absolute top-5 right-0 mr-2'>
                                         <img src={dropDown} alt='dropdown button' className='w-2' />
-                                    </div>
+                                    </div> */}
                                 </div>
                             </div>
                         </div>

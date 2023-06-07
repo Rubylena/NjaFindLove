@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import DashboardLayout from '../../components/DashboardLayout/DashboardLayout'
 import MeetImageCarousel from '../../components/MeetImageCarousel/MeetImageCarousel'
-import girl from '../../asset/images/girlie.svg'
-import silver from '../../asset/images/prices.svg'
 import blackClose from '../../asset/icon/blackClose.svg'
 import { Link, useParams } from 'react-router-dom'
 import { axiosBase } from '../../api/api'

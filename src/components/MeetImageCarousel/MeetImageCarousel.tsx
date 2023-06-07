@@ -4,8 +4,9 @@ import right from '../../asset/icon/rightArrow.svg'
 import left from '../../asset/icon/leftArrow.svg'
 import love from '../../asset/icon/love.svg'
 import smile from '../../asset/icon/smiley.svg'
-import close from '../../asset/icon/close.svg'
+import msg from '../../asset/icon/mesg-chat.png'
 import locate from '../../asset/icon/location.svg'
+import { Link } from "react-router-dom";
 
 interface ImageCarouselProps {
     images: string[];
@@ -40,8 +41,8 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ images, details }) => {
 
     return (
         <div className="flex flex-col lg:flex-row gap-4 mt-5">
-            <div className="relative lg:w-2/6">
-                <div className="absolute top-3 left-0 w-[95%] ml-1.5 h-4 flex justify-center items-center bg-grey rounded-full ">
+            <div className="relative lg:w-1/4">
+                <div className="absolute top-3 left-0 w-[95%] ml-1.5 h-4 flex justify-center items-center bg-grey rounded-full">
                     {images.map((_, index) => (
                         <div
                             key={index}
@@ -52,18 +53,18 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ images, details }) => {
                     ))}
                 </div>
                 <button
-                    className="absolute top-1/2 left-0 transform -translate-y-1/2 rounded-r-3xl px-8 py-5 bg-blur backdrop-blur-[20px] hover:backdrop-blur-3xl transition ease-in-out duration-300"
+                    className="absolute top-1/2 left-0 transform -translate-y-1/2 rounded-r-3xl px-4 py-3 bg-blur backdrop-blur-[20px] hover:backdrop-blur-3xl transition ease-in-out duration-300"
                     onClick={handlePreviousClick}
                 >
                     <img src={right} alt="right arrow" />
                 </button>
                 <img
-                    className="w-full h-[550px] rounded-3xl object-cover object-center transition ease-in-out duration-500 border"
+                    className="w-full h-[300px] lg:h-[400px] rounded-t-3xl object-contain object-center transition ease-in-out duration-500 border border-purple border-opacity-50 shadow-lg"
                     src={images[currentImageIndex]}
                     alt={`Image ${currentImageIndex + 1}`}
                 />
                 <button
-                    className="absolute top-1/2 right-0 transform -translate-y-1/2 rounded-l-3xl px-8 py-5 bg-blur backdrop-blur-[20px] hover:backdrop-blur-3xl transition ease-in-out duration-300"
+                    className="absolute top-1/2 right-0 transform -translate-y-1/2 rounded-l-3xl px-4 py-3 bg-blur backdrop-blur-[20px] hover:backdrop-blur-3xl transition ease-in-out duration-300"
                     onClick={handleNextClick}
                 >
                     <img src={left} alt="right arrow" />
@@ -72,16 +73,14 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ images, details }) => {
                     <div className="w-8">
                         <img src={love} alt='love' />
                     </div>
-                    <div className="w-8">
-                        <img src={smile} alt='smiley' />
-                    </div>
-                    <div className="w-7">
-                        <img src={close} alt='close' />
-                    </div>
+                    <Link to={`/dashboard/message`} >
+                        <div className="w-7">
+                            <img src={msg} alt='chat' />
+                        </div></Link>
                 </div>
             </div>
 
-            <div className="lg:w-4/6 flex flex-col gap-10">
+            <div className="lg:w-3/4 flex flex-col gap-10">
                 <div>
                     <h4 className="font-semibold text-2xl">{details.name}, {details.age}</h4>
                     <div className="flex flex-wrap gap-10 text-p-text">

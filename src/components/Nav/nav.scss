@@ -1,103 +1,121 @@
-@import '../../styles/Colors.scss';
-@import '../../styles/mediaQueries.scss';
+@import "../../styles/Colors.scss";
+@import "../../styles/mediaQueries.scss";
 
 .navbar {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  padding: 0.5em;
+  align-items: center;
+  ul {
     display: flex;
-    flex-flow: row wrap;
-    justify-content: space-between;
-    padding: 0.5em;
-    align-items: center;
-    ul {
-        display: flex;
-        gap: 2.5em;
-        li{
-            color: $header;
-            list-style-type: none;
-        }
+    gap: 2.5em;
+    li {
+      color: $header;
+      list-style-type: none;
     }
+  }
 
-    .login-btn {
-        background: $purple;
-        color: $white;
-        border-radius: 60px;
-        width: 200px;
-        padding: 0.5em 0;
-        text-align: center;
+  .login-btn {
+    background: $purple;
+    color: $white;
+    border-radius: 60px;
+    width: 100px;
+    padding: 0.5em 0;
+    text-align: center;
+  }
+  .signUp-btn {
+    color: $text-purple;
+    border-radius: 60px;
+    width: 100px;
+    padding: 0.5em 0;
+    text-align: center;
+    border: 1px solid $text-purple;
+  }
+
+  @include screen-size(tablet-only) {
+    justify-content: center;
+    gap: 0.5em;
+    padding: 0.5em;
+    display: none;
+    ul {
+      flex-flow: row wrap;
+      justify-content: center;
+      gap: 1.5em;
     }
-    @include screen-size(tablet-only) {
-        justify-content: center;
-        gap: 0.5em;
-        padding: 0.5em;
-        display: none;
-        ul{
-            flex-flow: row wrap;
-            justify-content: center;
-            gap: 1.5em;
-        }
-    }
+  }
 }
 
-.navbar-mobile{
+.navbar-mobile {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  padding: 0.5em;
+  align-items: center;
+  @media (min-width: 769px) {
+    display: none;
+  }
+  &-login-btn {
+    color: $text-purple;
+    border-radius: 60px;
+    width: 100px;
+    padding: 0.5em 0;
+    text-align: center;
+    border: 1px solid $text-purple;
+  }
+  .mobile-signUp-btn {
+    background: $purple;
+    color: $white;
+    border-radius: 60px;
+    width: 100px;
+    padding: 0.5em 0;
+    text-align: center;
+  }
+  ul {
     display: flex;
-    justify-content: space-between;
-    padding: 0.5em;
+    flex-flow: column nowrap;
+    justify-content: center;
     align-items: center;
-    @media (min-width: 769px) {
-        display: none;
+    gap: 1em;
+    padding: 0 0 20px 0;
+    li {
+      list-style-type: none;
     }
-    &-login-btn {
-        color: $text-purple;
-        border-radius: 60px;
-        width: 200px;
-        padding: 0.5em 0;
-        text-align: center;
-        border: 1px solid $text-purple;
+  }
+  &-bars {
+    width: 50px;
+    font-size: 24px;
+  }
+  &-menu {
+    width: 300px;
+    background-color: white;
+    z-index: 1;
+    @media (max-width: 768px) {
+      width: 100%;
+      position: absolute;
+      top: 0;
+      // right: -100%;
+      left: -100%;
+      transition: left 0.3s ease-in-out;
+
+      &.open {
+        left: 0;
+      }
     }
-    ul {
-        display: flex;
-        flex-flow: column nowrap;
-        justify-content: center;
-        align-items: center;
-        gap: 1.5em;
-        padding: 0 0 20px 0;
-        li{
-            list-style-type: none;
-        }
-    }
-    &-bars{
+    &-close {
+      display: flex;
+      justify-content: flex-end;
+      padding: 16px;
+      button {
         width: 50px;
-        font-size: 24px;
-    }
-    &-menu {
-        width: 300px;
+        font-size: 28px;
         background-color: white;
-        z-index: 1;
-        @media (max-width: 768px) {
-            width: 100%;
-            position: absolute;
-            top: 0;
-            // right: -100%;
-            left: -100%;
-            transition: left 0.3s ease-in-out;
-    
-            &.open {
-                left: 0;
-            }
-        }
-        &-close {
-            display: flex;
-            justify-content: flex-end;
-            padding: 16px;
-            button{
-                width: 50px;
-                font-size: 28px;
-                background-color: white;
-                border: none;
-                font-weight: 700;
-            }
-        }
-        h2{
-            padding: 0 0 0 15px;
-        }
+        border: none;
+        font-weight: 700;
+      }
     }
+    h2 {
+      padding: 0 0 0 15px;
+    }
+  }
 }

@@ -3,9 +3,9 @@ import { axiosBase } from '../../api/api';
 import Input from '../Input/Input'
 import Button from '../Button/Button'
 import { FormData } from '../../api/auth';
-import { useNavigate } from 'react-router-dom';
 import eye from '../../asset/icon/eye.svg'
 import openEye from '../../asset/icon/openEye.png'
+import { useNavigate } from 'react-router-dom';
 
 const SignUpForm: React.FC = () => {
     const [formData, setFormData] = useState<FormData>({
@@ -17,12 +17,12 @@ const SignUpForm: React.FC = () => {
 
     const [geoError, setGeoError] = useState('');
     const [showPassword, setShowPassword] = useState<boolean>()
-    // const [isProfileComplete, setIsProfileComplete] = useState<boolean>();
-    // const [pixUpload, setPixUpload] = useState<boolean>();
     const [responseMsg, setResponseMsg] = useState('')
     const [isLoading, setIsLoading] = useState<boolean>(false)
+    const [isUpProfileComplete, setIsUpProfileComplete] = useState<boolean>(false)
+    const [isUpPixUpload, setIsUpPixUpload] = useState<boolean>(false)
 
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
 
     const handleSignUpChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
@@ -63,31 +63,33 @@ const SignUpForm: React.FC = () => {
         event.preventDefault();
         try {
             const response = await axiosBase.post<FormData>('/Authentication/SignUp', formData);
-            // setIsProfileComplete(response.data.profileComplete!)
-            // setPixUpload(response.data.pixUpload!)
             setResponseMsg(response.data.responseMessage!)
+            setIsUpProfileComplete(response.data.profileComplete!)
+            setIsUpPixUpload(response.data.pixUpload!)
+            console.log(response.data)
             setIsLoading(isLoading)
         } catch (err) {
             console.error(err);
         }
     }
 
-    // useEffect(() => {
-    //     getLocation();
-    //     const profileCheck = () =>{
-    //         if (!isProfileComplete && responseMsg === 'Registration Completed Successfully. Kindly Login'){
-    //             navigate('/create-profile')
-    //         }
-    //         if (isProfileComplete && !pixUpload && responseMsg === 'Registration Completed Successfully. Kindly Login'){
-    //             navigate('/profile-picture')
-    //         }
-    //         if(isProfileComplete && responseMsg === 'Registration Completed Successfully. Kindly Login'){
-    //             navigate('/dashboard/meet')
-    //             localStorage.setItem('isLoggedIn', JSON.stringify(true))
-    //         }
-    //     }
-    //     profileCheck();
-    // }, [isProfileComplete, navigate])
+    useEffect(() => {
+        const profileCheck = () => {
+            if (!isUpProfileComplete && responseMsg === 'SignUpSuccessful') {
+                navigate('/create-profile')
+            }
+            if (isUpProfileComplete && !isUpPixUpload && responseMsg === 'SignUpSuccessful') {
+                navigate('/profile-picture')
+            }
+            if (isUpProfileComplete && isUpPixUpload && responseMsg === 'SignUpSuccessful') {
+                navigate('/dashboard/meet')
+            }
+            if (isUpProfileComplete && isUpPixUpload && responseMsg === 'User Already Exists. Please log in') {
+                navigate('/dashboard/meet')
+            }
+        }
+        profileCheck();
+    }, [isUpProfileComplete, isUpPixUpload, navigate, responseMsg])
 
     return (
         <form onSubmit={handleSubmit} className='flex flex-col gap-5'>

@@ -1,12 +1,13 @@
 import { Navigate, Outlet } from 'react-router-dom';
 
-let isLoggedIn = false
+let isLoggedIn: boolean;
 
 export function isAuthenticated(): boolean {
-    const data = localStorage.getItem('userDetails');
+    const data = JSON.parse(localStorage.getItem('userDetails')!);
     if (data) {
         isLoggedIn = true
     }
+
     return isLoggedIn;
 }
 

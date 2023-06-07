@@ -2,14 +2,14 @@ import React, { useEffect, useState } from 'react'
 import SidebarOptions from './SidebarOptions'
 import meet from '../../asset/icon/meet.png'
 import search from '../../asset/icon/search.png'
-import subscribe from '../../asset/icon/subscribe.png'
+// import subscribe from '../../asset/icon/subscribe.png'
 import visitors from '../../asset/icon/visitors.png'
 import arrDown from '../../asset/icon/arr-down.png'
 import arrRight from '../../asset/icon/arr-right.png'
-import profileImg from '../../asset/icon/profileImg.png'
+// import profileImg from '../../asset/icon/profileImg.png'
 import verified from '../../asset/icon/verified.png'
 import caution from '../../asset/icon/caution.png'
-import award from '../../asset/icon/Award.svg'
+// import award from '../../asset/icon/Award.svg'
 import './sidebar.scss'
 import { Link, useLocation } from 'react-router-dom'
 import { axiosBase } from '../../api/api'
@@ -41,11 +41,11 @@ const Sidebar = () => {
       child: 'Search',
       extra: arrDown
     },
-    {
-      img: subscribe,
-      child: 'Subscription',
-      link: 'subscribe'
-    },
+    // {
+    //   img: subscribe,
+    //   child: 'Subscription',
+    //   link: 'subscribe'
+    // },
     {
       img: visitors,
       child: 'Visitors',
@@ -53,16 +53,17 @@ const Sidebar = () => {
     },
   ]
 
-  const handleSubmit = async (session: string, email: string) => {
-    try {
-      const response = await axiosBase.post('/InApp/GetDashboard', { session: session, email: email });
-      setUserProfiles(response.data)
-    } catch (err) {
-      console.error(err);
-    }
-  }
 
   useEffect(() => {
+    const handleSubmit = async (session: string, email: string) => {
+      try {
+        const response = await axiosBase.post('/InApp/GetDashboard', { session: session, email: email });
+        setUserProfiles(response.data)
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
     const items = JSON.parse(localStorage.getItem('userDetails')!);
     if (items) {
       handleSubmit(items.session, items.email)
@@ -74,7 +75,6 @@ const Sidebar = () => {
       <nav className='pb-2 md:hidden shadow-lg'>
         <Link to='/dashboard/profile'><section className='flex flex-col justify-center items-center bg-profile-bg text-white py-8 gap-4'>
           <img src={`data:image/jpg;base64, ${userProfiles?.imagebase64}`} alt='profile' className='w-24 h-24 rounded-full' />
-
           <div className='flex items-center gap-3'>
             <p className='font-medium text-2xl'>{userProfiles?.firstname}</p>
             <img src={verified} alt='verified' />
@@ -144,7 +144,7 @@ const Sidebar = () => {
           ))}
         </section>
 
-        <section
+        {/* <section
           className='price mt-2 mx-6 p-3 rounded-3xl'
         >
           <Link to='/dashboard/subscribe'><div className='flex justify-between items-center'>
@@ -158,7 +158,7 @@ const Sidebar = () => {
               <p className='text-xs font-medium'>Subscribe now</p>
               <p className='font-semibold text-[42px]'>N8,000</p>
             </div></Link>
-        </section>
+        </section> */}
       </div>
 
       <div className='px-3'>

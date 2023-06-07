@@ -270,6 +270,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@ctrl/react-adsense@npm:^1.7.0":
+  version: 1.7.0
+  resolution: "@ctrl/react-adsense@npm:1.7.0"
+  dependencies:
+    tslib: ^2.5.0
+  checksum: eaccdbb3d4cc3c87bb65366359c28378988dc5865c11e582b28d66a66c493cb41e5c8138686df456c7e41c405d475a4ed05f9cfadc63d460a8a13161b3eb4d68
+  languageName: node
+  linkType: hard
+
 "@esbuild/android-arm64@npm:0.16.17":
   version: 0.16.17
   resolution: "@esbuild/android-arm64@npm:0.16.17"
@@ -1037,6 +1046,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "dating@workspace:."
   dependencies:
+    "@ctrl/react-adsense": ^1.7.0
     "@headlessui/react": ^1.7.7
     "@heroicons/react": ^2.0.14
     "@tailwindcss/forms": ^0.5.3
@@ -2596,6 +2606,13 @@ __metadata:
   dependencies:
     is-number: ^7.0.0
   checksum: f76fa01b3d5be85db6a2a143e24df9f60dd047d151062d0ba3df62953f2f697b16fe5dad9b0ac6191c7efc7b1d9dcaa4b768174b7b29da89d4428e64bc0a20ed
+  languageName: node
+  linkType: hard
+
+"tslib@npm:^2.5.0":
+  version: 2.5.3
+  resolution: "tslib@npm:2.5.3"
+  checksum: 88902b309afaf83259131c1e13da1dceb0ad1682a213143a1346a649143924d78cf3760c448b84d796938fd76127183894f8d85cbb3bf9c4fddbfcc140c0003c
   languageName: node
   linkType: hard
 
