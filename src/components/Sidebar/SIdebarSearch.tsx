@@ -1,14 +1,22 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Input from '../Input/Input'
-import dropDown from '../../asset/icon/drop-down-arrow.png'
 import Button from '../Button/Button'
+import { axiosBase } from '../../api/api'
 
-const SIdebarSearch = () => {
+interface Props {
+    searched: any;
+}
+
+const SIdebarSearch = (props: Props) => {
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const [formData, setFormData] = useState({
+        email: '',
+        session: '',
         fromAge: 18,
         toAge: 40,
         location: '',
+        pageSize: 1,
+        pageNumber: 10,
     });
 
     const ageChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
@@ -25,17 +33,27 @@ const SIdebarSearch = () => {
         setIsLoading(!isLoading)
         event.preventDefault();
         try {
-            console.log(formData)
-            // const response = await axiosBase.post<FormData>('/Profile/CreateProfile', formData);
-            // setMoveToNext(response.data.success)
+            const response = await axiosBase.post<FormData>('/InApp/SearchPeople', formData);
+            props.searched(response.data);
             setIsLoading(isLoading)
         } catch (err) {
             console.error(err);
         }
     }
 
+    useEffect(() => {
+        const items = JSON.parse(localStorage.getItem('userDetails')!);
+        if (items) {
+            setFormData(prev => ({
+                ...prev,
+                email: items.email,
+                session: items.session
+            }))
+        }
+    }, []);
+
     return (
-        <form onSubmit={handleSubmit} className='bg-tint-pink pb-5 rounded-b-[50px] '>
+        <form onSubmit={handleSubmit} className='bg-tint-pink pb-5 rounded-lg '>
             <div className='px-5'>
                 <p>Age range</p>
                 <div className='flex gap-3 items-center'>

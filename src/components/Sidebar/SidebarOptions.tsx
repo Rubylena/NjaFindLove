@@ -24,9 +24,6 @@ const SidebarOptions = (props: PropTypes) => {
   const handleClick = (event: React.MouseEvent) => {
     if (props.link === undefined) {
       event.preventDefault();
-      if (props.child === 'Search') {
-        setOpenDown(!openDown);
-      }
     }
   };
 
@@ -49,9 +46,6 @@ const SidebarOptions = (props: PropTypes) => {
         </div>
       </div>
       </Link>
-      {openDown && (
-        <SIdebarSearch />
-      )}
     </div>
   )
 }

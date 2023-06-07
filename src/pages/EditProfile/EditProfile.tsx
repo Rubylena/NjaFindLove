@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import DashboardLayout from '../../components/DashboardLayout/DashboardLayout'
-import profileImg from '../../asset/images/profileImg.svg'
+import profileImg from '../../asset/images/profileImg.png'
 import verified from '../../asset/icon/verified.png'
 import caution from '../../asset/icon/caution.png'
 import logoutImg from '../../asset/icon/logout.svg'
@@ -36,7 +36,7 @@ const EditProfile = () => {
         <div className='flex flex-wrap justify-center md:justify-between items-center mb-5 gap-5'>
           <div className='flex flex-wrap justify-center items-center gap-6'>
             <div className='md:w-60 md:h-60 w-32 h-32'>
-              <img src={`data:image/jpg;base64, ${userProfiles?.imagebase64}`} alt='profile picture' className='w-full h-full object-cover rounded-full' />
+              <img src={userProfiles === undefined ? profileImg : `data:image/jpg;base64, ${userProfiles && userProfiles.imagebase64}`} alt='profile picture' className='w-full h-full object-cover rounded-full' />
             </div>
             <div>
               <div className='flex items-center gap-3'>

@@ -1,20 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import SidebarOptions from './SidebarOptions'
 import meet from '../../asset/icon/meet.png'
-import search from '../../asset/icon/search.png'
 // import subscribe from '../../asset/icon/subscribe.png'
 import visitors from '../../asset/icon/visitors.png'
-import arrDown from '../../asset/icon/arr-down.png'
 import arrRight from '../../asset/icon/arr-right.png'
-// import profileImg from '../../asset/icon/profileImg.png'
+import profileImg from '../../asset/icon/profileImg.png'
 import verified from '../../asset/icon/verified.png'
 import caution from '../../asset/icon/caution.png'
-// import award from '../../asset/icon/Award.svg'
 import './sidebar.scss'
 import { Link, useLocation } from 'react-router-dom'
 import { axiosBase } from '../../api/api'
-import { Local2 } from '../../api/auth'
-
 const Sidebar = () => {
   const [isActive, setIsActive] = useState(false);
   const [openMenu, setOpenMenu] = useState(false);
@@ -35,11 +30,6 @@ const Sidebar = () => {
       child: 'Meet',
       link: 'meet',
       extra: arrRight
-    },
-    {
-      img: search,
-      child: 'Search',
-      extra: arrDown
     },
     // {
     //   img: subscribe,
@@ -74,7 +64,7 @@ const Sidebar = () => {
     <aside className='md:w-[22.3125rem] md:shadow-xl md:border-r md:border-grey md:border-opacity-60 h-full overflow-y-scroll hide-scroll md:pb-10'>
       <nav className='pb-2 md:hidden shadow-lg'>
         <Link to='/dashboard/profile'><section className='flex flex-col justify-center items-center bg-profile-bg text-white py-8 gap-4'>
-          <img src={`data:image/jpg;base64, ${userProfiles?.imagebase64}`} alt='profile' className='w-24 h-24 rounded-full' />
+          <img src={userProfiles === undefined ? profileImg : `data:image/jpg;base64, ${userProfiles && userProfiles.imagebase64}`} alt='profile' className='w-24 h-24 rounded-full border-8 border-white' />
           <div className='flex items-center gap-3'>
             <p className='font-medium text-2xl'>{userProfiles?.firstname}</p>
             <img src={verified} alt='verified' />
@@ -106,7 +96,7 @@ const Sidebar = () => {
 
       <div className='hidden md:block'>
         <Link to='/dashboard/profile'><section className='flex flex-col justify-center items-center bg-profile-bg text-white py-6 gap-4'>
-          <img src={`data:image/jpg;base64, ${userProfiles?.imagebase64}`} alt='profile' className='w-24 h-24 rounded-full' />
+          <img src={userProfiles === undefined ? profileImg : `data:image/jpg;base64, ${userProfiles && userProfiles.imagebase64}`} alt='profile' className='w-24 h-24 rounded-full' />
           <div className='flex items-center gap-3'>
             <p className='font-medium text-2xl'>{userProfiles?.firstname}</p>
             <img src={verified} alt='verified' />

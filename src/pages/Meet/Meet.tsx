@@ -3,13 +3,24 @@ import DashboardLayout from '../../components/DashboardLayout/DashboardLayout'
 import blackClose from '../../asset/icon/blackClose.svg'
 import msg from '../../asset/icon/mesg-chat.png'
 import love from '../../asset/icon/love.svg'
+import search from '../../asset/icon/search.png'
 import { axiosBase } from '../../api/api'
 import { Link } from 'react-router-dom'
 import AdsComponent from '../../components/Ads/AdsComponent'
+import SIdebarSearch from '../../components/Sidebar/SIdebarSearch'
 
 const Meet = () => {
   const [isClose, setIsClose] = useState(false);
   const [manyUserProfiles, setManyUserProfiles] = useState<any>()
+  const [openDown, setOpenDown] = useState(false)
+
+  // Callback function that receives data from child
+  const handleChildData = (childData: any) => {
+    if (childData.users.length !== 0) {
+      setManyUserProfiles(childData.users)
+      console.log(manyUserProfiles)
+    }
+  };
 
   useEffect(() => {
     const handleProfiles = async (session: string, email: string, id: number) => {
@@ -28,11 +39,19 @@ const Meet = () => {
     if (items) {
       handleProfiles(items.session, items.email, items.userId)
     }
-
   }, []);
 
   return (
     <DashboardLayout>
+      <div className={`flex gap-3 items-center justify-end pt-5 mr-16 cursor-pointer hover:font-medium ${openDown ? 'bg-tint-pink rounded-t-[50px]' : null}`} onClick={() => setOpenDown(!openDown)}>
+        <img src={search} alt='search' />
+        <p>Search</p>
+      </div>
+      {openDown && (
+        <div className='w-1/2 ml-auto border border-purple mt-2 mr-16 rounded-lg'>
+          <SIdebarSearch searched={handleChildData} />
+        </div>
+      )}
       <section className='p-8 bg-tint-pink h-full'>
         <p className='text-3xl font-medium mb-5 text-center'>Meet people around you</p>
         <div className='flex flex-wrap gap-5 justify-center'>

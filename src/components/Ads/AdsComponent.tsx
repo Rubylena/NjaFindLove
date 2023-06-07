@@ -6,30 +6,30 @@ type AdsComponentProps = {
 };
 const AdsComponent = (props: AdsComponentProps) => {
 
-  // useEffect(() => {
-  //   try {
-  //     ((window as any).adsbygoogle = (window as any).adsbygoogle || []).push({});
-  //   } catch (e) {
-  //     // console.log(e);
-  //   }
-  // }, []);
+  useEffect(() => {
+    try {
+      ((window as any).adsbygoogle = (window as any).adsbygoogle || []).push({});
+    } catch (e) {
+      // console.log(e);
+    }
+  }, []);
 
   return (
-    // <ins
-    //   className={`adsbygoogle${props.className} `}
-    //   style={{ display: "block" }}
-    //   data-ad-client="ca-pub-2728151880619910"
-    //   data-ad-slot={'8530285926'}
-    //   data-ad-format="auto"
-    //   data-full-width-responsive="true"
-    // ></ins>
-    <Adsense
-      client="ca-pub-2728151880619910"
-      slot="8530285926"
-      style={{ display: 'block' }}
-      format="auto"
-      responsive="true"
-    />
+    <ins
+      className={`adsbygoogle${props.className} `}
+      style={{ display: "block" }}
+      data-ad-client="ca-pub-2728151880619910"
+      data-ad-slot={'8530285926'}
+      data-ad-format="auto"
+      data-full-width-responsive="true"
+    ></ins>
+    // <Adsense
+    //   client="ca-pub-2728151880619910"
+    //   slot="8530285926"
+    //   style={{ display: 'block' }}
+    //   format="auto"
+    //   responsive="true"
+    // />
   );
 };
 
