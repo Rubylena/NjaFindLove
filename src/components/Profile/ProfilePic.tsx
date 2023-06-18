@@ -42,7 +42,7 @@ const ProfilePic: React.FC = () => {
 
   const imgTypes = ['image/jpeg', 'image/png', 'image/jpg'];
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    setIsLoading(isLoading)
+    setIsLoading(true)
     event.preventDefault();
     try {
       if (!file) {
@@ -54,14 +54,13 @@ const ProfilePic: React.FC = () => {
         return;
       }
       if (imgTypes.includes(file.type)) {
-        // console.log(formData)
         const response = await axiosBase.post<FormData>('/Profile/AddPicture', formData);
         setMoveToNext(response.data.success)
-        // console.log(response.data)
-        setIsLoading(!isLoading)
       }
     } catch (err) {
       console.error(err);
+    } finally {
+      setIsLoading(false)
     }
   }
 

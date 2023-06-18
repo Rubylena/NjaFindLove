@@ -7,6 +7,7 @@ import dropDown from '../../asset/icon/drop-down-arrow.png'
 import Input from '../Input/Input'
 import Button from '../Button/Button';
 import { useNavigate } from 'react-router-dom';
+import Attributes from './Attributes';
 
 const Profile = () => {
     const [userDetails, setUserDetails] = useState<Local>();
@@ -20,6 +21,10 @@ const Profile = () => {
 
     const [interest, setInterest] = useState<IdValue[]>([])
     const [returnSelectInterest, setReturnSelectInterest] = useState<number[]>([]);
+
+    const [attributes, setAttributes] = useState<any[]>()
+    const [attributesComp, setAttributesComp] = useState<any>([]);
+    const [attributesArray, setAttributesArray] = useState<any>([])
 
     const [dateOfBirth, setDateOfBirth] = useState<null | Date>(null);
     const [eighteenFromToday, setEighteenFromToday] = useState<Date>(new Date());
@@ -39,6 +44,12 @@ const Profile = () => {
         toAge: 40,
         info: '',
         interest: [],
+        attributes: [
+            {
+                attributeId: 0,
+                attributeValue: 0,
+            }
+        ]
     });
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
@@ -66,6 +77,33 @@ const Profile = () => {
     const handleInterestedChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setFormData({ ...formData, interestedIn: parseInt(event.target.value) })
     }
+
+    const handleAttributeChildData = (childAttributeData: any) => {
+        setAttributesComp((prev: any) => {
+            const key = Object.keys(childAttributeData)[0]; // Assuming there's only one key in childAttributeData
+            const existingIndex = prev.findIndex((obj: any) => key in obj);
+
+            if (existingIndex !== -1) {
+                prev[existingIndex][key] = childAttributeData[key];
+            } else {
+                prev.push(childAttributeData);
+            }
+
+            const updatedAttributesArray = prev.map((item: any) => {
+                const objKey = Object.keys(item)[0]; // Get the key of the object
+                const value: any = Object.values(item);
+
+                return {
+                    attributeId: parseInt(objKey),
+                    attributeValue: parseInt(value),
+                };
+            });
+
+            setAttributesArray(updatedAttributesArray);
+
+            return prev;
+        });
+    };
 
     const concatenateDate = (date: Date) => {
         if (dateOfBirth) {
@@ -113,13 +151,10 @@ const Profile = () => {
         }
     }
 
-    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-        setIsLoading(!isLoading)
-        event.preventDefault();
+    const invokeAttributes = async () => {
         try {
-            const response = await axiosBase.post<FormData>('/Profile/CreateProfile', formData);
-            setMoveToNext(response.data.success)
-            setIsLoading(isLoading)
+            const response = await axiosBase.get('/Profile/GetAllAttributes');
+            setAttributes(response.data)
         } catch (err) {
             console.error(err);
         }
@@ -138,6 +173,19 @@ const Profile = () => {
         }
     };
 
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+        setIsLoading(!isLoading)
+        console.log(formData)
+        event.preventDefault();
+        try {
+            const response = await axiosBase.post<FormData>('/Profile/CreateProfile', formData);
+            setMoveToNext(response.data.success)
+            setIsLoading(isLoading)
+        } catch (err) {
+            console.error(err);
+        }
+    }
+
     useEffect(() => {
         const items = JSON.parse(localStorage.getItem('userDetails')!);
         if (items) {
@@ -146,6 +194,7 @@ const Profile = () => {
         invokeGender();
         invokeInterestIn();
         invokeInterest();
+        invokeAttributes();
 
         const profileCheck = () => {
             if (moveToNext) {
@@ -157,13 +206,14 @@ const Profile = () => {
 
         setEighteenFromToday(subtractYears(new Date(), 18));
 
-    }, [moveToNext, navigate, dateOfBirth]);
+        setFormData((prev: any) => ({ ...prev, attributes: attributesArray }))
+    }, [moveToNext, navigate, dateOfBirth, attributesComp, attributesArray]);
 
     return (
         <div className='text-black pt-0.5 md:pt-10 pb-10 md:h-full'>
-            <form onSubmit={handleSubmit} autoComplete='off' className='md:flex md:gap-5 md:flex-col md:justify-center md:items-center md:h-full'>
+            <form onSubmit={handleSubmit} autoComplete='off' className='md:gap-5 md:flex md:flex-col md:justify-center md:items-center md:h-full'>
                 <input autoComplete="off" name="hidden" type="text" className="hidden" />
-                <div className='md:flex md:gap-10 justify-center'>
+                <div className='md:flex md:gap-10'>
                     <div className='bg-white flex flex-col p-7 rounded-lg shadow-md gap-5 mb-10 md:mb-0'>
                         <div className='text-center'>
                             <h2 className='font-semibold text-2xl mb-4'>CREATE  A PROFILE</h2>
@@ -280,7 +330,7 @@ const Profile = () => {
                         </div>
                     </div>
 
-                    <div className='flex flex-col gap-4 px-7 md:pt-7  pb-7'>
+                    <div className='flex flex-col gap-4 px-7 md:pt-7 pb-7'>
                         <div className='text-center'>
                             <h2 className='text-2xl font-semibold mb-4'>Choose your interest</h2>
                             <p className='text-p-text md:w-96'>Write about yourself and choose your interest to get familiar with other users</p>
@@ -312,6 +362,21 @@ const Profile = () => {
                                     </p>
                                 ))}
                             </div>
+                        </div>
+                    </div>
+
+                    <div className='px-7 md:px-0 md:pt-7 pb-7'>
+                        <p className='text-2xl font-semibold mb-4'>Attributes</p>
+                        <div >
+                            {attributes && attributes.map((attr, index) => (
+                                <div key={index}>
+                                    <Attributes
+                                    name={[attr.attributeId, attr.attributeName]}
+                                    selectionArray={attr.attributeValues.map((val: any) => val)}
+                                    selected={handleAttributeChildData}
+                                    />
+                                </div>
+                            ))}
                         </div>
                     </div>
                 </div>

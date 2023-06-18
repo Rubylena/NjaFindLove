@@ -3,12 +3,13 @@ import Sidebar from '../Sidebar/Sidebar'
 import Footer from '../Footer/Footer'
 import './dashboardLayout.scss'
 
-interface Proptypes {
+interface DashboardProptypes {
     children: React.ReactNode;
+    style?: string;
 }
-const DashboardLayout = ({children}: Proptypes) => {
+const DashboardLayout = ({children, style}: DashboardProptypes) => {
   return (
-    <section className={`flex flex-col md:flex-row h-screen dash tall`}>
+    <section className={`flex flex-col md:flex-row h-screen dash tall ${style}`}>
       <div>
         <Sidebar />
       </div>

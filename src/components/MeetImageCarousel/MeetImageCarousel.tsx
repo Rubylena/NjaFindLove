@@ -42,7 +42,7 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ images, details }) => {
     return (
         <div className="flex flex-col lg:flex-row gap-4 mt-5">
             <div className="relative lg:w-1/4">
-                <div className="absolute top-3 left-0 w-[95%] ml-1.5 h-4 flex justify-center items-center bg-grey rounded-full">
+                <div className="absolute top-3 left-0 w-[95%] ml-1.5 py-1 flex flex-wrap gap-2 justify-center items-center bg-grey rounded-full">
                     {images.map((_, index) => (
                         <div
                             key={index}

@@ -66,7 +66,10 @@ const LoginForm: React.FC = () => {
             const response = await axiosBase.post<FormData>('/Authentication/SignIn', formLogInData);
             setIsProfileComplete(response.data.profileComplete!)
             setPixUpload(response.data.pixUpload!)
-            localStorage.setItem('userDetails', JSON.stringify({ userId: response.data.userId!, session: response.data.session, email: formLogInData.email }));
+            if (response.data.success) {
+                localStorage.setItem('userDetails', JSON.stringify({ userId: response.data.userId!, session: response.data.session, email: formLogInData.email }));
+                localStorage.setItem('isLoggedIn', JSON.stringify(true));
+            }
             setResponseMsg(response.data.responseMessage!)
             setIsLoading(isLoading)
         } catch (err) {
@@ -92,7 +95,7 @@ const LoginForm: React.FC = () => {
 
 
     return (
-        <form onSubmit={handleSubmit} className='flex flex-col gap-5'>
+        <form onSubmit={handleSubmit} className='flex flex-col gap-6'>
             <Input
                 label='Email'
                 type='email'
@@ -115,14 +118,14 @@ const LoginForm: React.FC = () => {
                 action={handleLogInChange}
                 bgColor='bg-input-bg'
             />
-            <div className='flex flex-col gap-2 md:gap-0 md:flex-row justify-between'>
+            {/* <div className='flex flex-col gap-2 md:gap-0 md:flex-row justify-between'>
                 <div>
                     <input type='checkbox' name='remember' id='remember'
                         className='appearance-none indeterminate:bg-gray-300 checked:bg-green checked:text-green mr-1 focus:ring-0' />
                     <label htmlFor='remember' className='appearance-none checked:text-green'>Remember me</label>
                 </div>
                 <span className='text-blue text-xs text-right'>Forgot your Password?</span>
-            </div>
+            </div> */}
             <div>
                 <p className={` ${responseMsg} === "LoginSuccessful" && 'text-good-green' text-red text-xs font-medium`}>{responseMsg}</p>
                 <Button

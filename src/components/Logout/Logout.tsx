@@ -1,7 +1,9 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Fragment } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
-import { useLocation, useNavigate} from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { axiosBase } from '../../api/api';
+import { LogOutForm } from '../../api/auth';
 
 interface LogOutComponent {
     logout: any,
@@ -9,16 +11,33 @@ interface LogOutComponent {
 }
 
 const Logout = (props: LogOutComponent) => {
-    const location = useLocation();
-    const active = location.pathname;
+    const [formLogOutData, setFormLogOutData] = useState<LogOutForm>({
+        session: '',
+        email: '',
+        id: 0,
+    })
 
     const navigate = useNavigate()
 
-    const handleLogout = () => {
-        localStorage.removeItem('userDetails')
-        navigate('/')
-        window.location.reload();
+    const handleLogout = async () => {
+        try {
+            const response = await axiosBase.post<LogOutForm>('/Authentication/LogOut', formLogOutData);
+            if (response.data.success) {
+                localStorage.setItem('isLoggedIn', JSON.stringify(false));
+                navigate('/')
+                window.location.reload();
+            }
+        } catch (err) {
+            console.error(err);
+        }
     }
+
+    useEffect(() => {
+        const items = JSON.parse(localStorage.getItem('userDetails')!)
+        if (items) {
+            setFormLogOutData(prev => ({ ...prev, session: items.session, email: items.email, id: items.userId }))
+        }
+    }, [])
 
     return (
         <Transition.Root show={props.logout} as={Fragment}>
@@ -52,7 +71,7 @@ const Logout = (props: LogOutComponent) => {
                                     <p className='font-medium mb-5'>Are you sure you want to Quit?</p>
                                     <div className='flex justify-center items-center gap-5 cursor-pointer'>
                                         <p onClick={handleLogout} className='border shadow border-red rounded-md py-1 px-3 text-red'>Yes</p>
-                                        <a href={active} className='border shadow border-purple rounded-md py-1 px-3 outline-none'>No</a>
+                                        <p onClick={() => props.setLogout(false)} className='border shadow border-purple rounded-md py-1 px-3 outline-none'>No</p>
                                     </div>
                                 </div>
                             </Dialog.Panel>

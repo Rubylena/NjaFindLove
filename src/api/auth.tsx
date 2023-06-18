@@ -9,6 +9,7 @@ export interface FormData {
     pass: string;
     lat: string;
     long: string;
+    id?: number;
 }
 
 export type CreateProfileData = {
@@ -21,10 +22,19 @@ export type CreateProfileData = {
     toAge: number;
     info: string;
     interest: number[];
+    attributes: [
+        {
+            attributeId: number,
+            attributeValue: number,
+        }
+    ]
     session: string;
     email: string;
     userId: number;
-    // key?: any;
+}
+
+export type updateProfileData = {
+    interest: number[];
 }
 
 export interface IdValue {
@@ -46,4 +56,11 @@ export interface Picture {
     session: string;
     email: string;
     imageBase64: string;
+}
+
+export interface LogOutForm {
+    session: string;
+    email: string;
+    id: number;
+    success? : boolean;
 }

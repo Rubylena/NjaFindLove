@@ -9,6 +9,7 @@ interface Props {
 
 const SIdebarSearch = (props: Props) => {
     const [isLoading, setIsLoading] = useState<boolean>(false)
+    const [searchError, setSearchError] = useState('')
     const [formData, setFormData] = useState({
         email: '',
         session: '',
@@ -21,23 +22,37 @@ const SIdebarSearch = (props: Props) => {
 
     const ageChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
         const { name } = event.target;
-        setFormData({ ...formData, [name]: parseInt(event.target.value) });
+        let parsedValue = parseInt(event.target.value, 10)
+        if (isNaN(parsedValue)) {
+            parsedValue = 0;
+        }
+        setFormData({ ...formData, [name]: parsedValue });
+        setSearchError('')
     }
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
         const { name, value } = event.target;
         setFormData({ ...formData, [name]: value });
+        setSearchError('')
     }
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         setIsLoading(!isLoading)
         event.preventDefault();
+        setSearchError('')
         try {
-            const response = await axiosBase.post<FormData>('/InApp/SearchPeople', formData);
-            props.searched(response.data);
-            setIsLoading(isLoading)
+            const response = await axiosBase.post('/InApp/SearchPeople', formData);
+            if (response.data.users.length > 0) {
+                props.searched(response.data);
+            }
+            if (response.data.users.length === 0) {
+                setSearchError('No users within this age range or location')
+            }
         } catch (err) {
             console.error(err);
+        } finally {
+            setIsLoading(isLoading)
+
         }
     }
 
@@ -53,7 +68,7 @@ const SIdebarSearch = (props: Props) => {
     }, []);
 
     return (
-        <form onSubmit={handleSubmit} className='bg-tint-pink pb-5 rounded-lg '>
+        <form onSubmit={handleSubmit} className='bg-tint-pink pb-5 rounded-lg shadow-lg pt-5 drop-shadow w-full '>
             <div className='px-5'>
                 <p>Age range</p>
                 <div className='flex gap-3 items-center'>
@@ -65,9 +80,6 @@ const SIdebarSearch = (props: Props) => {
                             value={formData.fromAge}
                             name='fromAge'
                             action={ageChange} />
-                        {/* <div className='absolute top-5 right-0 mr-2'>
-                            <img src={dropDown} alt='dropdown button' className='w-2' />
-                        </div> */}
                     </div>
                     <p>to</p>
                     <div className='flex relative w-20 items-center'>
@@ -78,9 +90,6 @@ const SIdebarSearch = (props: Props) => {
                             value={formData.toAge}
                             name='toAge'
                             action={ageChange} />
-                        {/* <div className='absolute top-5 right-0 mr-2'>
-                            <img src={dropDown} alt='dropdown button' className='w-2' />
-                        </div> */}
                     </div>
                 </div>
             </div>
@@ -94,6 +103,7 @@ const SIdebarSearch = (props: Props) => {
                     name='location'
                     action={handleChange} />
             </div>
+            {searchError && <p className='py-3 px-6 text-red font-medium text-center'>{searchError}</p>}
             <div className='px-6'>
                 <Button
                     text='Search'

@@ -20,9 +20,7 @@ const Navbar = ({ action }: Proptype) => {
         <div>
           <ul>
             <li><Link to='/'>Home</Link></li>
-            {/* <li><Link to='/pricing'>Pricing</Link></li> */}
             <li><Link to='/terms'>Terms and Conditions</Link></li>
-            {/* <li><Link to='/'>Support</Link></li> */}
             <li className={isAuthenticated() ? '' : 'hidden'}><Link to='/dashboard/meet'>Dashboard</Link></li>
           </ul>
         </div>
