@@ -33,7 +33,10 @@ export type CreateProfileData = {
     userId: number;
 }
 
-export type updateProfileData = {
+export type updateInterestData = {
+    session: "",
+    email: "",
+    id: 0,
     interest: number[];
 }
 
@@ -62,5 +65,5 @@ export interface LogOutForm {
     session: string;
     email: string;
     id: number;
-    success? : boolean;
+    success?: boolean;
 }

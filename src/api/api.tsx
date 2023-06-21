@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const axiosBase = axios.create({
-    baseURL: 'https://dev.9jafindlove.ng/api',
+    baseURL: `${import.meta.env.VITE_BASE_URL}`,
     headers: {
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*',

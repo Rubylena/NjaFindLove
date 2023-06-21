@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react'
 import Button from '../Button/Button';
 import add from '../../asset/icon/add.png'
 import { axiosBase } from '../../api/api';
-import { FormData, Local, Picture } from '../../api/auth';
+import { FormData, Local, Picture } from '../../interface/auth';
 import { useNavigate } from 'react-router-dom';
+import { encryptStorage } from '../../encrypt/encrypt';
 
 const ProfilePic: React.FC = () => {
   const [file, setFile] = useState<File | null>(null);
@@ -54,7 +55,7 @@ const ProfilePic: React.FC = () => {
         return;
       }
       if (imgTypes.includes(file.type)) {
-        const response = await axiosBase.post<FormData>('/Profile/AddPicture', formData);
+        const response = await axiosBase.post<FormData>(`${import.meta.env.VITE_ADDPICTURE_UR}`, formData);
         setMoveToNext(response.data.success)
       }
     } catch (err) {
@@ -65,13 +66,13 @@ const ProfilePic: React.FC = () => {
   }
 
   useEffect(() => {
-    const items = JSON.parse(localStorage.getItem('userDetails')!);
+    const items = encryptStorage.getItem('userDetails')!;
     if (items) {
       setUserDetails(items);
     }
     const profileCheck = () => {
       if (moveToNext) {
-        navigate('/dashboard/meet')
+        navigate('/dashboard')
       }
     }
     profileCheck();

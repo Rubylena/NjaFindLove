@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Input from '../Input/Input'
 import Button from '../Button/Button'
 import { axiosBase } from '../../api/api'
+import { encryptStorage } from '../../encrypt/encrypt';
 
 interface Props {
     searched: any;
@@ -41,7 +42,7 @@ const SIdebarSearch = (props: Props) => {
         event.preventDefault();
         setSearchError('')
         try {
-            const response = await axiosBase.post('/InApp/SearchPeople', formData);
+            const response = await axiosBase.post(`${import.meta.env.VITE_SEARCH_URL}`, formData);
             if (response.data.users.length > 0) {
                 props.searched(response.data);
             }
@@ -57,7 +58,7 @@ const SIdebarSearch = (props: Props) => {
     }
 
     useEffect(() => {
-        const items = JSON.parse(localStorage.getItem('userDetails')!);
+        const items = encryptStorage.getItem('userDetails')!;
         if (items) {
             setFormData(prev => ({
                 ...prev,

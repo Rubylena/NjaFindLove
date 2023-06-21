@@ -4,9 +4,10 @@ import { axiosBase } from '../../api/api';
 import Input from '../Input/Input'
 import Button from '../Button/Button'
 import './loginForm.scss'
-import { FormData } from '../../api/auth';
+import { FormData } from '../../interface/auth';
 import eye from '../../asset/icon/eye.svg'
 import openEye from '../../asset/icon/openEye.png'
+import { encryptStorage } from '../../encrypt/encrypt';
 
 const LoginForm: React.FC = () => {
     const [formLogInData, setFormLogInData] = useState<FormData>({
@@ -60,20 +61,23 @@ const LoginForm: React.FC = () => {
 
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-        setIsLoading(!isLoading)
+        setIsLoading(true)
         event.preventDefault();
         try {
-            const response = await axiosBase.post<FormData>('/Authentication/SignIn', formLogInData);
+            const response = await axiosBase.post<FormData>(`${import.meta.env.VITE_LOGIN_URL}`, formLogInData);
             setIsProfileComplete(response.data.profileComplete!)
             setPixUpload(response.data.pixUpload!)
             if (response.data.success) {
-                localStorage.setItem('userDetails', JSON.stringify({ userId: response.data.userId!, session: response.data.session, email: formLogInData.email }));
-                localStorage.setItem('isLoggedIn', JSON.stringify(true));
+                setIsLoading(false)
+                encryptStorage.setItem('userDetails', { userId: response.data.userId!, session: response.data.session, email: formLogInData.email })
+                encryptStorage.setItem('isLoggedIn', true);
+                response.data.profileComplete! && encryptStorage.setItem('completeProfile', true);
             }
             setResponseMsg(response.data.responseMessage!)
-            setIsLoading(isLoading)
         } catch (err) {
             console.error(err);
+        } finally {
+            setIsLoading(false)
         }
     }
 
@@ -87,7 +91,7 @@ const LoginForm: React.FC = () => {
                 navigate('/profile-picture')
             }
             if (isProfileComplete && pixUpload && responseMsg === 'LoginSuccessful') {
-                navigate('/dashboard/meet')
+                navigate('/dashboard')
             }
         }
         profileCheck();

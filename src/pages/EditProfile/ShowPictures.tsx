@@ -1,5 +1,7 @@
-import { Fragment, useRef, useState } from 'react'
+import { Fragment, useEffect, useRef, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
+import { axiosBase } from '../../api/api';
+import { encryptStorage } from '../../encrypt/encrypt';
 
 interface ShowMorePictures {
     open: any,
@@ -8,7 +10,26 @@ interface ShowMorePictures {
 }
 
 export default function ShowPictures(props: ShowMorePictures) {
+    const [details, setDetails] = useState<any>({})
     const cancelButtonRef = useRef(null)
+
+    const handleDelete = async (session: string, email: string, id: number) => {
+        try {
+            const response = await axiosBase.post(`${import.meta.env.VITE_REMOVEPICTURE_URL}`, { session: session, email: email, id: id });
+            if (response.data.success){
+                window.location.reload()
+            }
+        } catch (err) {
+            console.error(err);
+        }
+    }
+
+    useEffect(() => {
+        const items = encryptStorage.getItem('userDetails')!;
+        if (items) {
+            setDetails(items)
+        }
+    }, []);
 
     return (
         <Transition.Root show={props.open} as={Fragment}>
@@ -36,10 +57,14 @@ export default function ShowPictures(props: ShowMorePictures) {
                             leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                             leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                         >
-                            <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+                            <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left drop-shadow shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
                                 <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4 flex flex-wrap gap-2 justify-center">
                                     {props.pictures.map((img: any) => (
-                                        <img key={img.id} src={`data:image/jpg;base64,${img?.imageBase64}`} alt='profile picture' className='w-28' />
+                                        <div className='relative' key={img.id}>
+                                            <img src={`data:image/jpg;base64,${img?.imageBase64}`} alt='profile picture' className='w-28 h-full' />
+                                            <span className='flex justify-center items-center rounded-full bg-red text-white w-4 h-4 absolute top-1 right-1 text-xs cursor-pointer'
+                                                onClick={() => handleDelete(details.session, details.email, img.id)}>x</span>
+                                        </div>
                                     ))}
                                 </div>
                                 <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">

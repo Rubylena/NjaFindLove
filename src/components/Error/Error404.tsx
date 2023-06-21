@@ -5,7 +5,7 @@ import './error404.scss'
 const Error404 = () => {
   return (
     <div className='error-img'>
-        <img src={err} alt='error display' />
+      <img src={err} alt='error display' />
     </div>
   )
 }

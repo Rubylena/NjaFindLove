@@ -4,6 +4,7 @@ import MeetImageCarousel from '../../components/MeetImageCarousel/MeetImageCarou
 import blackClose from '../../asset/icon/blackClose.svg'
 import { Link, useParams } from 'react-router-dom'
 import { axiosBase } from '../../api/api'
+import { encryptStorage } from '../../encrypt/encrypt'
 
 const MeetDetails = () => {
   const param = useParams()
@@ -13,7 +14,7 @@ const MeetDetails = () => {
 
   const handleUsers = async (session: string, email: string) => {
     try {
-      const response = await axiosBase.post('/InApp/DiscoverUser', { session: session, email: email, userRef: param.user });
+      const response = await axiosBase.post(`${import.meta.env.VITE_DISCOVERUSER_URL}`, { session: session, email: email, userRef: param.user });
       setUserDets(response.data)
       setReturnedImages(response.data.pix.map((individual: any) => (`data:image/jpg;base64,${individual.imageBase64}`)));
     } catch (err) {
@@ -22,7 +23,7 @@ const MeetDetails = () => {
   }
 
   useEffect(() => {
-    const items = JSON.parse(localStorage.getItem('userDetails')!);
+    const items = encryptStorage.getItem('userDetails')!;
     if (items) {
       handleUsers(items.session, items.email)
     }
@@ -30,7 +31,7 @@ const MeetDetails = () => {
   return (
     <DashboardLayout>
       <section className='p-8 bg-tint-pink h-full'>
-        <Link to='/dashboard/meet' className='text-md font-medium'>{"< "}Back home</Link>
+        <Link to='/dashboard' className='text-md font-medium'>{"< "}Back home</Link>
         <div>
           {returnedImages ? <MeetImageCarousel images={returnedImages} details={userDets} /> : 'loading...'}
         </div>

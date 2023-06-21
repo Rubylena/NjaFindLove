@@ -3,8 +3,9 @@ import { Dialog, Transition } from '@headlessui/react'
 import Button from '../../components/Button/Button';
 import add from '../../asset/icon/add.png'
 import { axiosBase } from '../../api/api';
-import { FormData, Local, Picture } from '../../api/auth';
+import { FormData, Local, Picture } from '../../interface/auth';
 import { useNavigate } from 'react-router-dom';
+import { encryptStorage } from '../../encrypt/encrypt';
 
 interface AddMorePictures {
     open: any,
@@ -19,9 +20,6 @@ export default function AddPictures(props: AddMorePictures) {
 
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const [userDetails, setUserDetails] = useState<Local>();
-    const [moveToNext, setMoveToNext] = useState<boolean>();
-
-    const navigate = useNavigate();
     const cancelButtonRef = useRef(null)
 
     const [formData, setFormData] = useState<Picture>({
@@ -61,7 +59,10 @@ export default function AddPictures(props: AddMorePictures) {
                 return;
             }
             if (imgTypes.includes(file.type)) {
-                const response = await axiosBase.post<FormData>('/Profile/AddPicture', formData);
+                const response = await axiosBase.post<FormData>(`${import.meta.env.VITE_ADDPICTURE_URL}`, formData);
+                if (response.data.success){
+                    window.location.reload()
+                }
             }
         } catch (err) {
             console.error(err);
@@ -71,11 +72,11 @@ export default function AddPictures(props: AddMorePictures) {
     }
 
     useEffect(() => {
-        const items = JSON.parse(localStorage.getItem('userDetails')!);
+        const items = encryptStorage.getItem('userDetails')!;
         if (items) {
             setUserDetails(items);
         }
-    }, [moveToNext, navigate,]);
+    }, []);
 
     return (
         <Transition.Root show={props.open} as={Fragment}>
@@ -103,12 +104,12 @@ export default function AddPictures(props: AddMorePictures) {
                             leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                             leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                         >
-                            <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+                            <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left drop-shadow shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
                                 <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
                                     <form onSubmit={handleSubmit} >
                                         <div className='md:flex justify-center m-auto max-w-fit h-56 md:w-full my-10'>
                                             <div>
-                                                <label htmlFor="picture" className='rounded-full bg-input-bg flex justify-center items-center border w-60 h-60'>
+                                                <label htmlFor="picture" className='rounded-full bg-input-bg flex justify-center items-center border w-40 h-40 sm:w-60 sm:h-60'>
                                                     {file && imgTypes.includes(file.type) ?
                                                         <img src={images} alt="profile"
                                                             className='rounded-full w-full h-full object-cover'
@@ -119,7 +120,7 @@ export default function AddPictures(props: AddMorePictures) {
                                                                 className=' w-full p-4'
                                                             />
                                                             :
-                                                            <img src={add} alt="add" className=' p-20 md:p-24' />
+                                                            <img src={add} alt="add" className=' p-10 md:p-24' />
                                                     }
                                                 </label>
                                                 <input type="file" onChange={handleChange} id='picture' className='sr-only' />
@@ -143,7 +144,7 @@ export default function AddPictures(props: AddMorePictures) {
                                                 type="submit"
                                                 className="inline-flex w-32 justify-center rounded-md bg-purple ring-1 ring-inset ring-purple px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-white hover:text-purple sm:w-auto"
                                             >
-                                                Add
+                                                {isLoading ? 'Adding...' : 'Add'}
                                             </button>
                                         </div>
                                     </form>

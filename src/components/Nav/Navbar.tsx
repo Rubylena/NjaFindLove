@@ -21,7 +21,7 @@ const Navbar = ({ action }: Proptype) => {
           <ul>
             <li><Link to='/'>Home</Link></li>
             <li><Link to='/terms'>Terms and Conditions</Link></li>
-            <li className={isAuthenticated() ? '' : 'hidden'}><Link to='/dashboard/meet'>Dashboard</Link></li>
+            <li className={isAuthenticated() ? '' : 'hidden'}><Link to='/dashboard'>Dashboard</Link></li>
           </ul>
         </div>
         <div className='flex gap-5 items-center'>
@@ -55,7 +55,7 @@ const Navbar = ({ action }: Proptype) => {
               {/* <li><Link to='/pricing'>Pricing</Link></li> */}
               <li><Link to='/terms'>Terms and Conditions</Link></li>
               {/* <li><Link to='/'>Support</Link></li> */}
-              <li className={isAuthenticated() ? '' : 'hidden'}><Link to='/dashboard/meet'>Dashboard</Link></li>
+              <li className={isAuthenticated() ? '' : 'hidden'}><Link to='/dashboard'>Dashboard</Link></li>
               <li className={`${!isAuthenticated() ? 'mobile-signUp-btn' : 'hidden'}`}><Link to='/signup'>Sign Up</Link></li>
               <li onClick={!isAuthenticated() ? action : () => setLogout(!logout)} className='navbar-mobile-login-btn'>{isAuthenticated() ? 'LOG OUT' : 'LOG IN'}</li>
               {logout && (<Logout logout={logout} setLogout={setLogout} />)}

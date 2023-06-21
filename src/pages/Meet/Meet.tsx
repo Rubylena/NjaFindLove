@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import DashboardLayout from '../../components/DashboardLayout/DashboardLayout'
 import blackClose from '../../asset/icon/blackClose.svg'
 import msg from '../../asset/icon/mesg-chat.png'
@@ -8,28 +8,31 @@ import { axiosBase } from '../../api/api'
 import { Link } from 'react-router-dom'
 import AdsComponent from '../../components/Ads/AdsComponent'
 import SIdebarSearch from '../../components/Sidebar/SIdebarSearch'
+import { encryptStorage } from '../../encrypt/encrypt'
 
 const Meet = () => {
   const [isClose, setIsClose] = useState(false);
   const [manyUserProfiles, setManyUserProfiles] = useState([])
   const [openDown, setOpenDown] = useState(false)
-  const [loadUsers, setLoadUsers] = useState(false)
+  const [loadUsers, setLoadUsers] = useState<boolean>()
   const [userStoredData, setUserStoredData] = useState<any>()
+  const [profileFromLocal, setProfileFromLocal] = useState<boolean>(false)
   const [like, setLike] = useState(false)
   const [likedResponse, setLikedResponse] = useState('')
   const [likeAlert, setLikeAlert] = useState(false)
 
+  const cancelButtonRef = useRef<HTMLDivElement>(null)
+
   // Callback function that receives data from child
   const handleChildData = (childData: any) => {
     setManyUserProfiles(childData.users)
-    localStorage.setItem('userProfiles', JSON.stringify(childData.users));
+    encryptStorage.setItem('userProfiles', childData.users);
   }
 
   const handleLikes = async (session: string, email: string, id: number) => {
     try {
       setLike(!like)
-      console.log(like)
-      const response = await axiosBase.post('/InApp/LikeUser', { session: session, email: email, id: id, like: like });
+      const response = await axiosBase.post(`${import.meta.env.VITE_LIKEUSER_URL}`, { session: session, email: email, id: id, like: like });
       if (response.data.success) {
         setLikeAlert(true)
         setLikedResponse('user liked')
@@ -42,10 +45,11 @@ const Meet = () => {
   const handleProfiles = async (session: string, email: string, id: number) => {
     try {
       setLoadUsers(true)
-      const response = await axiosBase.post('/InApp/DiscoverPeople', { session: session, email: email, id: id, pageSize: 10, pageNumber: 1 });
+      encryptStorage.removeItem('userProfiles')
+      const response = await axiosBase.post(`${import.meta.env.VITE_DISCOVERPEOPLE_URL}`, { session: session, email: email, id: id, pageSize: 30, pageNumber: 1 });
       setManyUserProfiles(response.data.users)
       if (response.data.users === null) {
-        localStorage.removeItem('userDetails')
+        encryptStorage.setItem('isLoggedIn', false)
         window.location.reload();
       }
     } catch (err) {
@@ -56,34 +60,65 @@ const Meet = () => {
   }
 
   useEffect(() => {
-    const items = JSON.parse(localStorage.getItem('userDetails')!);
+    const items = encryptStorage.getItem('userDetails')!;
     if (items) {
       setUserStoredData(items)
-      const storedUserProfiles = JSON.parse(localStorage.getItem('userProfiles')!); // Retrieve the user profiles from local storage
+      const storedUserProfiles = encryptStorage.getItem('userProfiles')!; // Retrieve the user profiles from local storage
       if (storedUserProfiles) {
         setManyUserProfiles(storedUserProfiles);
       } else {
         handleProfiles(items.session, items.email, items.userId);
       }
     }
+
+    const handleClickOutside = (event: MouseEvent) => {
+      const searchComponent = document.querySelector('.searching');
+
+      if (cancelButtonRef.current && !cancelButtonRef.current.contains(event.target as Node)
+        && searchComponent && !searchComponent.contains(event.target as Node)) {
+        setOpenDown(false);
+      }
+    };
+
+    document.addEventListener('click', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
   }, []);
+
+  useEffect(() => {
+    let intervalId: number;
+
+    if (likeAlert) {
+      intervalId = setTimeout(() => {
+        setLikeAlert(false);
+      }, 2000);
+    }
+
+    return () => {
+      if (intervalId) {
+        clearTimeout(intervalId);
+      }
+    };
+  }, [likeAlert]);
 
   return (
     <DashboardLayout>
-      <div className={`relative flex gap-3 items-center justify-end pb-2 pt-5 pr-16 cursor-pointer hover:font-medium ${openDown ? 'bg-tint-pink' : null}`} onClick={() => setOpenDown(!openDown)}>
+      <div className={`relative flex gap-3 items-center justify-end pb-2 pt-5 pr-16 cursor-pointer hover:font-medium ${openDown ? 'bg-tint-pink transition-all' : null}`}
+        onClick={() => { setOpenDown(!openDown), setProfileFromLocal(true) }} ref={cancelButtonRef} >
         <img src={search} alt='search' />
         <p>Search</p>
       </div>
       {openDown && (
-        <div className={`absolute z-10 right-10 md:w-1/4 ml-auto transition-all border-purple rounded-lg `}>
+        <div className={`absolute z-10 right-10 md:w-1/4 ml-auto transition-all border-purple rounded-lg searching`} onClick={() => setOpenDown(true)} >
           <SIdebarSearch searched={handleChildData} />
         </div>
       )}
-      <section className='p-8 bg-tint-pink h-full'>
+      <section className='p-9 bg-tint-pink h-full' >
         {likeAlert && (
-
           <div
-            className="fixed top-30 right-5 z-10 w-56 flex justify-between items-center rounded-lg bg-green bg-opacity-60 px-6 py-3 text-white cursor-pointer"
+            className="transition-opacity duration-300 fixed top-30 right-5 z-10 w-56 flex justify-between items-center rounded-lg bg-green bg-opacity-60 px-6 py-3 text-white cursor-pointer"
             role="alert">
             <div className='inline-flex items-center'>
               <span className="mr-2">
@@ -104,14 +139,20 @@ const Meet = () => {
             <span onClick={() => setLikeAlert(false)}>x</span>
           </div>
         )}
-        <p className='text-3xl font-medium mb-5 text-center'>Meet people around you</p>
-        <p className='text-blue underline cursor-pointer' onClick={() => handleProfiles(userStoredData.session, userStoredData.email, userStoredData.userId)}>all users</p>
-        <div className='flex flex-wrap gap-5 justify-center mt-2'>
+        <p className='text-3xl font-medium mb-6 text-center'>Meet people around you</p>
+        <p className={`text-blue underline cursor-pointer ${profileFromLocal ? 'inline-flex' : 'hidden'}`}
+          onClick={() => {
+            handleProfiles(userStoredData.session, userStoredData.email, userStoredData.userId),
+              setProfileFromLocal(false)
+          }}
+        >all users</p>
+
+        <div className='flex flex-wrap gap-5 justify-center py-2'>
           {manyUserProfiles.length !== 0 && !loadUsers ?
             manyUserProfiles.map((user: any, index: number) => (
               <div key={index} className='max-w-[8rem] drop-shadow-lg shadow-lg rounded-xl flex flex-col items-center'>
                 <div className='relative w-full max-h-[7.5rem]'>
-                  <Link to={`/dashboard/meet/${user.userRef}`}>
+                  <Link to={`/dashboard/${user.userRef}`}>
                     <img src={`data:image/jpg;base64,${user.image.imagebase64}`} alt='profile' className='rounded-t-xl w-full h-full object-cover' />
                     <div className='flex justify-between px-2 text-lg absolute bottom-0 text-white font-semibold ' style={{ width: '100%' }}>
                       <p style={{ textShadow: '-1px 0 black, 0 1px black, 1px 0 black, 0 -1px black' }}>{user.name}</p>
@@ -123,13 +164,14 @@ const Meet = () => {
                 <div className=' w-full px-5 py-1.5 flex justify-between items-center bg-[#F5FFF6] rounded-b-xl'>
                   <Link to={`/dashboard/message`} ><img src={msg} alt='chat' className='w-6' /></Link>
                   <p className='opacity-20 text-3xl'>|</p>
-                  <img src={love} alt='chat' className='w-6 cursor-pointer' onClick={() => handleLikes(userStoredData.session, userStoredData.email, userStoredData.userId)} />
+                  <img src={love} alt='chat' className='w-6 cursor-pointer'
+                    onClick={() => handleLikes(userStoredData.session, userStoredData.email, userStoredData.userId)} />
                 </div>
               </div>
             ))
             :
             loadUsers ?
-              <p>Loading...</p>
+              <p className='p-5'>Loading...</p>
               :
               <p>No searched users now for the age range selected, check back soon</p>}
         </div>

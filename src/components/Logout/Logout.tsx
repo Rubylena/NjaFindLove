@@ -3,7 +3,8 @@ import { Fragment } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { useLocation, useNavigate } from 'react-router-dom';
 import { axiosBase } from '../../api/api';
-import { LogOutForm } from '../../api/auth';
+import { LogOutForm } from '../../interface/auth';
+import { encryptStorage } from '../../encrypt/encrypt';
 
 interface LogOutComponent {
     logout: any,
@@ -21,10 +22,9 @@ const Logout = (props: LogOutComponent) => {
 
     const handleLogout = async () => {
         try {
-            const response = await axiosBase.post<LogOutForm>('/Authentication/LogOut', formLogOutData);
+            const response = await axiosBase.post<LogOutForm>( `${import.meta.env.VITE_LOGOUT_URL}`, formLogOutData);
             if (response.data.success) {
-                localStorage.setItem('isLoggedIn', JSON.stringify(false));
-                navigate('/')
+                encryptStorage.clear();
                 window.location.reload();
             }
         } catch (err) {
@@ -33,7 +33,7 @@ const Logout = (props: LogOutComponent) => {
     }
 
     useEffect(() => {
-        const items = JSON.parse(localStorage.getItem('userDetails')!)
+        const items = encryptStorage.getItem('userDetails')!
         if (items) {
             setFormLogOutData(prev => ({ ...prev, session: items.session, email: items.email, id: items.userId }))
         }

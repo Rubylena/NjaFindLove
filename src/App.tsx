@@ -11,7 +11,7 @@ import EditProfile from './pages/EditProfile/EditProfile';
 import Message from './pages/Message/Message';
 import Pricing from './pages/Pricing/Pricing';
 import TermsAndConditions from './pages/TermsAndConditions/TermsAndConditions';
-import { ProtectedRoute } from './api/urlAuth';
+import { ExtraProtectedRoute, ProtectedRoute } from './api/urlAuth';
 import MeetDetails from './pages/Meet/MeetDetails';
 import Home from './pages/Home/Home';
 
@@ -27,12 +27,16 @@ function App() {
         <Route path='/terms' element={<TermsAndConditions />} />
 
         <Route element={<ProtectedRoute />}>
-          <Route path='/dashboard/meet' element={<Meet />} />
-          <Route path='/dashboard/meet/:user' element={<MeetDetails />} />
+          <Route path='/dashboard' element={<Meet />} />
+          <Route path='/dashboard/:user' element={<MeetDetails />} />
           {/* <Route path='/dashboard/subscribe' element={<Subscribe />} /> */}
           <Route path='/dashboard/profile' element={<EditProfile />} />
           <Route path='/dashboard/message' element={<Message />} />
           {/* <Route path='/dashboard/message/:user-chat' element={<Message />} /> */}
+
+        </Route>
+
+        <Route element={<ExtraProtectedRoute />}>
           <Route path='/profile-picture' element={<ProfilePicture />} />
           <Route path='/create-profile' element={<CreateProfile />} />
         </Route>

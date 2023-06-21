@@ -1,22 +1,21 @@
 import React from 'react'
 import Sidebar from '../Sidebar/Sidebar'
 import Footer from '../Footer/Footer'
-import './dashboardLayout.scss'
 
 interface DashboardProptypes {
-    children: React.ReactNode;
-    style?: string;
+  children: React.ReactNode;
 }
-const DashboardLayout = ({children, style}: DashboardProptypes) => {
+
+const DashboardLayout = ({ children }: DashboardProptypes) => {
   return (
-    <section className={`flex flex-col md:flex-row h-screen dash tall ${style}`}>
+    <section className={`flex flex-col md:flex-row sm:min-h-screen `}>
       <div>
         <Sidebar />
       </div>
-      <div className='flex flex-col justify-between md:w-full dash-screen'>
-        <main className='h-full xl:h-[92.9%]'>{children}</main>
+      <div className='flex flex-col justify-between w-full sm:min-h-screen'>
+        <main className='h-full'>{children}</main>
         <div>
-          <Footer  />
+          <Footer />
         </div>
       </div>
     </section>

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { axiosBase } from '../../api/api';
 import Input from '../Input/Input'
 import Button from '../Button/Button'
-import { FormData } from '../../api/auth';
+import { FormData } from '../../interface/auth';
 import eye from '../../asset/icon/eye.svg'
 import openEye from '../../asset/icon/openEye.png'
 import { useNavigate } from 'react-router-dom';
@@ -62,7 +62,7 @@ const SignUpForm: React.FC = () => {
         setIsLoading(!isLoading)
         event.preventDefault();
         try {
-            const response = await axiosBase.post<FormData>('/Authentication/SignUp', formData);
+            const response = await axiosBase.post<FormData>(`${import.meta.env.VITE_SIGNUP_URL}`, formData);
             setResponseMsg(response.data.responseMessage!)
             setIsUpProfileComplete(response.data.profileComplete!)
             setIsUpPixUpload(response.data.pixUpload!)
@@ -82,10 +82,10 @@ const SignUpForm: React.FC = () => {
                 navigate('/profile-picture')
             }
             if (isUpProfileComplete && isUpPixUpload && responseMsg === 'SignUpSuccessful') {
-                navigate('/dashboard/meet')
+                navigate('/dashboard')
             }
             if (isUpProfileComplete && isUpPixUpload && responseMsg === 'User Already Exists. Please log in') {
-                navigate('/dashboard/meet')
+                navigate('/dashboard')
             }
         }
         profileCheck();

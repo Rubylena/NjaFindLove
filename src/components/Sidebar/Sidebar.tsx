@@ -10,14 +10,21 @@ import caution from '../../asset/icon/caution.png'
 import './sidebar.scss'
 import { Link, useLocation } from 'react-router-dom'
 import { axiosBase } from '../../api/api'
+import SessionTimeout from '../SessionTimeout/SessionTimeout'
+import useIdleTimeout from '../../hooks/Idle'
+import { encryptStorage } from '../../encrypt/encrypt'
+
 const Sidebar = () => {
   const [isActive, setIsActive] = useState(false);
   const [openMenu, setOpenMenu] = useState(false);
+  const [openSessionTimeout, setOpenSessionTimeout] = useState(false)
   const [userProfiles, setUserProfiles] = useState<any>()
 
   const location = useLocation();
   const active = location.pathname.split('/')[2]
   const [path] = useState<string>(active)
+
+  useIdleTimeout({ onIdle: () => setOpenSessionTimeout(true), idleTime: 30 })
 
   const activeHandle = () => {
     setIsActive(addClass => !addClass);
@@ -47,21 +54,21 @@ const Sidebar = () => {
   useEffect(() => {
     const handleSubmit = async (session: string, email: string) => {
       try {
-        const response = await axiosBase.post('/InApp/GetDashboard', { session: session, email: email });
+        const response = await axiosBase.post(`${import.meta.env.VITE_DASHBOARD_URL}`, { session: session, email: email });
         setUserProfiles(response.data)
       } catch (err) {
         console.error(err);
       }
     }
 
-    const items = JSON.parse(localStorage.getItem('userDetails')!);
+    const items = encryptStorage.getItem('userDetails')!;
     if (items) {
       handleSubmit(items.session, items.email)
     }
   }, []);
 
   return (
-    <aside className='md:w-[22.3125rem] md:shadow-xl md:border-r md:border-grey md:border-opacity-60 h-full overflow-y-scroll hide-scroll md:pb-10'>
+    <aside className='lg:w-[22.3125rem] md:shadow-xl md:border-r md:border-grey md:border-opacity-60 h-full overflow-y-scroll hide-scroll md:pb-10'>
       <nav className='pb-2 md:hidden shadow-lg'>
         <Link to='/dashboard/profile'><section className='flex flex-col justify-center items-center bg-profile-bg text-white py-8 gap-4'>
           <img src={userProfiles === undefined ? profileImg : `data:image/jpg;base64, ${userProfiles && userProfiles.imagebase64}`} alt='profile' className='w-24 h-24 rounded-full border-8 border-white' />
@@ -107,7 +114,7 @@ const Sidebar = () => {
           </div>
         </section></Link>
 
-        <section className='flex justify-between text-center mt-6 mb-4 px-14'>
+        <section className='flex justify-between text-center mt-6 mb-4 px-14 gap-2'>
           <div className='border border-red rounded p-2'>
             <p className='text-p-text'>Matched</p>
             <p className='text-2xl'>{userProfiles?.matched}</p>
@@ -166,6 +173,10 @@ const Sidebar = () => {
             />
           ))}
       </div>
+
+      {openSessionTimeout && <SessionTimeout
+        open={openSessionTimeout}
+      />}
     </aside>
   )
 }

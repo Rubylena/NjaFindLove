@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { axiosBase } from '../../api/api';
-import { CreateProfileData, FormData, IdValue, Local } from '../../api/auth'
+import { CreateProfileData, FormData, IdValue, Local } from '../../interface/auth'
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import dropDown from '../../asset/icon/drop-down-arrow.png'
@@ -8,6 +8,7 @@ import Input from '../Input/Input'
 import Button from '../Button/Button';
 import { useNavigate } from 'react-router-dom';
 import Attributes from './Attributes';
+import { encryptStorage } from '../../encrypt/encrypt';
 
 const Profile = () => {
     const [userDetails, setUserDetails] = useState<Local>();
@@ -126,7 +127,7 @@ const Profile = () => {
 
     const invokeGender = async () => {
         try {
-            const response = await axiosBase.get('/Profile/GetGenderList');
+            const response = await axiosBase.get(`${import.meta.env.VITE_GENDERLIST_URL}`);
             setGenders(response.data)
         } catch (err) {
             console.error(err);
@@ -135,7 +136,7 @@ const Profile = () => {
 
     const invokeInterestIn = async () => {
         try {
-            const response = await axiosBase.get('/Profile/GetInterestedIn');
+            const response = await axiosBase.get(`${import.meta.env.VITE_INTERESTEDIN_URL}`);
             setInterestedInWho(response.data)
         } catch (err) {
             console.error(err);
@@ -144,7 +145,7 @@ const Profile = () => {
 
     const invokeInterest = async () => {
         try {
-            const response = await axiosBase.get('/Profile/GetInterestList');
+            const response = await axiosBase.get(`${import.meta.env.VITE_INTERESTLIST_URL}`);
             setInterest(response.data)
         } catch (err) {
             console.error(err);
@@ -153,7 +154,7 @@ const Profile = () => {
 
     const invokeAttributes = async () => {
         try {
-            const response = await axiosBase.get('/Profile/GetAllAttributes');
+            const response = await axiosBase.get(`${import.meta.env.VITE_ATTRIBUTES_URL}`);
             setAttributes(response.data)
         } catch (err) {
             console.error(err);
@@ -178,7 +179,7 @@ const Profile = () => {
         console.log(formData)
         event.preventDefault();
         try {
-            const response = await axiosBase.post<FormData>('/Profile/CreateProfile', formData);
+            const response = await axiosBase.post<FormData>(`${import.meta.env.VITE_CREATEPROFILE_URL}`, formData);
             setMoveToNext(response.data.success)
             setIsLoading(isLoading)
         } catch (err) {
@@ -187,7 +188,7 @@ const Profile = () => {
     }
 
     useEffect(() => {
-        const items = JSON.parse(localStorage.getItem('userDetails')!);
+        const items = encryptStorage.getItem('userDetails')!;
         if (items) {
             setUserDetails(items);
         }
@@ -213,7 +214,7 @@ const Profile = () => {
         <div className='text-black pt-0.5 md:pt-10 pb-10 md:h-full'>
             <form onSubmit={handleSubmit} autoComplete='off' className='md:gap-5 md:flex md:flex-col md:justify-center md:items-center md:h-full'>
                 <input autoComplete="off" name="hidden" type="text" className="hidden" />
-                <div className='md:flex md:gap-10'>
+                <div className='md:flex md:flex-wrap md:justify-center md:gap-10'>
                     <div className='bg-white flex flex-col p-7 rounded-lg shadow-md gap-5 mb-10 md:mb-0'>
                         <div className='text-center'>
                             <h2 className='font-semibold text-2xl mb-4'>CREATE  A PROFILE</h2>
@@ -251,7 +252,6 @@ const Profile = () => {
                                         showMonthDropdown
                                         showYearDropdown
                                         dropdownMode="select"
-                                    // showPopperArrow={false}
                                     />
                                     <img src={dropDown} alt='dropdown button' className='pr-3 w-5' />
                                 </div>
@@ -365,15 +365,15 @@ const Profile = () => {
                         </div>
                     </div>
 
-                    <div className='px-7 md:px-0 md:pt-7 pb-7'>
+                    <div className='px-7 lg:px-0 md:pt-7 pb-7 w-full lg:w-fit'>
                         <p className='text-2xl font-semibold mb-4'>Attributes</p>
                         <div >
                             {attributes && attributes.map((attr, index) => (
                                 <div key={index}>
                                     <Attributes
-                                    name={[attr.attributeId, attr.attributeName]}
-                                    selectionArray={attr.attributeValues.map((val: any) => val)}
-                                    selected={handleAttributeChildData}
+                                        name={[attr.attributeId, attr.attributeName]}
+                                        selectionArray={attr.attributeValues.map((val: any) => val)}
+                                        selected={handleAttributeChildData}
                                     />
                                 </div>
                             ))}
