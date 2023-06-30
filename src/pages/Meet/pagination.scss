@@ -1,0 +1,36 @@
+@import "../../styles/Colors.scss";
+
+.pagination-wrapper {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-items: center;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  select {
+    border: none;
+    border-radius: 0.625rem;
+    height: 2.1875rem;
+    width: 3.75rem;
+    padding: 0 0.625rem;
+    font-size: 0.875rem;
+  }
+  .pagination {
+    display: flex;
+    align-items: center;
+    li {
+      list-style: none !important;
+      margin: 0 0.3rem;
+      cursor: pointer;
+    }
+    li:last-child,
+    li:first-child {
+      font-size: 0.75rem;
+    }
+    .active-page {
+      color: white;
+      background-color: #043e7f;
+      padding: 0.0625rem 0.3125rem;
+    }
+  }
+}

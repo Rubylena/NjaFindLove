@@ -45,6 +45,7 @@ const SIdebarSearch = (props: Props) => {
             const response = await axiosBase.post(`${import.meta.env.VITE_SEARCH_URL}`, formData);
             if (response.data.users.length > 0) {
                 props.searched(response.data);
+                // console.log(response.data)
             }
             if (response.data.users.length === 0) {
                 setSearchError('No users within this age range or location')

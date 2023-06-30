@@ -9,10 +9,15 @@ import { Link } from 'react-router-dom'
 import AdsComponent from '../../components/Ads/AdsComponent'
 import SIdebarSearch from '../../components/Sidebar/SIdebarSearch'
 import { encryptStorage } from '../../encrypt/encrypt'
+import Pagination from './Pagination'
 
 const Meet = () => {
   const [isClose, setIsClose] = useState(false);
   const [manyUserProfiles, setManyUserProfiles] = useState([])
+  const [displayedProfiles, setDisplayedProfiles] = useState([])
+  const [pageNumberFromPaginate, setPageNumberFromPaginate] = useState<any>()
+  const [pageSizeFromPaginate, setPageSizeFromPaginate] = useState<number>()
+  const [allProfiles, setAllProfiles] = useState<number>()
   const [openDown, setOpenDown] = useState(false)
   const [loadUsers, setLoadUsers] = useState<boolean>()
   const [userStoredData, setUserStoredData] = useState<any>()
@@ -42,12 +47,21 @@ const Meet = () => {
     }
   }
 
-  const handleProfiles = async (session: string, email: string, id: number) => {
+  const paginatePageSizeData = (childData: any) => {
+    console.log(childData)
+    setPageSizeFromPaginate(childData)
+  }
+  const paginateData = (childData: any) => {
+    console.log(childData)
+    setPageNumberFromPaginate(childData)
+  }
+  const handleProfiles = async (session: string, email: string, id: number,size: number = 10, page: number = 1) => {
     try {
       setLoadUsers(true)
       encryptStorage.removeItem('userProfiles')
-      const response = await axiosBase.post(`${import.meta.env.VITE_DISCOVERPEOPLE_URL}`, { session: session, email: email, id: id, pageSize: 30, pageNumber: 1 });
+      const response = await axiosBase.post(`${import.meta.env.VITE_DISCOVERPEOPLE_URL}`, { session: session, email: email, id: id, pageSize: size, pageNumber: page });
       setManyUserProfiles(response.data.users)
+      setAllProfiles(response.data.totalUsers)
       if (response.data.users === null) {
         encryptStorage.setItem('isLoggedIn', false)
         window.location.reload();
@@ -67,7 +81,7 @@ const Meet = () => {
       if (storedUserProfiles) {
         setManyUserProfiles(storedUserProfiles);
       } else {
-        handleProfiles(items.session, items.email, items.userId);
+        handleProfiles(items.session, items.email, items.userId, pageSizeFromPaginate, pageNumberFromPaginate);
       }
     }
 
@@ -85,7 +99,7 @@ const Meet = () => {
     return () => {
       document.removeEventListener('click', handleClickOutside);
     };
-  }, []);
+  }, [pageNumberFromPaginate, pageSizeFromPaginate]);
 
   useEffect(() => {
     let intervalId: number;
@@ -142,39 +156,50 @@ const Meet = () => {
         <p className='text-3xl font-medium mb-6 text-center'>Meet people around you</p>
         <p className={`text-blue underline cursor-pointer ${profileFromLocal ? 'inline-flex' : 'hidden'}`}
           onClick={() => {
-            handleProfiles(userStoredData.session, userStoredData.email, userStoredData.userId),
+            handleProfiles(userStoredData.session, userStoredData.email, userStoredData.userId, 1),
               setProfileFromLocal(false)
           }}
         >all users</p>
 
         <div className='flex flex-wrap gap-5 justify-center py-2'>
-          {manyUserProfiles.length !== 0 && !loadUsers ?
-            manyUserProfiles.map((user: any, index: number) => (
-              <div key={index} className='max-w-[8rem] drop-shadow-lg shadow-lg rounded-xl flex flex-col items-center'>
-                <div className='relative w-full max-h-[7.5rem]'>
-                  <Link to={`/dashboard/${user.userRef}`}>
-                    <img src={`data:image/jpg;base64,${user.image.imagebase64}`} alt='profile' className='rounded-t-xl w-full h-full object-cover' />
-                    <div className='flex justify-between px-2 text-lg absolute bottom-0 text-white font-semibold ' style={{ width: '100%' }}>
-                      <p style={{ textShadow: '-1px 0 black, 0 1px black, 1px 0 black, 0 -1px black' }}>{user.name}</p>
-                      <p style={{ textShadow: '-1px 0 black, 0 1px black, 1px 0 black, 0 -1px black' }}>{user.age}</p>
-                    </div>
-                  </Link>
-                </div>
-
-                <div className=' w-full px-5 py-1.5 flex justify-between items-center bg-[#F5FFF6] rounded-b-xl'>
-                  <Link to={`/dashboard/message`} ><img src={msg} alt='chat' className='w-6' /></Link>
-                  <p className='opacity-20 text-3xl'>|</p>
-                  <img src={love} alt='chat' className='w-6 cursor-pointer'
-                    onClick={() => handleLikes(userStoredData.session, userStoredData.email, userStoredData.userId)} />
-                </div>
+          {manyUserProfiles.length !== 0 && !loadUsers ? displayedProfiles.map((user: any, index: number) => (
+            <div key={index} className='max-w-[8rem] drop-shadow-lg shadow-lg rounded-xl flex flex-col items-center'>
+              <div className='relative w-full max-h-[7.5rem]'>
+                <Link to={`/dashboard/${user.userRef}`}>
+                  <img src={`data:image/jpg;base64,${user.image.imagebase64}`} alt='profile' className='rounded-t-xl w-full h-full object-cover' />
+                  <div className='flex justify-between px-2 text-lg absolute bottom-0 text-white font-semibold ' style={{ width: '100%' }}>
+                    <p style={{ textShadow: '-1px 0 black, 0 1px black, 1px 0 black, 0 -1px black' }}>{user.name}</p>
+                    <p style={{ textShadow: '-1px 0 black, 0 1px black, 1px 0 black, 0 -1px black' }}>{user.age}</p>
+                  </div>
+                </Link>
               </div>
-            ))
+
+              <div className=' w-full px-5 py-1.5 flex justify-between items-center bg-[#F5FFF6] rounded-b-xl'>
+                <Link to={`/dashboard/message`} ><img src={msg} alt='chat' className='w-6' /></Link>
+                <p className='opacity-20 text-3xl'>|</p>
+                <img src={love} alt='chat' className='w-6 cursor-pointer'
+                  onClick={() => handleLikes(userStoredData.session, userStoredData.email, userStoredData.userId)} />
+              </div>
+            </div>
+          ))
             :
             loadUsers ?
               <p className='p-5'>Loading...</p>
               :
               <p>No searched users now for the age range selected, check back soon</p>}
         </div>
+        {manyUserProfiles &&
+          <div className='fix'>
+
+            < Pagination
+              setDisplayUsers={setDisplayedProfiles}
+              usersStored={manyUserProfiles}
+              total={allProfiles}
+              pageSize={paginatePageSizeData}
+              pageNumber={paginateData}
+            />
+          </div>
+        }
 
         <div className={`shadow-ads absolute rounded-lg bottom-6 md:top-20 right-10 p-2 w-72 h-[480px] bg-white text-center ${isClose ? 'hidden' : ''}`}>
           <div className="flex justify-end cursor-pointer" onClick={() => setIsClose(!isClose)}>
