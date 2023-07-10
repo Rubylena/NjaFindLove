@@ -3,26 +3,12 @@ import ReactPaginate from "react-paginate";
 import './pagination.scss'
 
 function Pagination({ setDisplayUsers, usersStored, total, pageNumber, pageSize }: any) {
-    // const [itemOffset, setItemOffset] = useState<number>(0);
     const [itemsPerPage, setItemsPerPage] = useState<number>(10);
-    // const [pageNumber, setPageNumber] = useState<number>(1);
-
-    // const endOffset: number = itemOffset + itemsPerPage;
-    // const currentItems = usersStored.slice(itemOffset, endOffset);
     const pageCount = Math.ceil(total / itemsPerPage);
 
     useEffect(() => {
         setDisplayUsers(usersStored);
     }, [itemsPerPage, usersStored]);
-    // useEffect(() => {
-    //     setDisplayUsers(currentItems);
-    // }, [itemOffset, itemsPerPage, usersStored]);
-
-    // Invoke when user click to request another page.
-    // const handlePageClick = (event: any) => {
-    //     const newOffset = (event.selected * itemsPerPage) % total;
-    //     setItemOffset(newOffset);
-    // };
 
     const handleSelectChange = (e: any) => {
         setItemsPerPage(e.target.value);
@@ -48,7 +34,6 @@ function Pagination({ setDisplayUsers, usersStored, total, pageNumber, pageSize 
                     breakLabel="..."
                     nextLabel="Next"
                     onPageChange={(selected) => pageNumber(selected.selected + 1)}
-                    // onPageChange={handlePageClick}
                     pageRangeDisplayed={5}
                     pageCount={pageCount}
                     previousLabel="Previous"
