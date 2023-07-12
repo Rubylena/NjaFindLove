@@ -71,7 +71,7 @@ const Sidebar = () => {
     <aside className='lg:w-[22.3125rem] md:shadow-xl md:border-r md:border-grey md:border-opacity-60 h-full overflow-y-scroll hide-scroll md:pb-10'>
       <nav className='pb-2 md:hidden shadow-lg'>
         <Link to='/dashboard/profile'><section className='flex flex-col justify-center items-center bg-profile-bg text-white py-8 gap-4'>
-          <img src={userProfiles === undefined ? profileImg : `data:image/jpg;base64, ${userProfiles && userProfiles.imagebase64}`} alt='profile' className='w-24 h-24 rounded-full border-8 border-white' />
+          <img src={userProfiles === undefined || userProfiles === null ? profileImg : `data:image/jpg;base64, ${userProfiles && userProfiles.imagebase64}`} alt='profile' className='w-24 h-24 rounded-full border-8 border-white' />
           <div className='flex items-center gap-3'>
             <p className='font-medium text-2xl'>{userProfiles?.firstname}</p>
             <img src={verified} alt='verified' />

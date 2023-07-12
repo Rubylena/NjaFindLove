@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import DashboardLayout from '../../components/DashboardLayout/DashboardLayout'
 import blackClose from '../../asset/icon/blackClose.svg'
-import msg from '../../asset/icon/mesg-chat.png'
+import msg from '../../asset/icon/msg-chat.png'
 import love from '../../asset/icon/love.svg'
 import search from '../../asset/icon/search.png'
 import { axiosBase } from '../../api/api'
@@ -10,6 +10,7 @@ import AdsComponent from '../../components/Ads/AdsComponent'
 import SIdebarSearch from '../../components/Sidebar/SIdebarSearch'
 import { encryptStorage } from '../../encrypt/encrypt'
 import Pagination from './Pagination'
+import dummyImg from '../../asset/images/girlie.svg'
 
 const Meet = () => {
   const [isClose, setIsClose] = useState(false);
@@ -55,7 +56,7 @@ const Meet = () => {
     console.log(childData)
     setPageNumberFromPaginate(childData)
   }
-  const handleProfiles = async (session: string, email: string, id: number,size: number = 10, page: number = 1) => {
+  const handleProfiles = async (session: string, email: string, id: number, size: number = 10, page: number = 1) => {
     try {
       setLoadUsers(true)
       encryptStorage.removeItem('userProfiles')
@@ -166,7 +167,12 @@ const Meet = () => {
             <div key={index} className='max-w-[8rem] drop-shadow-lg shadow-lg rounded-xl flex flex-col items-center'>
               <div className='relative w-full max-h-[7.5rem]'>
                 <Link to={`/dashboard/${user.userRef}`}>
-                  <img src={`data:image/jpg;base64,${user.image.imagebase64}`} alt='profile' className='rounded-t-xl w-full h-full object-cover' />
+
+                  {user.image === null ?
+                    <img src={dummyImg} alt='profile' className='rounded-t-xl w-full h-full object-cover' />
+                    :
+                    <img src={`data:image/jpg;base64,${user.image.imagebase64}`} alt='profile' className='rounded-t-xl w-full h-full object-cover' />
+                  }
                   <div className='flex justify-between px-2 text-lg absolute bottom-0 text-white font-semibold ' style={{ width: '100%' }}>
                     <p style={{ textShadow: '-1px 0 black, 0 1px black, 1px 0 black, 0 -1px black' }}>{user.name}</p>
                     <p style={{ textShadow: '-1px 0 black, 0 1px black, 1px 0 black, 0 -1px black' }}>{user.age}</p>

@@ -4,7 +4,7 @@ import right from '../../asset/icon/rightArrow.svg'
 import left from '../../asset/icon/leftArrow.svg'
 import love from '../../asset/icon/love.svg'
 import smile from '../../asset/icon/smiley.svg'
-import msg from '../../asset/icon/mesg-chat.png'
+import msg from '../../asset/icon/msg-chat.png'
 import locate from '../../asset/icon/location.svg'
 import { Link } from "react-router-dom";
 
