@@ -6,7 +6,7 @@ import love from '../../asset/icon/love.svg'
 import search from '../../asset/icon/search.png'
 import { axiosBase } from '../../api/api'
 import { Link } from 'react-router-dom'
-import AdsComponent from '../../components/Ads/AdsComponent'
+// import AdsComponent from '../../components/Ads/AdsComponent'
 import SIdebarSearch from '../../components/Sidebar/SIdebarSearch'
 import { encryptStorage } from '../../encrypt/encrypt'
 import Pagination from './Pagination'
@@ -213,7 +213,7 @@ const Meet = () => {
           </div>
           <div className="flex justify-center items-center h-full text-[#866060] text-2xl">
             Google Ads
-            <AdsComponent className='ad1' />
+            {/* <AdsComponent className='ad1' /> */}
           </div>
         </div>
       </section>

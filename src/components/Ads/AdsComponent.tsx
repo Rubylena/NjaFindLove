@@ -15,14 +15,15 @@ const AdsComponent = (props: AdsComponentProps) => {
   }, []);
 
   return (
-    <ins
-      className={`adsbygoogle${props.className} `}
-      style={{ display: "block" }}
-      data-ad-client="ca-pub-2728151880619910"
-      data-ad-slot={'8530285926'}
-      data-ad-format="auto"
-      data-full-width-responsive="true"
-    ></ins>
+    <div></div>
+    // <ins
+    //   className={`adsbygoogle${props.className} `}
+    //   style={{ display: "block" }}
+    //   data-ad-client="ca-pub-2728151880619910"
+    //   data-ad-slot={'8530285926'}
+    //   data-ad-format="auto"
+    //   data-full-width-responsive="true"
+    // ></ins>
     // <Adsense
     //   client="ca-pub-2728151880619910"
     //   slot="8530285926"
