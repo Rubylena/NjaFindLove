@@ -18,7 +18,7 @@ const MeetDetails = () => {
     try {
       const response = await axiosBase.post(`${import.meta.env.VITE_DISCOVERUSER_URL}`, { session: session, email: email, userRef: param.user });
       setUserDets(response.data)
-      setReturnedImages(response.data.pix.map((individual: any) => (`data:image/jpg;base64,${individual.imageBase64}`)));
+      setReturnedImages(response?.data?.pix?.map((individual: any) => (`data:image/jpg;base64,${individual.imageBase64}`)));
     } catch (err) {
       console.error(err);
     } finally {

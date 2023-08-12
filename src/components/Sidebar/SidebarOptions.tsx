@@ -29,7 +29,7 @@ const SidebarOptions = (props: PropTypes) => {
 
   return (
     <div>
-      <Link to={"/dashboard/" + props.link} onClick={handleClick}><div
+      <Link to={"/" + props.link} onClick={handleClick}><div
         className={`flex gap-4 items-center py-4 px-7 mt-1 ${props.pointerEvent} ${path === props.link ? 'bg-tint-pink rounded-full' : null} ${openDown ? 'bg-tint-pink rounded-t-[50px]' : null}`}
       >
         <div>

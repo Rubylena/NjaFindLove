@@ -103,7 +103,7 @@ const EditProfile = () => {
                 ))}
                 <div className='flex flex-wrap gap-2 items-center'>
                   <p className='lg:w-2/6 font-semibold text-xl'>Location</p>
-                  <p>Lagos</p>
+                  <p>{userAttributes.location.city}</p>
                 </div>
                 <div className='flex flex-wrap gap-2 items-center'>
                   <p className='lg:w-2/6 font-semibold text-xl'>Interest:</p>

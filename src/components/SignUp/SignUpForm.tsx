@@ -66,7 +66,6 @@ const SignUpForm: React.FC = () => {
             setResponseMsg(response.data.responseMessage!)
             setIsUpProfileComplete(response.data.profileComplete!)
             setIsUpPixUpload(response.data.pixUpload!)
-            console.log(response.data)
             setIsLoading(isLoading)
         } catch (err) {
             console.error(err);

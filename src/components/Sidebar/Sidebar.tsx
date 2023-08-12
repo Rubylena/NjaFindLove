@@ -35,7 +35,7 @@ const Sidebar = () => {
     {
       img: meet,
       child: 'Meet',
-      link: 'meet',
+      link: 'dashboard',
       extra: arrRight
     },
     // {
